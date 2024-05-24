@@ -8,9 +8,23 @@ export default (() => {
     return data[key];
   };
 
-  // Установка значения по ключу
+  // Инициализировать значение
+  const init = (key, value) => {
+    const oldValue = data[key];
+    if (oldValue == undefined) {
+      data[key] = value;
+    } else {
+      throw new Error(`key - ${key} is already init`);
+    }
+    return value;
+  };
+
+  // Изменить значение по ключу
   const set = (key, value) => {
     const oldValue = data[key];
+    if (oldValue == undefined) {
+      throw new Error(`key - ${key} is not init`);
+    }
     data[key] = value;
     subscribes[key] && subscribes[key](oldValue, value);
     return value;
@@ -35,6 +49,7 @@ export default (() => {
 
   // Возврат публичного интерфейса модуля
   return {
+    init,
     get,
     set,
     remove,

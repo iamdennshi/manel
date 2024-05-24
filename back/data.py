@@ -88,7 +88,7 @@ RECOMMENDATION = [
 
 objects = [
     {'id': 0, "cords": [6262893.885318164, 7970131.0922140535], "address": "сад Декабристов"},
-    {'id': 1, "cords": [58.010829, 56.253604], "address": "сад имени Любимова"}
+    {'id': 1, "cords": [6262122.5525664585, 7969592.713895535], "address": "сад имени Любимова"}
 ]
 
 elements = [
@@ -106,13 +106,13 @@ elements = [
     },
     {
          'trees': [
-            {'id': 0, 'cords': [58.010615, 56.253384], 'name':'Дерево 1', 'photos': ['someUrlToPhoto'], 'height': 100, 'trunkDiameter': 10, 'assessment': 0, 'comment': "nice"},
-            {'id': 1, 'cords': [58.010615, 56.253394], 'name':'Дерево 1', 'photos': ['someUrlToPhoto'], 'height': 100, 'trunkDiameter': 10, 'assessment': 0, 'comment': "nice"},
+            {'id': 0, 'cords': [6262098.062278483, 7969547.745709902], 'name':'Дерево 1', 'photos': ['someUrlToPhoto'], 'height': 100, 'trunkDiameter': 10, 'assessment': 0, 'comment': "nice"},
+            {'id': 1, 'cords': [6262199.25473391, 7969547.745709902], 'name':'Дерево 1', 'photos': ['someUrlToPhoto'], 'height': 100, 'trunkDiameter': 10, 'assessment': 0, 'comment': "nice"},
         ],
         'furnitures': [
-            {'id': 0, 'cords': [58.013582, 56.260926], 'name':'Будка 1', },
-            {'id': 1, 'cords': [58.013354859708976, 56.26046694477438], 'name':'Будка 2', },
-            {'id': 2, 'cords': [58.01339898804816, 56.2601745839907],  'name':'Будка 3', },        
+            {'id': 0, 'cords': [6262211.25473391, 7969547.745709902], 'name':'Будка 1', },
+            {'id': 1, 'cords': [6262129.25473391, 7969587.745709902], 'name':'Будка 2', },
+            {'id': 2, 'cords': [6262139.25473391, 7969547.745709902],  'name':'Будка 3', },        
         ],
     }
 ]
