@@ -2,12 +2,75 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="https://openlayers.org/favicon.ico" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://openlayers.org/favicon.ico"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Using OpenLayers with Vite</title>
   </head>
   <body>
     <div id="map"></div>
+    <div class="popup">
+      <div class="popup__close"></div>
+      <div class="popup__loader"></div>
+      <div class="popup__arrow"></div>
+      <div class="elem-info">
+        <div class="elem-info__head">
+          <div class="elem-info__loader"></div>
+          <img class="elem-info__img" />
+        </div>
+        <div class="elem-info__body">
+          <input class="elem-info__name" disabled />
+          <div class="elem-info__type">дерево</div>
+          <div class="elem-info__content"></div>
+          <div class="elem-info__controls">
+            <button class="elem-info__edit">Редактировать</button>
+            <button class="elem-info__remove elem-info__remove--hide">
+              Удалить
+            </button>
+          </div>
+          <div class="elem-info__last-edit">
+            Последнее изменение --.--.---- --:--
+          </div>
+        </div>
+      </div>
+    </div>
+    <template id="template-tree">
+      <ul>
+        <li>Высота: <span></span></li>
+        <li>Диаметр ствола: <span></span></li>
+        <li>Возраст: <span></span></li>
+        <li>Проекция кроны: <span></span></li>
+        <li>Стволов: <span></span></li>
+        <li>Оценка: <span></span></li>
+        <li>Санитарное состояние: <span></span></li>
+        <li>Повреждения: <span></span></li>
+        <li>Рекомендации по уходу:<span></span></li>
+        <li>Примечание: <span></span></li>
+      </ul>
+    </template>
+    <template id="template-furniture">
+      <ul>
+        <li>Оценка: <span></span></li>
+        <li class="hide">
+          <label for="assessment-edit">Оценка: </label>
+          <select id="assessment-edit">
+            <option value="0">отличная</option>
+            <option value="1">хорошая</option>
+            <option value="2">удовлетворительная</option>
+            <option value="3">неудовлетворительная</option>
+            <option value="4">аварийное</option>
+          </select>
+        </li>
+        <li>Примечание: <span></span></li>
+        <li class="hide">
+          <label for="comment-edit">Примечание: </label>
+          <textarea id="comment-edit"></textarea>
+        </li>
+      </ul>
+    </template>
     <script type="module" src="./main.js"></script>
   </body>
 </html>

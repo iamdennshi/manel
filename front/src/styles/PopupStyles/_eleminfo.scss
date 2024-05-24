@@ -1,0 +1,149 @@
+@use "../global/colors" as *;
+@use "../global//typhography" as *;
+
+.elem-info {
+  width: 100%;
+  border-radius: 15px 15px 0;
+  overflow: hidden;
+
+  &__content {
+    flex-basis: 100%;
+    margin: 0 16px;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+      border-radius: 999px;
+      background-color: $secondary;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 999px;
+      background-color: $primary;
+    }
+
+    textarea {
+      display: block;
+      max-width: 100%;
+      min-width: 100%;
+      width: 100%;
+      max-height: 100px;
+      min-height: 10px;
+    }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    & span {
+      font-weight: bold;
+    }
+  }
+
+  &__body {
+    padding: 8px 0;
+    padding-bottom: 12px;
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+    width: 100%;
+    max-height: 300px;
+  }
+
+  &__name {
+    width: 100%;
+    font-size: $title-size;
+    background-color: $white;
+    color: $primary;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    outline: none;
+  }
+
+  &--hide {
+    display: none;
+  }
+
+  &__head {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+  }
+
+  &__img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+
+    &--hide {
+      display: none;
+    }
+  }
+  &__controls {
+    display: flex;
+  }
+  &__edit {
+    display: block;
+    cursor: pointer;
+    padding: 4px 16px;
+    border-radius: 4px;
+    outline: none;
+    margin: 0 auto;
+    background-color: white;
+    &--tree {
+      border: solid 1px $border-tree;
+      color: $text-tree;
+    }
+
+    &--furniture {
+      border: solid 1px $border-furniture;
+      color: $text-furniture;
+    }
+  }
+  &__remove {
+    display: block;
+    cursor: pointer;
+    padding: 4px 16px;
+    border-radius: 4px;
+    outline: none;
+    margin: 0 auto;
+    background-color: white;
+    border: solid 1px red;
+    color: red;
+
+    &--hide {
+      display: none;
+    }
+  }
+
+  &__type {
+    width: fit-content;
+    padding: 0px 8px;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 6px;
+
+    &--tree {
+      color: $text-tree;
+      background-color: $bg-tree;
+    }
+
+    &--furniture {
+      color: $text-furniture;
+      background-color: $bg-furniture;
+    }
+  }
+
+  &__last-edit {
+    color: #ccc;
+    text-align: center;
+
+    &--hide {
+      display: none;
+    }
+  }
+}

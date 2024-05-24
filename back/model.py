@@ -7,8 +7,7 @@ class Id(BaseModel):
 
 class Object(BaseModel):
       id: int
-      cord_x: float
-      cord_y: float
+      cords: list[float]
       address: str
       total_area: float
       class Config:
@@ -17,7 +16,6 @@ class Object(BaseModel):
 class Element(BaseModel):
      cords: list[float] | None = None
      name: str | None = None
-     lastChange: datetime | None = None
 
 
 class ElementWithId(Element, Id):
@@ -30,7 +28,7 @@ class Tree(ElementWithoutId):
     photos: list[str] | None = None
     height: int | None = None
     trunkDiameter: int | None = None
-    aestaticAssessment: int | None = None
+    assessment: int | None = None
     comment: str | None = None
     age: int | None = None
     crownProjection: int | None = None
@@ -38,6 +36,7 @@ class Tree(ElementWithoutId):
     recommendation: list[int] | None = None
     trunkNumber: int | None = None
     sanitaryCondition: int | None = None
+    lastChange: datetime | None = None
 
 
 class TreeWithId(Tree, Id):
@@ -53,7 +52,9 @@ class Elements(BaseModel):
 
 
 class Furniture(ElementWithoutId):
-     pass
+     assessment: int | None = None
+     comment: str | None = None
+     lastChange: datetime | None = None
 
 class FurnitureWithoutId(Furniture):
      pass

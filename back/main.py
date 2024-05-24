@@ -19,10 +19,10 @@ def get_db():
         db.close()
 
 origins = [
+    "http://localhost:5173",
+    "http://192.168.0.13:5173",
     "http://localhost:5500",
-    "http://192.168.1.100:5500",
-    "http://localhost:5501",
-    "http://192.168.1.100:5501"
+    "http://192.168.0.13:5500"
 ]
 
 
@@ -34,16 +34,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/objects", response_model=list[Object])
-async def get_objects(db: Session = Depends(get_db)):
-    return db.query(database.Objects).all()
 
-@app.get("/objects/{object_id}", response_model=Object)
-async def get_object_by_id(object_id: int, db: Session = Depends(get_db)):
-    result = db.query(database.Objects).filter(database.Objects.id == object_id).first()
-    if result is None:
-        raise HTTPException(status_code=404, detail="Объект озеленения не найден")
-    return result
+# @app.get("/objects", response_model=list[Object])
+# async def get_objects(db: Session = Depends(get_db)):
+#     return db.query(database.Objects).all()
+
+@app.get("/objects")
+async def get_objects():
+    return objects
+
+# @app.get("/objects/{object_id}", response_model=Object)
+# async def get_object_by_id(object_id: int, db: Session = Depends(get_db)):
+#     result = db.query(database.Objects).filter(database.Objects.id == object_id).first()
+#     if result is None:
+#         raise HTTPException(status_code=404, detail="Объект озеленения не найден")
+#     return result
+
+@app.get("/objects/{object_id}")
+async def get_object_by_id(object_id: int):
+    return objects[object_id]
   
 @app.get("/objects/{object_id}/elements")
 async def get_elements(object_id: int) -> Elements:
@@ -78,7 +87,7 @@ async def add_tree(object_id: int, element: TreeWithoutId) -> TreeWithId:
          'photos': element.photos,
          'height': element.height,
          'trunkDiameter': element.trunkDiameter,
-         'aestaticAssessment': element.aestaticAssessment,
+         'assessment': element.assessment,
          'comment': element.comment,
          'typeOfPlantGroup': element.typeOfPlantGroup,
          'typeOfDamage': element.typeOfDamage,

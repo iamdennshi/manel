@@ -1,0 +1,46 @@
+@use "./typhography" as *;
+@use "./colors" as *;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+input,
+textarea,
+option,
+select,
+button {
+  font-family: $text-font;
+  font-size: $text-size;
+  color: $primary;
+  line-height: 1.4;
+}
+
+li {
+  list-style: none;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.hide {
+  display: none;
+}
+
+/* Hide the OSM watermark */
+.ol-attribution {
+  display: none;
+}
+
+/* Hide blue background on click for Android */
+button,
+ul {
+  -webkit-tap-highlight-color: transparent;
+}
