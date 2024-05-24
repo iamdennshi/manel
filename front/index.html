@@ -41,23 +41,33 @@
       <ul>
         <li>Высота: <span></span></li>
         <li class="hide">
-          <div id="height-edit" class="one-line">
+          <div class="one-line">
             <label>Высота, см:</label>
-            <input class="editable-field" min="1" type="number" />
+            <input
+              id="height-edit"
+              class="editable-field"
+              min="1"
+              type="number"
+            />
           </div>
         </li>
         <li>Диаметр ствола: <span></span></li>
         <li class="hide">
-          <div id="trunkDiameter-edit" class="one-line">
+          <div class="one-line">
             <label>Диаметр ствола, см:</label>
-            <input class="editable-field" min="1" type="number" />
+            <input
+              id="trunkDiameter-edit"
+              class="editable-field"
+              min="1"
+              type="number"
+            />
           </div>
         </li>
         <li>Возраст: <span></span></li>
         <li class="hide">
-          <div id="age-edit" class="one-line">
+          <div class="one-line">
             <label>Возраст:</label>
-            <select class="editable-field">
+            <select id="age-edit" class="editable-field">
               <option value="0">не более 5 лет</option>
               <option value="1">не более 10 лет</option>
               <option value="2">от 10 до 30 лет</option>
@@ -67,23 +77,33 @@
         </li>
         <li>Проекция кроны: <span></span></li>
         <li class="hide">
-          <div id="crownProjection-edit" class="one-line">
+          <div class="one-line">
             <label>Проекция кроны, см:</label>
-            <input class="editable-field" min="1" type="number" />
+            <input
+              id="crownProjection-edit"
+              class="editable-field"
+              min="1"
+              type="number"
+            />
           </div>
         </li>
         <li>Стволов: <span></span></li>
         <li class="hide">
-          <div id="trunkNumber-edit" class="one-line">
+          <div class="one-line">
             <label>Стволов, шт:</label>
-            <input class="editable-field" min="1" type="number" />
+            <input
+              id="trunkNumber-edit"
+              class="editable-field"
+              min="1"
+              type="number"
+            />
           </div>
         </li>
         <li>Оценка: <span></span></li>
         <li class="hide">
-          <div id="assessment-edit" class="one-line">
+          <div class="one-line">
             <label>Оценка: </label>
-            <select class="editable-field">
+            <select id="assessment-edit" class="editable-field">
               <option value="0">отличная</option>
               <option value="1">хорошая</option>
               <option value="2">удовлетворительная</option>
@@ -94,9 +114,9 @@
         </li>
         <li>Санитарное состояние: <span></span></li>
         <li class="hide">
-          <div id="sanitaryCondition-edit" class="one-line">
+          <div class="one-line">
             <label>Санитарное состояние: </label>
-            <select class="editable-field">
+            <select id="sanitaryCondition-edit" class="editable-field">
               <option value="0">здоровые</option>
               <option value="1">ослабленные</option>
               <option value="2">сильно ослабленные</option>
@@ -151,7 +171,89 @@
           </div>
         </li>
         <li>Рекомендации по уходу:<span></span></li>
+        <li class="hide">
+          <div id="recommendation-edit" class="multi-line">
+            <div class="one-line">
+              <label>Повреждения: </label>
+              <select class="editable-field">
+                <option>выбирите повреждение</option>
+                <option value="0">
+                  рубка с последующей корчевкой прикорневого кома
+                </option>
+                <option value="1">рубка с дроблением пил</option>
+                <option value="2">
+                  обрезка санитарная кроны до 5 сухих сучьев
+                </option>
+                <option value="3">
+                  обрезка санитарная кроны от 6 до 15 сухих сучьев
+                </option>
+                <option value="4">
+                  обрезка санитарная кроны более 15 сухих сучьев
+                </option>
+                <option value="5">обрезка вершины</option>
+                <option value="6">обрезка формовочная кроны слабая</option>
+                <option value="7">обрезка формовочная кроны средняя</option>
+                <option value="8">обрезка формовочная кроны сильная</option>
+                <option value="9">
+                  лечение ран ствола и корневых лап размером до 1 дм³
+                </option>
+                <option value="10">
+                  лечение ран ствола и корневых лап размером более 1 до 5 дм³
+                </option>
+                <option value="11">
+                  лечение ран ствола и корневых лап размером более 5 до 10 дм³
+                </option>
+                <option value="12">
+                  лечение ран ствола и корневых лап размером более 10 дм³
+                </option>
+                <option value="13">
+                  лечение и пломбирование дупла размером до 10 дм²
+                </option>
+                <option value="14">
+                  лечение и пломбирование дупла размером более 10 до 30 дм ³
+                </option>
+                <option value="15">
+                  лечение и пломбирование дупла размером более 30 дм³
+                </option>
+                <option value="16">
+                  закраска ран ствола и корневых лап размером до 1 дм²
+                </option>
+                <option value="17">
+                  закраска ран ствола и корневых лап размером от 1 до 5 дм³
+                </option>
+                <option value="18">
+                  закраска ран ствола и корневых лап размером более 5 до 10 дм³
+                </option>
+                <option value="19">
+                  закраска ран ствола и корневых лап размером более 10 дм³
+                </option>
+                <option value="20">санитарная рубка</option>
+                <option value="21">рубки ухода</option>
+                <option value="22">удаление поросли</option>
+                <option value="23">удаление водяных побегов</option>
+                <option value="24">удаление плодовых тел</option>
+                <option value="25">крепление ствола подпорками</option>
+                <option value="26">
+                  стягивание ствола (при развале кроны)
+                </option>
+                <option value="27">засыпка корней</option>
+                <option value="28">комплексный уход</option>
+                <option value="29">обработка химикатами</option>
+              </select>
+            </div>
+          </div>
+        </li>
         <li>Примечание: <span></span></li>
+        <li class="hide">
+          <div class="multi-line">
+            <label>Примечание: </label>
+            <textarea
+              id="comment-edit"
+              class="editable-field"
+              maxlength="100"
+            ></textarea>
+          </div>
+        </li>
       </ul>
     </template>
     <template id="template-furniture">

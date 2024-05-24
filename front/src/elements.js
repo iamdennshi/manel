@@ -69,11 +69,14 @@ export function handleEditingElement() {
 
       // Установка оценки
       elemInfoContent.querySelector(
-        `select > option:nth-of-type(${elemInfoCurrent.assessment + 1})`
+        `#assessment-edit > option:nth-of-type(${
+          elemInfoCurrent.assessment + 1
+        })`
       ).selected = true;
 
       // Установка примечания
-      elemInfoContent.querySelector(`textarea`).value = elemInfoCurrent.comment;
+      elemInfoContent.querySelector(`#comment-edit`).value =
+        elemInfoCurrent.comment;
     }
     // Если редактируются - дерево
     else if (elemInfoControlEdit.classList.contains("elem-info__edit--tree")) {
@@ -81,9 +84,42 @@ export function handleEditingElement() {
         .querySelectorAll("li")
         .forEach((i) => i.classList.toggle("hide"));
 
-      // Установка повреждений
-      console.log(elemInfoCurrent.typeOfDamage);
+      // Установка высоты
+      elemInfoContent.querySelector(`#height-edit`).value =
+        elemInfoCurrent.height;
 
+      // Установка диаметра ствола
+      elemInfoContent.querySelector(`#trunkDiameter-edit`).value =
+        elemInfoCurrent.trunkDiameter;
+
+      // Установка возраста
+      elemInfoContent.querySelector(
+        `#age-edit > option:nth-of-type(${elemInfoCurrent.age + 1})`
+      ).selected = true;
+
+      // Установка проекции кроны
+      elemInfoContent.querySelector(`#crownProjection-edit`).value =
+        elemInfoCurrent.crownProjection;
+
+      // Установка стволов
+      elemInfoContent.querySelector(`#trunkNumber-edit`).value =
+        elemInfoCurrent.trunkNumber;
+
+      // Установка оценки
+      elemInfoContent.querySelector(
+        `#assessment-edit > option:nth-of-type(${
+          elemInfoCurrent.assessment + 1
+        })`
+      ).selected = true;
+
+      // Установка санитарного состояния
+      elemInfoContent.querySelector(
+        `#sanitaryCondition-edit > option:nth-of-type(${
+          elemInfoCurrent.sanitaryCondition + 1
+        })`
+      ).selected = true;
+
+      // Установка повреждений
       elemInfoCurrent.typeOfDamage.map((i) => {
         const templateSelectedOption = document
           .getElementById("template-selected-option")
@@ -94,6 +130,23 @@ export function handleEditingElement() {
           .getElementById("typeOfDamage-edit")
           .appendChild(templateSelectedOption);
       });
+
+      // Установка рекомендаций по уходу
+      elemInfoCurrent.recommendation.map((i) => {
+        const templateSelectedOption = document
+          .getElementById("template-selected-option")
+          .content.cloneNode(true);
+        templateSelectedOption.querySelector("p").textContent =
+          RECOMMENDATION[i];
+
+        document
+          .getElementById("recommendation-edit")
+          .appendChild(templateSelectedOption);
+      });
+
+      // Установка примечания
+      elemInfoContent.querySelector(`#comment-edit`).value =
+        elemInfoCurrent.comment;
     }
   } else {
     console.log("save");
