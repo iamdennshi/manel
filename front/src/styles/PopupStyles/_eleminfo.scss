@@ -8,8 +8,8 @@
 
   &__content {
     flex-basis: 100%;
-    margin: 0 16px;
     overflow-y: auto;
+    word-wrap: break-word;
 
     &::-webkit-scrollbar {
       width: 5px;
@@ -43,7 +43,7 @@
   }
 
   &__body {
-    padding: 8px 0;
+    padding: 8px 16px;
     padding-bottom: 12px;
     display: flex;
     gap: 8px;
@@ -145,5 +145,50 @@
     &--hide {
       display: none;
     }
+  }
+}
+
+.editable-field {
+  color: $text-tree;
+  border-radius: 6px;
+  border: 1px solid $text-tree;
+  outline: none;
+}
+
+.one-line {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+
+  label {
+    text-wrap: nowrap;
+  }
+
+  select,
+  input {
+    width: 100%;
+  }
+}
+
+.multi-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#selected-option-edit {
+  display: flex;
+  padding: 0 8px;
+  gap: 8px;
+  color: $text-tree;
+  border-radius: 6px;
+  border: 1px solid $text-tree;
+
+  button {
+    color: inherit;
+    background-color: $white;
+    outline: none;
+    border: none;
+    cursor: pointer;
   }
 }

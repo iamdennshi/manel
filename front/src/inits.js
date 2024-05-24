@@ -84,10 +84,7 @@ export async function initHandlers() {
 
   $(".elem-info__edit").addEventListener("click", handleEditingElement);
 
-  $.querySelector(".elem-info__remove").addEventListener(
-    "click",
-    handleRemovingElement
-  );
+  $(".elem-info__remove").addEventListener("click", handleRemovingElement);
 }
 
 export async function initInteractions() {
@@ -119,6 +116,15 @@ export async function initInteractions() {
 
   elementSelect.addEventListener("select", selectElement);
   elementModify.setActive(false);
+  elementModify.on("modifystart", (e) => {
+    elementOverlay.setPosition(undefined);
+    store.get("map").getTarget().style.cursor = "grabbing";
+  });
+  elementModify.on("modifyend", (e) => {
+    var coordinates = e.features.item(0).getGeometry().getCoordinates();
+    elementOverlay.setPosition(coordinates);
+    store.get("map").getTarget().style.cursor = "";
+  });
 
   const map = store.get("map");
   map.addInteraction(elementSelect);

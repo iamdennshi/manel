@@ -22,7 +22,7 @@
           <img class="elem-info__img" />
         </div>
         <div class="elem-info__body">
-          <input class="elem-info__name" disabled />
+          <input class="elem-info__name" maxlength="16" disabled />
           <div class="elem-info__type">дерево</div>
           <div class="elem-info__content"></div>
           <div class="elem-info__controls">
@@ -40,13 +40,116 @@
     <template id="template-tree">
       <ul>
         <li>Высота: <span></span></li>
+        <li class="hide">
+          <div id="height-edit" class="one-line">
+            <label>Высота, см:</label>
+            <input class="editable-field" min="1" type="number" />
+          </div>
+        </li>
         <li>Диаметр ствола: <span></span></li>
+        <li class="hide">
+          <div id="trunkDiameter-edit" class="one-line">
+            <label>Диаметр ствола, см:</label>
+            <input class="editable-field" min="1" type="number" />
+          </div>
+        </li>
         <li>Возраст: <span></span></li>
+        <li class="hide">
+          <div id="age-edit" class="one-line">
+            <label>Возраст:</label>
+            <select class="editable-field">
+              <option value="0">не более 5 лет</option>
+              <option value="1">не более 10 лет</option>
+              <option value="2">от 10 до 30 лет</option>
+              <option value="3">от 30 и более лет</option>
+            </select>
+          </div>
+        </li>
         <li>Проекция кроны: <span></span></li>
+        <li class="hide">
+          <div id="crownProjection-edit" class="one-line">
+            <label>Проекция кроны, см:</label>
+            <input class="editable-field" min="1" type="number" />
+          </div>
+        </li>
         <li>Стволов: <span></span></li>
+        <li class="hide">
+          <div id="trunkNumber-edit" class="one-line">
+            <label>Стволов, шт:</label>
+            <input class="editable-field" min="1" type="number" />
+          </div>
+        </li>
         <li>Оценка: <span></span></li>
+        <li class="hide">
+          <div id="assessment-edit" class="one-line">
+            <label>Оценка: </label>
+            <select class="editable-field">
+              <option value="0">отличная</option>
+              <option value="1">хорошая</option>
+              <option value="2">удовлетворительная</option>
+              <option value="3">неудовлетворительная</option>
+              <option value="4">аварийное</option>
+            </select>
+          </div>
+        </li>
         <li>Санитарное состояние: <span></span></li>
+        <li class="hide">
+          <div id="sanitaryCondition-edit" class="one-line">
+            <label>Санитарное состояние: </label>
+            <select class="editable-field">
+              <option value="0">здоровые</option>
+              <option value="1">ослабленные</option>
+              <option value="2">сильно ослабленные</option>
+              <option value="3">усыхающие</option>
+              <option value="4">погибшие</option>
+              <option value="5">свежий сухостой</option>
+              <option value="6">свежий ветровал</option>
+              <option value="7">свежий бурелом</option>
+              <option value="8">старый ветровал</option>
+              <option value="9">старый бурелом</option>
+            </select>
+          </div>
+        </li>
         <li>Повреждения: <span></span></li>
+        <li class="hide">
+          <div id="typeOfDamage-edit" class="multi-line">
+            <div class="one-line">
+              <label>Повреждения: </label>
+              <select class="editable-field">
+                <option>выбирите повреждение</option>
+                <option value="0">1 дупло</option>
+                <option value="1">2 дупла</option>
+                <option value="2">более 2 дупел</option>
+                <option value="3">морозобоина</option>
+                <option value="4">несколько морозобоин</option>
+                <option value="5">сухобочина</option>
+                <option value="6">трещина</option>
+                <option value="7">механическое повреждение ствола</option>
+                <option value="8">отслойка коры</option>
+                <option value="9">в стволе инородные предметы</option>
+                <option value="10">усохшие скелетные ветви</option>
+                <option value="11">наличие капа или сувеля</option>
+                <option value="12">наличие плодовых тел</option>
+                <option value="13">ствол наклонен</option>
+                <option value="14">ствол искривлен</option>
+                <option value="15">вершина ствола сломана на высоте</option>
+                <option value="16">развилка ствола на высоте</option>
+                <option value="17">повреждение корней</option>
+                <option value="18">обнажение корневых лап</option>
+                <option value="19">обтаптывание корней</option>
+                <option value="20">
+                  повреждения при прокладке инженерных сетей
+                </option>
+                <option value="21">повреждение кроны</option>
+                <option value="22">изменен цвет листвы/хвои</option>
+                <option value="23">измельчение листьев/хвои</option>
+                <option value="24">повреждение вредителями</option>
+                <option value="25">повреждение болезнями</option>
+                <option value="26">механические повреждения кроны</option>
+              </select>
+            </div>
+          </div>
+        </li>
         <li>Рекомендации по уходу:<span></span></li>
         <li>Примечание: <span></span></li>
       </ul>
@@ -55,21 +158,35 @@
       <ul>
         <li>Оценка: <span></span></li>
         <li class="hide">
-          <label for="assessment-edit">Оценка: </label>
-          <select id="assessment-edit">
-            <option value="0">отличная</option>
-            <option value="1">хорошая</option>
-            <option value="2">удовлетворительная</option>
-            <option value="3">неудовлетворительная</option>
-            <option value="4">аварийное</option>
-          </select>
+          <div class="one-line">
+            <label>Оценка: </label>
+            <select id="assessment-edit" class="editable-field">
+              <option value="0">отличная</option>
+              <option value="1">хорошая</option>
+              <option value="2">удовлетворительная</option>
+              <option value="3">неудовлетворительная</option>
+              <option value="4">аварийное</option>
+            </select>
+          </div>
         </li>
         <li>Примечание: <span></span></li>
         <li class="hide">
-          <label for="comment-edit">Примечание: </label>
-          <textarea id="comment-edit"></textarea>
+          <div class="multi-line">
+            <label>Примечание: </label>
+            <textarea
+              id="comment-edit"
+              class="editable-field"
+              maxlength="100"
+            ></textarea>
+          </div>
         </li>
       </ul>
+    </template>
+    <template id="template-selected-option">
+      <div id="selected-option-edit">
+        <p>повреждение</p>
+        <button>x</button>
+      </div>
     </template>
     <script type="module" src="./main.js"></script>
   </body>

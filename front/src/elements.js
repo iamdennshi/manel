@@ -32,6 +32,8 @@ function exitToEditMode() {
   if (!elemInfoControlRemove.classList.contains("elem-info__remove--hide")) {
     elemInfoControlEdit.textContent = "Редактировать";
     elemInfoName.disabled = true; // Выкл возможность редактировать название элемента
+    elemInfoName.classList.remove("editable-field");
+
     store.get("elementModify").setActive(false);
     elemInfoControlRemove.classList.add("elem-info__remove--hide");
   }
@@ -57,6 +59,7 @@ export function handleEditingElement() {
     store.get("elementModify").setActive(true);
     elemInfoControlRemove.classList.remove("elem-info__remove--hide");
     elemInfoName.disabled = false; // Вкл возможность редактировать название элемента
+    elemInfoName.classList.add("editable-field");
 
     // Если редактируются - благоустройство
     if (elemInfoControlEdit.classList.contains("elem-info__edit--furniture")) {
@@ -71,6 +74,26 @@ export function handleEditingElement() {
 
       // Установка примечания
       elemInfoContent.querySelector(`textarea`).value = elemInfoCurrent.comment;
+    }
+    // Если редактируются - дерево
+    else if (elemInfoControlEdit.classList.contains("elem-info__edit--tree")) {
+      elemInfoContent
+        .querySelectorAll("li")
+        .forEach((i) => i.classList.toggle("hide"));
+
+      // Установка повреждений
+      console.log(elemInfoCurrent.typeOfDamage);
+
+      elemInfoCurrent.typeOfDamage.map((i) => {
+        const templateSelectedOption = document
+          .getElementById("template-selected-option")
+          .content.cloneNode(true);
+        templateSelectedOption.querySelector("p").textContent = DAMAGE[i];
+
+        document
+          .getElementById("typeOfDamage-edit")
+          .appendChild(templateSelectedOption);
+      });
     }
   } else {
     console.log("save");
@@ -92,6 +115,8 @@ export function handleEditingElement() {
         lastChange: elemInfoCurrent.lastChange,
       };
 
+      console.log(JSON.stringify(elemInfoEdited));
+      console.log(JSON.stringify(elemInfoCurrent));
       if (JSON.stringify(elemInfoEdited) !== JSON.stringify(elemInfoCurrent)) {
         console.log("UPDATE");
         console.log(elemInfoEdited);
@@ -100,25 +125,22 @@ export function handleEditingElement() {
         const properties = elemInfoContent.querySelectorAll("span");
 
         properties[0].innerText = `${ASSESSMENT[elemInfoEdited.assessment]}`;
-        properties[1].innerText = `${elemInfoEdited.comment}`;
+        properties[0].parentElement.style.display = "";
 
-        const dateTime = new Date();
-        const dateTimeString = `Последнее изменение ${dateTime
-          .getDate()
-          .toString()
-          .padStart(2, "0")}.${dateTime
-          .getMonth()
-          .toString()
-          .padStart(2, "0")}.${dateTime.getFullYear()} ${dateTime
-          .getHours()
-          .toString()
-          .padStart(2, "0")}:${dateTime
-          .getMinutes()
-          .toString()
-          .padStart(2, "0")}`;
+        if (
+          elemInfoEdited.comment !== "" &&
+          elemInfoEdited.comment != undefined
+        ) {
+          properties[1].innerText = `${elemInfoEdited.comment}`;
+          properties[1].parentElement.style.display = "";
+        } else {
+          properties[1].parentElement.style.display = "none";
+        }
 
         const elemInfoLastEdit = $(".elem-info__last-edit");
-        elemInfoLastEdit.innerText = dateTimeString;
+        elemInfoLastEdit.innerText = `Последнее изменение ${dateTimeToString(
+          new Date()
+        )}`;
         elemInfoLastEdit.classList.remove("elem-info__last-edit--hide");
       }
     }
@@ -199,98 +221,100 @@ export function selectElement(e) {
     store.get("elementOverlay").setPosition(coordinates);
     popupLoader.classList.add("loader");
     content.classList.add("elem-info--hide");
-    fetchElement(0, elemID, elemType).then((elem) => {
-      store.set("elemInfoCurrent", elem);
+    fetchElement(store.get("currentObjectID"), elemID, elemType).then(
+      (elem) => {
+        store.set("elemInfoCurrent", elem);
 
-      content.classList.remove("elem-info--hide");
-      popupLoader.classList.remove("loader");
+        content.classList.remove("elem-info--hide");
+        popupLoader.classList.remove("loader");
 
-      if (elem.lastChange) {
-        const dateTime = new Date(elem.lastChange);
-        const dateTimeString = `Последнее изменение ${dateTime
-          .getDate()
-          .toString()
-          .padStart(2, "0")}.${dateTime
-          .getMonth()
-          .toString()
-          .padStart(2, "0")}.${dateTime.getFullYear()} ${dateTime
-          .getHours()
-          .toString()
-          .padStart(2, "0")}:${dateTime
-          .getMinutes()
-          .toString()
-          .padStart(2, "0")}`;
-
-        elemInfoLastEdit.innerText = dateTimeString;
-        elemInfoLastEdit.classList.remove("elem-info__last-edit--hide");
-      } else {
-        elemInfoLastEdit.classList.add("elem-info__last-edit--hide");
-      }
-
-      elemInfoLoader.classList.add("loader");
-      elemInfoImg.classList.add("elem-info__img--hide");
-      elemInfoName.value = elem.name;
-      elemInfoContent.innerHTML = "";
-
-      if (elemType === "tree") {
-        elemInfoType.innerText = "дерево";
-        elemInfoType.classList.remove(`elem-info__type--furniture`);
-        elemInfoControlEdit.classList.remove(`elem-info__edit--furniture`);
-        elemInfoType.classList.add(`elem-info__type--tree`);
-        elemInfoControlEdit.classList.add(`elem-info__edit--tree`);
-
-        const templateTree = document
-          .getElementById("template-tree")
-          .content.cloneNode(true);
-
-        const properties = templateTree.querySelectorAll("span");
-        properties[0].innerText = `${elem.height} см`;
-        properties[1].innerText = `${elem.trunkDiameter} см`;
-        // Сделать для каждого свойства у элемента. Не показывать его если оно null(none)
-        if (elem.age) {
-          properties[2].innerText = `${AGE_CLASS[elem.age]}`;
+        if (elem.lastChange) {
+          elemInfoLastEdit.innerText = `Последнее изменение ${dateTimeToString(
+            new Date(elem.lastChange)
+          )}`;
+          elemInfoLastEdit.classList.remove("elem-info__last-edit--hide");
         } else {
-          properties[2].parentElement.style.display = "none";
+          elemInfoLastEdit.classList.add("elem-info__last-edit--hide");
         }
-        properties[3].innerText = `${elem.crownProjection} см`;
-        properties[4].innerText = `${elem.trunkNumber} шт`;
-        properties[5].innerText = `${ASSESSMENT[elem.assessment]}`;
-        properties[6].innerText = `${SANITARY[elem.sanitaryCondition]}`;
-        properties[7].innerText = `${elem.typeOfDamage.map(
-          (item) => DAMAGE[item]
-        )}`;
-        properties[8].innerText = `${elem.recommendation.map(
-          (item) => RECOMMENDATION[item]
-        )}`;
-        properties[9].innerText = `${elem.comment}`;
 
-        elemInfoContent.appendChild(templateTree);
-      } else if (elemType === "furniture") {
-        elemInfoType.innerText = "благоустройство";
-        elemInfoType.classList.remove(`elem-info__type--tree`);
-        elemInfoControlEdit.classList.remove(`elem-info__edit--tree`);
-        elemInfoType.classList.add(`elem-info__type--furniture`);
-        elemInfoControlEdit.classList.add(`elem-info__edit--furniture`);
+        elemInfoLoader.classList.add("loader");
+        elemInfoImg.classList.add("elem-info__img--hide");
+        elemInfoName.value = elem.name;
+        elemInfoContent.innerHTML = "";
 
-        const templateFurniture = document
-          .getElementById("template-furniture")
-          .content.cloneNode(true);
-        const properties = templateFurniture.querySelectorAll("span");
+        if (elemType === "tree") {
+          elemInfoType.innerText = "дерево";
+          elemInfoType.classList.remove(`elem-info__type--furniture`);
+          elemInfoControlEdit.classList.remove(`elem-info__edit--furniture`);
+          elemInfoType.classList.add(`elem-info__type--tree`);
+          elemInfoControlEdit.classList.add(`elem-info__edit--tree`);
 
-        properties[0].innerText = `${ASSESSMENT[elem.assessment]}`;
-        properties[1].innerText = `${elem.comment}`;
+          const templateTree = document
+            .getElementById("template-tree")
+            .content.cloneNode(true);
 
-        elemInfoContent.appendChild(templateFurniture);
+          const properties = templateTree.querySelectorAll("span");
+          properties[0].innerText = `${elem.height} см`;
+          properties[1].innerText = `${elem.trunkDiameter} см`;
+          // Сделать для каждого свойства у элемента. Не показывать его если оно null(none)
+          if (elem.age) {
+            properties[2].innerText = `${AGE_CLASS[elem.age]}`;
+          } else {
+            properties[2].parentElement.style.display = "none";
+          }
+          properties[3].innerText = `${elem.crownProjection} см`;
+          properties[4].innerText = `${elem.trunkNumber} шт`;
+          properties[5].innerText = `${ASSESSMENT[elem.assessment]}`;
+          properties[6].innerText = `${SANITARY[elem.sanitaryCondition]}`;
+          properties[7].innerText = `${elem.typeOfDamage.map(
+            (item) => DAMAGE[item]
+          )}`;
+          properties[8].innerText = `${elem.recommendation.map(
+            (item) => RECOMMENDATION[item]
+          )}`;
+          if (elem.comment !== "" && elem.comment != undefined) {
+            properties[9].innerText = `${elem.comment}`;
+          } else {
+            properties[9].parentElement.style.display = "none";
+          }
+
+          elemInfoContent.appendChild(templateTree);
+        } else if (elemType === "furniture") {
+          elemInfoType.innerText = "благоустройство";
+          elemInfoType.classList.remove(`elem-info__type--tree`);
+          elemInfoControlEdit.classList.remove(`elem-info__edit--tree`);
+          elemInfoType.classList.add(`elem-info__type--furniture`);
+          elemInfoControlEdit.classList.add(`elem-info__edit--furniture`);
+
+          const templateFurniture = document
+            .getElementById("template-furniture")
+            .content.cloneNode(true);
+          const properties = templateFurniture.querySelectorAll("span");
+
+          if (elem.assessment) {
+            properties[0].innerText = `${ASSESSMENT[elem.assessment]}`;
+          } else {
+            properties[0].parentElement.style.display = "none";
+          }
+
+          if (elem.comment !== "" && elem.comment != undefined) {
+            properties[1].innerText = `${elem.comment}`;
+          } else {
+            properties[1].parentElement.style.display = "none";
+          }
+
+          elemInfoContent.appendChild(templateFurniture);
+        }
+
+        if (elem.photos) {
+          elemInfoImg.src = elem.photos;
+        } else {
+          elemInfoImg.src = elementInfoImgDefault;
+        }
+
+        console.log(elem);
       }
-
-      if (elem.photos) {
-        elemInfoImg.src = elem.photos;
-      } else {
-        elemInfoImg.src = elementInfoImgDefault;
-      }
-
-      console.log(elem);
-    });
+    );
   } else {
     // Вышли из элемента кликнув на пустое место на карте
     exitToEditMode();
@@ -321,4 +345,14 @@ export async function updateElements() {
   });
 
   elementVectorSource.addFeatures([...treeMarks, ...furnitureMarks]);
+}
+
+function dateTimeToString(dateTime) {
+  return `${dateTime.getDate().toString().padStart(2, "0")}.${dateTime
+    .getMonth()
+    .toString()
+    .padStart(2, "0")}.${dateTime.getFullYear()} ${dateTime
+    .getHours()
+    .toString()
+    .padStart(2, "0")}:${dateTime.getMinutes().toString().padStart(2, "0")}`;
 }
