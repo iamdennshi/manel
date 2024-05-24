@@ -17,6 +17,7 @@ import {
 import Select from "ol/interaction/Select";
 import Modify from "ol/interaction/Modify";
 import Style from "ol/style/Style";
+import { $ } from "./utils";
 
 export function initSubscribers() {
   store.subscribe("currentObjectID", (oldValue, newValue) => {
@@ -77,28 +78,23 @@ export async function initMap() {
 }
 
 export async function initHandlers() {
-  document
-    .querySelector(".elem-info__img")
-    .addEventListener("load", handleLoadingImageOfElement);
+  $(".elem-info__img").addEventListener("load", handleLoadingImageOfElement);
 
-  document
-    .querySelector(".popup__close")
-    .addEventListener("click", handleExitingElement);
+  $(".popup__close").addEventListener("click", handleExitingElement);
 
-  document
-    .querySelector(".elem-info__edit")
-    .addEventListener("click", handleEditingElement);
+  $(".elem-info__edit").addEventListener("click", handleEditingElement);
 
-  document
-    .querySelector(".elem-info__remove")
-    .addEventListener("click", handleRemovingElement);
+  $.querySelector(".elem-info__remove").addEventListener(
+    "click",
+    handleRemovingElement
+  );
 }
 
 export async function initInteractions() {
   const elementOverlay = store.init(
     "elementOverlay",
     new Overlay({
-      element: document.querySelector(".popup"),
+      element: $(".popup"),
       autoPan: {
         animation: {
           duration: 0,

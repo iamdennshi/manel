@@ -8,6 +8,7 @@ import Stroke from "ol/style/Stroke";
 import Style from "ol/style/Style";
 import Text from "ol/style/Text";
 import {
+  $,
   AGE_CLASS,
   ASSESSMENT,
   DAMAGE,
@@ -17,14 +18,14 @@ import {
 
 const elementInfoImgDefault =
   "https://www.svgrepo.com/show/508699/landscape-placeholder.svg";
-const elemInfoControlRemove = document.querySelector(".elem-info__remove");
-const elemInfoType = document.querySelector(".elem-info__type");
-const elemInfoLastEdit = document.querySelector(".elem-info__last-edit");
-const elemInfoLoader = document.querySelector(".elem-info__loader");
-const elemInfoImg = document.querySelector(".elem-info__img");
-const elemInfoName = document.querySelector(".elem-info__name");
-const elemInfoContent = document.querySelector(".elem-info__content");
-const elemInfoControlEdit = document.querySelector(".elem-info__edit");
+const elemInfoControlRemove = $(".elem-info__remove");
+const elemInfoType = $(".elem-info__type");
+const elemInfoLastEdit = $(".elem-info__last-edit");
+const elemInfoLoader = $(".elem-info__loader");
+const elemInfoImg = $(".elem-info__img");
+const elemInfoName = $(".elem-info__name");
+const elemInfoContent = $(".elem-info__content");
+const elemInfoControlEdit = $(".elem-info__edit");
 
 // Обнулить режим редактирования если находились в нем
 function exitToEditMode() {
@@ -116,9 +117,7 @@ export function handleEditingElement() {
           .toString()
           .padStart(2, "0")}`;
 
-        const elemInfoLastEdit = document.querySelector(
-          ".elem-info__last-edit"
-        );
+        const elemInfoLastEdit = $(".elem-info__last-edit");
         elemInfoLastEdit.innerText = dateTimeString;
         elemInfoLastEdit.classList.remove("elem-info__last-edit--hide");
       }
@@ -139,7 +138,7 @@ export function handleExitingElement() {
 }
 
 export function handleLoadingImageOfElement() {
-  const elemInfoLoader = document.querySelector(".elem-info__loader");
+  const elemInfoLoader = $(".elem-info__loader");
   console.log("img loaded");
   elemInfoLoader.classList.remove("loader");
   elemInfoImg.classList.remove("elem-info__img--hide");
@@ -194,8 +193,8 @@ export function selectElement(e) {
     const coordinates = selectedElement.getGeometry().getCoordinates();
     const elemID = selectedElement.getProperties().id;
     const elemType = selectedElement.getProperties().type;
-    const popupLoader = document.querySelector(".popup__loader");
-    const content = document.querySelector(".elem-info");
+    const popupLoader = $(".popup__loader");
+    const content = $(".elem-info");
 
     store.get("elementOverlay").setPosition(coordinates);
     popupLoader.classList.add("loader");
