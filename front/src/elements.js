@@ -63,12 +63,12 @@ export function handleEditingElement() {
     elemInfoName.disabled = false; // Вкл возможность редактировать название элемента
     elemInfoName.classList.add("editable-field");
 
+    elemInfoContent
+      .querySelectorAll("li")
+      .forEach((i) => i.classList.toggle("hide"));
+
     // Если редактируются - благоустройство
     if (elemInfoControlEdit.classList.contains("elem-info__edit--furniture")) {
-      elemInfoContent
-        .querySelectorAll("li")
-        .forEach((i) => i.classList.toggle("hide"));
-
       // Установка оценки
       elemInfoContent.querySelector(
         `#assessment-edit > option:nth-of-type(${
@@ -82,10 +82,6 @@ export function handleEditingElement() {
     }
     // Если редактируются - дерево
     else if (elemInfoControlEdit.classList.contains("elem-info__edit--tree")) {
-      elemInfoContent
-        .querySelectorAll("li")
-        .forEach((i) => i.classList.toggle("hide"));
-
       // Установка высоты
       elemInfoContent.querySelector(`#height-edit`).value =
         elemInfoCurrent.height;
@@ -122,29 +118,37 @@ export function handleEditingElement() {
       ).selected = true;
 
       // Установка повреждений
-      elemInfoCurrent.typeOfDamage.map((i) => {
-        const templateSelectedOption = document
-          .getElementById("template-selected-option")
-          .content.cloneNode(true);
-        templateSelectedOption.querySelector("p").textContent = DAMAGE[i];
+      const typeOfDamage = document.getElementById("typeOfDamage-edit");
+      // Чтобы измежать повторного добавления
+      if (typeOfDamage.querySelectorAll(".selected-option-edit").length === 0) {
+        elemInfoCurrent.typeOfDamage.map((i) => {
+          const templateSelectedOption = document
+            .getElementById("template-selected-option")
+            .content.cloneNode(true);
+          templateSelectedOption.querySelector("p").textContent = DAMAGE[i];
+          // templateSelectedOption.dataset.id = i;
 
-        document
-          .getElementById("typeOfDamage-edit")
-          .appendChild(templateSelectedOption);
-      });
+          typeOfDamage.appendChild(templateSelectedOption);
+        });
+      }
 
       // Установка рекомендаций по уходу
-      elemInfoCurrent.recommendation.map((i) => {
-        const templateSelectedOption = document
-          .getElementById("template-selected-option")
-          .content.cloneNode(true);
-        templateSelectedOption.querySelector("p").textContent =
-          RECOMMENDATION[i];
+      const recommendation = document.getElementById("recommendation-edit");
+      // Чтобы измежать повторного добавления
+      if (
+        recommendation.querySelectorAll(".selected-option-edit").length === 0
+      ) {
+        elemInfoCurrent.recommendation.map((i) => {
+          const templateSelectedOption = document
+            .getElementById("template-selected-option")
+            .content.cloneNode(true);
+          templateSelectedOption.querySelector("p").textContent =
+            RECOMMENDATION[i];
+          // templateSelectedOption.dataset.id = i;
 
-        document
-          .getElementById("recommendation-edit")
-          .appendChild(templateSelectedOption);
-      });
+          recommendation.appendChild(templateSelectedOption);
+        });
+      }
 
       // Установка примечания
       elemInfoContent.querySelector(`#comment-edit`).value =
@@ -159,61 +163,122 @@ export function handleEditingElement() {
       if (elemInfoName.value.length < 2 || elemInfoName.value.length > 16) {
         elemInfoName.nextElementSibling.classList.remove("hide");
         elemInfoName.classList.add("editable-field--error");
-      } else {
-        // Порядок важен
-        const elemInfoEdited = {
-          id: elemInfoCurrent.id,
-          cords: store
-            .get("elementSelect")
-            .getFeatures()
-            .item(0)
-            .getGeometry()
-            .getCoordinates(),
-          name: elemInfoName.value,
-          assessment: parseInt(
-            document.getElementById("assessment-edit").value
-          ),
-          comment: document.getElementById("comment-edit").value,
-          lastChange: elemInfoCurrent.lastChange,
-        };
+        return;
+      }
+      // Порядок важен
+      const elemInfoEdited = {
+        id: elemInfoCurrent.id,
+        cords: store
+          .get("elementSelect")
+          .getFeatures()
+          .item(0)
+          .getGeometry()
+          .getCoordinates(),
+        name: elemInfoName.value,
+        assessment: parseInt(document.getElementById("assessment-edit").value),
+        comment: document.getElementById("comment-edit").value,
+        lastChange: elemInfoCurrent.lastChange,
+      };
 
-        console.log(JSON.stringify(elemInfoEdited));
-        console.log(JSON.stringify(elemInfoCurrent));
+      console.log(JSON.stringify(elemInfoEdited));
+      console.log(JSON.stringify(elemInfoCurrent));
+      if (JSON.stringify(elemInfoEdited) !== JSON.stringify(elemInfoCurrent)) {
+        console.log("UPDATE");
+        console.log(elemInfoEdited);
+        store.set("elemInfoCurrent", elemInfoEdited);
+
+        const properties = elemInfoContent.querySelectorAll("span");
+
+        properties[0].innerText = `${ASSESSMENT[elemInfoEdited.assessment]}`;
+        properties[0].parentElement.style.display = "";
+
         if (
-          JSON.stringify(elemInfoEdited) !== JSON.stringify(elemInfoCurrent)
+          elemInfoEdited.comment !== "" &&
+          elemInfoEdited.comment != undefined
         ) {
-          console.log("UPDATE");
-          console.log(elemInfoEdited);
-          store.set("elemInfoCurrent", elemInfoEdited);
-
-          const properties = elemInfoContent.querySelectorAll("span");
-
-          properties[0].innerText = `${ASSESSMENT[elemInfoEdited.assessment]}`;
-          properties[0].parentElement.style.display = "";
-
-          if (
-            elemInfoEdited.comment !== "" &&
-            elemInfoEdited.comment != undefined
-          ) {
-            properties[1].innerText = `${elemInfoEdited.comment}`;
-            properties[1].parentElement.style.display = "";
-          } else {
-            properties[1].parentElement.style.display = "none";
-          }
-
-          const elemInfoLastEdit = $(".elem-info__last-edit");
-          elemInfoLastEdit.innerText = `Последнее изменение ${dateTimeToString(
-            new Date()
-          )}`;
-          elemInfoLastEdit.classList.remove("elem-info__last-edit--hide");
+          properties[1].innerText = `${elemInfoEdited.comment}`;
+          properties[1].parentElement.style.display = "";
+        } else {
+          properties[1].parentElement.style.display = "none";
         }
-        elemInfoContent
-          .querySelectorAll("li")
-          .forEach((i) => i.classList.toggle("hide"));
 
-        exitToEditMode();
+        const elemInfoLastEdit = $(".elem-info__last-edit");
+        elemInfoLastEdit.innerText = `Последнее изменение ${dateTimeToString(
+          new Date()
+        )}`;
+        elemInfoLastEdit.classList.remove("elem-info__last-edit--hide");
       }
     }
+    // Если сохраняется - дерево
+    else if (elemInfoControlEdit.classList.contains("elem-info__edit--tree")) {
+      const heihgt = document.querySelector("#height-edit");
+      const trunkDiameter = document.querySelector("#trunkDiameter-edit");
+      const crownProjection = document.querySelector("#crownProjection-edit");
+      const trunkNumber = document.querySelector("#trunkNumber-edit");
+
+      let isCorrect = true;
+
+      // Проверка на корректность дилны названия
+      if (elemInfoName.value.length < 2 || elemInfoName.value.length > 16) {
+        elemInfoName.nextElementSibling.classList.remove("hide");
+        elemInfoName.classList.add("editable-field--error");
+        isCorrect = false;
+      } else {
+        elemInfoName.nextElementSibling.classList.add("hide");
+        elemInfoName.classList.remove("editable-field--error");
+      }
+      // Проверка на корректность высоты
+      if (heihgt.value < 1) {
+        heihgt.parentElement.nextElementSibling.classList.remove("hide");
+        heihgt.classList.add("editable-field--error");
+        isCorrect = false;
+      } else {
+        heihgt.parentElement.nextElementSibling.classList.add("hide");
+        heihgt.classList.remove("editable-field--error");
+      }
+      // Проверка на корректность диаметра ствола
+      if (trunkDiameter.value < 1) {
+        trunkDiameter.parentElement.nextElementSibling.classList.remove("hide");
+        trunkDiameter.classList.add("editable-field--error");
+        isCorrect = false;
+      } else {
+        trunkDiameter.parentElement.nextElementSibling.classList.add("hide");
+        trunkDiameter.classList.remove("editable-field--error");
+      }
+      // Проверка на корректность проекции кроны
+      if (crownProjection.value < 1) {
+        crownProjection.parentElement.nextElementSibling.classList.remove(
+          "hide"
+        );
+        crownProjection.classList.add("editable-field--error");
+        isCorrect = false;
+      } else {
+        crownProjection.parentElement.nextElementSibling.classList.add("hide");
+        crownProjection.classList.remove("editable-field--error");
+      }
+      // Проверка на корректность стволов
+      if (trunkNumber.value < 1) {
+        trunkNumber.parentElement.nextElementSibling.classList.remove("hide");
+        trunkNumber.classList.add("editable-field--error");
+        isCorrect = false;
+      } else {
+        trunkNumber.parentElement.nextElementSibling.classList.add("hide");
+        trunkNumber.classList.remove("editable-field--error");
+      }
+
+      if (isCorrect) {
+        console.log("correct");
+      } else {
+        console.log("not correct");
+        return;
+      }
+    }
+    // Общий выход из режима редактирования
+    elemInfoContent
+      .querySelectorAll("li")
+      .forEach((i) => i.classList.toggle("hide"));
+
+    exitToEditMode();
   }
 }
 
