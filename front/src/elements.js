@@ -33,6 +33,8 @@ function exitToEditMode() {
     elemInfoControlEdit.textContent = "Редактировать";
     elemInfoName.disabled = true; // Выкл возможность редактировать название элемента
     elemInfoName.classList.remove("editable-field");
+    elemInfoName.nextElementSibling.classList.add("hide");
+    elemInfoName.classList.remove("editable-field--error");
 
     store.get("elementModify").setActive(false);
     elemInfoControlRemove.classList.add("elem-info__remove--hide");
@@ -153,56 +155,65 @@ export function handleEditingElement() {
 
     // Если сохраняется благоустройство
     if (elemInfoControlEdit.classList.contains("elem-info__edit--furniture")) {
-      // Порядок важен
-      const elemInfoEdited = {
-        id: elemInfoCurrent.id,
-        cords: store
-          .get("elementSelect")
-          .getFeatures()
-          .item(0)
-          .getGeometry()
-          .getCoordinates(),
-        name: elemInfoName.value,
-        assessment: parseInt(document.getElementById("assessment-edit").value),
-        comment: document.getElementById("comment-edit").value,
-        lastChange: elemInfoCurrent.lastChange,
-      };
+      // Проверка на корректность дилны названия
+      if (elemInfoName.value.length < 2 || elemInfoName.value.length > 16) {
+        elemInfoName.nextElementSibling.classList.remove("hide");
+        elemInfoName.classList.add("editable-field--error");
+      } else {
+        // Порядок важен
+        const elemInfoEdited = {
+          id: elemInfoCurrent.id,
+          cords: store
+            .get("elementSelect")
+            .getFeatures()
+            .item(0)
+            .getGeometry()
+            .getCoordinates(),
+          name: elemInfoName.value,
+          assessment: parseInt(
+            document.getElementById("assessment-edit").value
+          ),
+          comment: document.getElementById("comment-edit").value,
+          lastChange: elemInfoCurrent.lastChange,
+        };
 
-      console.log(JSON.stringify(elemInfoEdited));
-      console.log(JSON.stringify(elemInfoCurrent));
-      if (JSON.stringify(elemInfoEdited) !== JSON.stringify(elemInfoCurrent)) {
-        console.log("UPDATE");
-        console.log(elemInfoEdited);
-        store.set("elemInfoCurrent", elemInfoEdited);
-
-        const properties = elemInfoContent.querySelectorAll("span");
-
-        properties[0].innerText = `${ASSESSMENT[elemInfoEdited.assessment]}`;
-        properties[0].parentElement.style.display = "";
-
+        console.log(JSON.stringify(elemInfoEdited));
+        console.log(JSON.stringify(elemInfoCurrent));
         if (
-          elemInfoEdited.comment !== "" &&
-          elemInfoEdited.comment != undefined
+          JSON.stringify(elemInfoEdited) !== JSON.stringify(elemInfoCurrent)
         ) {
-          properties[1].innerText = `${elemInfoEdited.comment}`;
-          properties[1].parentElement.style.display = "";
-        } else {
-          properties[1].parentElement.style.display = "none";
-        }
+          console.log("UPDATE");
+          console.log(elemInfoEdited);
+          store.set("elemInfoCurrent", elemInfoEdited);
 
-        const elemInfoLastEdit = $(".elem-info__last-edit");
-        elemInfoLastEdit.innerText = `Последнее изменение ${dateTimeToString(
-          new Date()
-        )}`;
-        elemInfoLastEdit.classList.remove("elem-info__last-edit--hide");
+          const properties = elemInfoContent.querySelectorAll("span");
+
+          properties[0].innerText = `${ASSESSMENT[elemInfoEdited.assessment]}`;
+          properties[0].parentElement.style.display = "";
+
+          if (
+            elemInfoEdited.comment !== "" &&
+            elemInfoEdited.comment != undefined
+          ) {
+            properties[1].innerText = `${elemInfoEdited.comment}`;
+            properties[1].parentElement.style.display = "";
+          } else {
+            properties[1].parentElement.style.display = "none";
+          }
+
+          const elemInfoLastEdit = $(".elem-info__last-edit");
+          elemInfoLastEdit.innerText = `Последнее изменение ${dateTimeToString(
+            new Date()
+          )}`;
+          elemInfoLastEdit.classList.remove("elem-info__last-edit--hide");
+        }
+        elemInfoContent
+          .querySelectorAll("li")
+          .forEach((i) => i.classList.toggle("hide"));
+
+        exitToEditMode();
       }
     }
-
-    elemInfoContent
-      .querySelectorAll("li")
-      .forEach((i) => i.classList.toggle("hide"));
-
-    exitToEditMode();
   }
 }
 

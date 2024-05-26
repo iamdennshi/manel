@@ -23,6 +23,7 @@
         </div>
         <div class="elem-info__body">
           <input class="elem-info__name" maxlength="16" disabled />
+          <p class="error-message hide">⚠ Введите корректное название</p>
           <div class="elem-info__type">дерево</div>
           <div class="elem-info__content"></div>
           <div class="elem-info__controls">
@@ -41,26 +42,32 @@
       <ul>
         <li>Высота: <span></span></li>
         <li class="hide">
-          <div class="one-line">
-            <label>Высота, см:</label>
-            <input
-              id="height-edit"
-              class="editable-field"
-              min="1"
-              type="number"
-            />
+          <div>
+            <div class="one-line">
+              <label>Высота, см:</label>
+              <input
+                id="height-edit"
+                class="editable-field"
+                min="1"
+                type="number"
+              />
+            </div>
+            <p class="error-message hide">⚠ Введите корректное значение</p>
           </div>
         </li>
         <li>Диаметр ствола: <span></span></li>
         <li class="hide">
-          <div class="one-line">
-            <label>Диаметр ствола, см:</label>
-            <input
-              id="trunkDiameter-edit"
-              class="editable-field"
-              min="1"
-              type="number"
-            />
+          <div>
+            <div class="one-line">
+              <label>Диаметр ствола, см:</label>
+              <input
+                id="trunkDiameter-edit"
+                class="editable-field"
+                min="1"
+                type="number"
+              />
+            </div>
+            <p class="error-message hide">⚠ Введите корректное значение</p>
           </div>
         </li>
         <li>Возраст: <span></span></li>
@@ -77,26 +84,32 @@
         </li>
         <li>Проекция кроны: <span></span></li>
         <li class="hide">
-          <div class="one-line">
-            <label>Проекция кроны, см:</label>
-            <input
-              id="crownProjection-edit"
-              class="editable-field"
-              min="1"
-              type="number"
-            />
+          <div>
+            <div class="one-line">
+              <label>Проекция кроны, см:</label>
+              <input
+                id="crownProjection-edit"
+                class="editable-field"
+                min="1"
+                type="number"
+              />
+            </div>
+            <p class="error-message hide">⚠ Введите корректное значение</p>
           </div>
         </li>
         <li>Стволов: <span></span></li>
         <li class="hide">
-          <div class="one-line">
-            <label>Стволов, шт:</label>
-            <input
-              id="trunkNumber-edit"
-              class="editable-field"
-              min="1"
-              type="number"
-            />
+          <div>
+            <div class="one-line">
+              <label>Стволов, шт:</label>
+              <input
+                id="trunkNumber-edit"
+                class="editable-field"
+                min="1"
+                type="number"
+              />
+            </div>
+            <p class="error-message hide">⚠ Введите корректное значение</p>
           </div>
         </li>
         <li>Оценка: <span></span></li>
@@ -136,7 +149,7 @@
             <div class="one-line">
               <label>Повреждения: </label>
               <select class="editable-field">
-                <option>выбирите повреждение</option>
+                <option>выбирите</option>
                 <option value="0">1 дупло</option>
                 <option value="1">2 дупла</option>
                 <option value="2">более 2 дупел</option>
@@ -174,9 +187,9 @@
         <li class="hide">
           <div id="recommendation-edit" class="multi-line">
             <div class="one-line">
-              <label>Повреждения: </label>
+              <label>Рекомендации по уходу:</label>
               <select class="editable-field">
-                <option>выбирите повреждение</option>
+                <option>выбирите</option>
                 <option value="0">
                   рубка с последующей корчевкой прикорневого кома
                 </option>

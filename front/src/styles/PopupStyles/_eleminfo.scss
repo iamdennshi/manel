@@ -193,3 +193,13 @@
     cursor: pointer;
   }
 }
+
+.error-message {
+  color: red;
+  font-weight: bold;
+}
+
+.editable-field--error {
+  color: red;
+  border-color: red;
+}
