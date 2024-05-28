@@ -116,18 +116,35 @@ export function handleEditingElement() {
         })`
       ).selected = true;
 
-      // Установка повреждений
+      // Повреждения
       const typeOfDamage = document.getElementById("typeOfDamage-edit");
       // Чтобы измежать повторного добавления
       if (typeOfDamage.querySelectorAll(".selected-option-edit").length === 0) {
-        elemInfoCurrent.typeOfDamage.map((i) => {
-          const templateSelectedOption = document
-            .getElementById("template-selected-option")
-            .content.cloneNode(true);
-          templateSelectedOption.querySelector("p").textContent = DAMAGE[i];
-          // templateSelectedOption.dataset.id = i;
+        // Установка повреждений и удаление уже из из select
+        elemInfoCurrent.typeOfDamage.forEach((i) => {
+          insertDamageByDamageID(i);
+        });
 
-          typeOfDamage.appendChild(templateSelectedOption);
+        // Обработчик события select повреждений
+        typeOfDamage
+          .querySelector(".editable-field")
+          .addEventListener("change", (i) => {
+            const damageID = i.currentTarget.selectedIndex;
+            insertDamageByDamageID(damageID - 1);
+
+            i.currentTarget.value = "выбирите";
+          });
+
+        // Обработчик события удаления повреждения
+        typeOfDamage.addEventListener("click", (i) => {
+          if (i.target instanceof HTMLButtonElement) {
+            const optionIndex =
+              i.target.previousElementSibling.dataset.optionIndex;
+            i.target.parentElement.remove();
+            typeOfDamage
+              .querySelector(".editable-field")
+              .options[optionIndex].classList.remove("hide");
+          }
         });
       }
 
@@ -143,9 +160,6 @@ export function handleEditingElement() {
             .content.cloneNode(true);
           templateSelectedOption.querySelector("p").textContent =
             RECOMMENDATION[i];
-          // templateSelectedOption.dataset.id = i;
-
-          console.log(templateSelectedOption);
 
           recommendation.appendChild(templateSelectedOption);
         });
@@ -278,6 +292,17 @@ export function handleEditingElement() {
 
       if (isCorrect) {
         console.log("correct");
+        //  Получаем ид повреждений
+        const typeOfDamageSelect = document.querySelector(
+          "#typeOfDamage-edit .editable-field"
+        );
+        const damagesID = [];
+        Array.from(typeOfDamageSelect.options).forEach((i, index) => {
+          if (i.classList.contains("hide")) {
+            damagesID.push(index - 1);
+          }
+        });
+        console.log(damagesID);
       } else {
         console.log("not correct");
         return;
@@ -500,4 +525,21 @@ function startAnimation(elem, animationName) {
   elem.classList.remove(animationName); // удалене анимации тряски
   elem.offsetWidth; // Принудительная переоценка, чтобы сбросить анимацию
   elem.classList.add(animationName); // анимация тряски
+}
+
+function insertDamageByDamageID(damageID) {
+  const typeOfDamage = document.getElementById("typeOfDamage-edit");
+  const templateSelectedOption = document
+    .getElementById("template-selected-option")
+    .content.cloneNode(true);
+  const pElem = templateSelectedOption.querySelector("p");
+  pElem.textContent = DAMAGE[damageID];
+  pElem.dataset.optionIndex = damageID + 1;
+
+  typeOfDamage.appendChild(templateSelectedOption);
+
+  const typeOfDamageOptions =
+    typeOfDamage.querySelector(".editable-field").options;
+  // + 1 исключает первый option "выбрать"
+  typeOfDamageOptions[damageID + 1].classList.add("hide");
 }
