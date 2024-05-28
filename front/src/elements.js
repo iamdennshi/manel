@@ -119,32 +119,13 @@ export function handleEditingElement() {
       // Повреждения
       const typeOfDamage = document.getElementById("typeOfDamage-edit");
       // Чтобы измежать повторного добавления
-      if (typeOfDamage.querySelectorAll(".selected-option-edit").length === 0) {
+      if (
+        elemInfoCurrent.typeOfDamage !== 0 &&
+        typeOfDamage.querySelectorAll(".selected-option-edit").length === 0
+      ) {
         // Установка повреждений и удаление уже из из select
         elemInfoCurrent.typeOfDamage.forEach((i) => {
           insertDamageById(i);
-        });
-
-        // Обработчик события select повреждений
-        typeOfDamage
-          .querySelector(".editable-field")
-          .addEventListener("change", (i) => {
-            const damageId = i.currentTarget.selectedIndex;
-            insertDamageById(damageId - 1);
-
-            i.currentTarget.value = "выбирите";
-          });
-
-        // Обработчик события удаления повреждения
-        typeOfDamage.addEventListener("click", (i) => {
-          if (i.target instanceof HTMLButtonElement) {
-            const optionIndex =
-              i.target.previousElementSibling.dataset.optionIndex;
-            i.target.parentElement.remove();
-            typeOfDamage
-              .querySelector(".editable-field")
-              .options[optionIndex].classList.remove("hide");
-          }
         });
       }
 
@@ -152,32 +133,11 @@ export function handleEditingElement() {
       const recommendation = document.getElementById("recommendation-edit");
       // Чтобы измежать повторного добавления
       if (
+        elemInfoCurrent.recommendation !== 0 &&
         recommendation.querySelectorAll(".selected-option-edit").length === 0
       ) {
         elemInfoCurrent.recommendation.forEach((i) => {
           insertRecommendationById(i);
-        });
-
-        // Обработчик события select рекомендаций
-        recommendation
-          .querySelector(".editable-field")
-          .addEventListener("change", (i) => {
-            const recommendationId = i.currentTarget.selectedIndex;
-            insertRecommendationById(recommendationId - 1);
-
-            i.currentTarget.value = "выбирите";
-          });
-
-        // Обработчик события удаления повреждения
-        recommendation.addEventListener("click", (i) => {
-          if (i.target instanceof HTMLButtonElement) {
-            const optionIndex =
-              i.target.previousElementSibling.dataset.optionIndex;
-            i.target.parentElement.remove();
-            recommendation
-              .querySelector(".editable-field")
-              .options[optionIndex].classList.remove("hide");
-          }
         });
       }
 
@@ -554,6 +514,54 @@ export function selectElement(e) {
           }
 
           elemInfoContent.appendChild(templateTree);
+
+          // Повреждения
+          const typeOfDamage = document.getElementById("typeOfDamage-edit");
+          // Обработчик события select повреждений
+          typeOfDamage
+            .querySelector(".editable-field")
+            .addEventListener("change", (i) => {
+              const damageId = i.currentTarget.selectedIndex;
+              insertDamageById(damageId - 1);
+
+              i.currentTarget.value = "выбирите";
+            });
+
+          // Обработчик события удаления повреждения
+          typeOfDamage.addEventListener("click", (i) => {
+            if (i.target instanceof HTMLButtonElement) {
+              const optionIndex =
+                i.target.previousElementSibling.dataset.optionIndex;
+              i.target.parentElement.remove();
+              typeOfDamage
+                .querySelector(".editable-field")
+                .options[optionIndex].classList.remove("hide");
+            }
+          });
+
+          // Рекомендации
+          const recommendation = document.getElementById("recommendation-edit");
+          // Обработчик события select рекомендаций
+          recommendation
+            .querySelector(".editable-field")
+            .addEventListener("change", (i) => {
+              const recommendationId = i.currentTarget.selectedIndex;
+              insertRecommendationById(recommendationId - 1);
+
+              i.currentTarget.value = "выбирите";
+            });
+
+          // Обработчик события удаления повреждения
+          recommendation.addEventListener("click", (i) => {
+            if (i.target instanceof HTMLButtonElement) {
+              const optionIndex =
+                i.target.previousElementSibling.dataset.optionIndex;
+              i.target.parentElement.remove();
+              recommendation
+                .querySelector(".editable-field")
+                .options[optionIndex].classList.remove("hide");
+            }
+          });
         } else if (elemType === "furniture") {
           elemInfoType.innerText = "благоустройство";
           elemInfoType.classList.remove(`elem-info__type--tree`);
