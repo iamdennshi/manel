@@ -54,7 +54,6 @@ export function handleRemovingElement() {
 
 export function handleEditingElement() {
   const elemInfoCurrent = store.get("elemInfoCurrent");
-
   // Если вошли в режим редактирования
   if (elemInfoControlRemove.classList.contains("elem-info__remove--hide")) {
     elemInfoControlEdit.textContent = "Сохранить";
@@ -146,6 +145,8 @@ export function handleEditingElement() {
             RECOMMENDATION[i];
           // templateSelectedOption.dataset.id = i;
 
+          console.log(templateSelectedOption);
+
           recommendation.appendChild(templateSelectedOption);
         });
       }
@@ -162,6 +163,7 @@ export function handleEditingElement() {
       // Проверка на корректность дилны названия
       if (elemInfoName.value.length < 2 || elemInfoName.value.length > 16) {
         elemInfoName.nextElementSibling.classList.remove("hide");
+        startAnimation(elemInfoName.nextElementSibling, "shake");
         elemInfoName.classList.add("editable-field--error");
         return;
       }
@@ -221,6 +223,7 @@ export function handleEditingElement() {
       // Проверка на корректность дилны названия
       if (elemInfoName.value.length < 2 || elemInfoName.value.length > 16) {
         elemInfoName.nextElementSibling.classList.remove("hide");
+        startAnimation(elemInfoName.nextElementSibling, "shake");
         elemInfoName.classList.add("editable-field--error");
         isCorrect = false;
       } else {
@@ -230,6 +233,7 @@ export function handleEditingElement() {
       // Проверка на корректность высоты
       if (heihgt.value < 1) {
         heihgt.parentElement.nextElementSibling.classList.remove("hide");
+        startAnimation(heihgt.parentElement.nextElementSibling, "shake");
         heihgt.classList.add("editable-field--error");
         isCorrect = false;
       } else {
@@ -239,6 +243,7 @@ export function handleEditingElement() {
       // Проверка на корректность диаметра ствола
       if (trunkDiameter.value < 1) {
         trunkDiameter.parentElement.nextElementSibling.classList.remove("hide");
+        startAnimation(trunkDiameter.parentElement.nextElementSibling, "shake");
         trunkDiameter.classList.add("editable-field--error");
         isCorrect = false;
       } else {
@@ -250,6 +255,10 @@ export function handleEditingElement() {
         crownProjection.parentElement.nextElementSibling.classList.remove(
           "hide"
         );
+        startAnimation(
+          crownProjection.parentElement.nextElementSibling,
+          "shake"
+        );
         crownProjection.classList.add("editable-field--error");
         isCorrect = false;
       } else {
@@ -258,6 +267,7 @@ export function handleEditingElement() {
       }
       // Проверка на корректность стволов
       if (trunkNumber.value < 1) {
+        startAnimation(trunkNumber.parentElement.nextElementSibling, "shake");
         trunkNumber.parentElement.nextElementSibling.classList.remove("hide");
         trunkNumber.classList.add("editable-field--error");
         isCorrect = false;
@@ -484,4 +494,10 @@ function dateTimeToString(dateTime) {
     .getHours()
     .toString()
     .padStart(2, "0")}:${dateTime.getMinutes().toString().padStart(2, "0")}`;
+}
+
+function startAnimation(elem, animationName) {
+  elem.classList.remove(animationName); // удалене анимации тряски
+  elem.offsetWidth; // Принудительная переоценка, чтобы сбросить анимацию
+  elem.classList.add(animationName); // анимация тряски
 }

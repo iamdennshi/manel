@@ -9,6 +9,8 @@
   &__content {
     flex-basis: 100%;
     overflow-y: auto;
+    overflow-x: hidden;
+
     word-wrap: break-word;
 
     &::-webkit-scrollbar {
