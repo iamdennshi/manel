@@ -1,0 +1,26 @@
+.shake {
+  animation: shake 200ms;
+}
+@keyframes shake {
+  15% {
+    transform: translateX(0.5rem);
+  }
+  30% {
+    transform: translateX(-0.4rem);
+  }
+  45% {
+    transform: translateX(0.3rem);
+  }
+  60% {
+    transform: translateX(-0.2rem);
+  }
+  75% {
+    transform: translateX(0.1rem);
+  }
+  90% {
+    transform: translateX(0);
+  }
+  90% {
+    transform: translateX(0);
+  }
+}
