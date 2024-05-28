@@ -122,15 +122,15 @@ export function handleEditingElement() {
       if (typeOfDamage.querySelectorAll(".selected-option-edit").length === 0) {
         // Установка повреждений и удаление уже из из select
         elemInfoCurrent.typeOfDamage.forEach((i) => {
-          insertDamageByDamageID(i);
+          insertDamageById(i);
         });
 
         // Обработчик события select повреждений
         typeOfDamage
           .querySelector(".editable-field")
           .addEventListener("change", (i) => {
-            const damageID = i.currentTarget.selectedIndex;
-            insertDamageByDamageID(damageID - 1);
+            const damageId = i.currentTarget.selectedIndex;
+            insertDamageById(damageId - 1);
 
             i.currentTarget.value = "выбирите";
           });
@@ -148,20 +148,36 @@ export function handleEditingElement() {
         });
       }
 
-      // Установка рекомендаций по уходу
+      // Рекомендации
       const recommendation = document.getElementById("recommendation-edit");
       // Чтобы измежать повторного добавления
       if (
         recommendation.querySelectorAll(".selected-option-edit").length === 0
       ) {
-        elemInfoCurrent.recommendation.map((i) => {
-          const templateSelectedOption = document
-            .getElementById("template-selected-option")
-            .content.cloneNode(true);
-          templateSelectedOption.querySelector("p").textContent =
-            RECOMMENDATION[i];
+        elemInfoCurrent.recommendation.forEach((i) => {
+          insertRecommendationById(i);
+        });
 
-          recommendation.appendChild(templateSelectedOption);
+        // Обработчик события select рекомендаций
+        recommendation
+          .querySelector(".editable-field")
+          .addEventListener("change", (i) => {
+            const recommendationId = i.currentTarget.selectedIndex;
+            insertRecommendationById(recommendationId - 1);
+
+            i.currentTarget.value = "выбирите";
+          });
+
+        // Обработчик события удаления повреждения
+        recommendation.addEventListener("click", (i) => {
+          if (i.target instanceof HTMLButtonElement) {
+            const optionIndex =
+              i.target.previousElementSibling.dataset.optionIndex;
+            i.target.parentElement.remove();
+            recommendation
+              .querySelector(".editable-field")
+              .options[optionIndex].classList.remove("hide");
+          }
         });
       }
 
@@ -292,17 +308,30 @@ export function handleEditingElement() {
 
       if (isCorrect) {
         console.log("correct");
-        //  Получаем ид повреждений
+        //  Получение установелнных ИД повреждений
         const typeOfDamageSelect = document.querySelector(
           "#typeOfDamage-edit .editable-field"
         );
-        const damagesID = [];
+        const damagesId = [];
         Array.from(typeOfDamageSelect.options).forEach((i, index) => {
           if (i.classList.contains("hide")) {
-            damagesID.push(index - 1);
+            damagesId.push(index - 1);
           }
         });
-        console.log(damagesID);
+
+        //  Получение установелнных ИД рекомендаций
+        const recommendationSelect = document.querySelector(
+          "#recommendation-edit .editable-field"
+        );
+        const recomendationsId = [];
+        Array.from(recommendationSelect.options).forEach((i, index) => {
+          if (i.classList.contains("hide")) {
+            recomendationsId.push(index - 1);
+          }
+        });
+
+        console.log(damagesId);
+        console.log(recomendationsId);
       } else {
         console.log("not correct");
         return;
@@ -527,19 +556,36 @@ function startAnimation(elem, animationName) {
   elem.classList.add(animationName); // анимация тряски
 }
 
-function insertDamageByDamageID(damageID) {
+function insertDamageById(damageId) {
   const typeOfDamage = document.getElementById("typeOfDamage-edit");
   const templateSelectedOption = document
     .getElementById("template-selected-option")
     .content.cloneNode(true);
   const pElem = templateSelectedOption.querySelector("p");
-  pElem.textContent = DAMAGE[damageID];
-  pElem.dataset.optionIndex = damageID + 1;
+  pElem.textContent = DAMAGE[damageId];
+  pElem.dataset.optionIndex = damageId + 1;
 
   typeOfDamage.appendChild(templateSelectedOption);
 
   const typeOfDamageOptions =
     typeOfDamage.querySelector(".editable-field").options;
   // + 1 исключает первый option "выбрать"
-  typeOfDamageOptions[damageID + 1].classList.add("hide");
+  typeOfDamageOptions[damageId + 1].classList.add("hide");
+}
+
+function insertRecommendationById(recommendationId) {
+  const recommendation = document.getElementById("recommendation-edit");
+  const templateSelectedOption = document
+    .getElementById("template-selected-option")
+    .content.cloneNode(true);
+  const pElem = templateSelectedOption.querySelector("p");
+  pElem.textContent = RECOMMENDATION[recommendationId];
+  pElem.dataset.optionIndex = recommendationId + 1;
+
+  recommendation.appendChild(templateSelectedOption);
+
+  const recommendationOptions =
+    recommendation.querySelector(".editable-field").options;
+  // + 1 исключает первый option "выбрать"
+  recommendationOptions[recommendationId + 1].classList.add("hide");
 }
