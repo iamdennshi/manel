@@ -215,7 +215,7 @@ export function handleEditingElement() {
       console.log(JSON.stringify(elemInfoEdited));
       console.log(JSON.stringify(elemInfoCurrent));
       if (JSON.stringify(elemInfoEdited) !== JSON.stringify(elemInfoCurrent)) {
-        console.log("UPDATE");
+        console.log("UPDATE furn");
         console.log(elemInfoEdited);
         store.set("elemInfoCurrent", elemInfoEdited);
 
@@ -330,8 +330,83 @@ export function handleEditingElement() {
           }
         });
 
-        console.log(damagesId);
-        console.log(recomendationsId);
+        const elemInfoEdited = {
+          id: elemInfoCurrent.id,
+          cords: store
+            .get("elementSelect")
+            .getFeatures()
+            .item(0)
+            .getGeometry()
+            .getCoordinates(),
+          name: elemInfoName.value,
+          photos: elemInfoCurrent.photos,
+          height: parseInt(heihgt.value),
+          trunkDiameter: parseInt(trunkDiameter.value),
+          assessment: parseInt(
+            document.getElementById("assessment-edit").value
+          ),
+          comment: document.getElementById("comment-edit").value,
+          age: parseInt(document.getElementById("age-edit").value),
+          crownProjection: parseInt(crownProjection.value),
+          typeOfDamage: damagesId,
+          recommendation: recomendationsId,
+          trunkNumber: parseInt(trunkNumber.value),
+          sanitaryCondition: parseInt(
+            document.getElementById("sanitaryCondition-edit").value
+          ),
+          lastChange: elemInfoCurrent.lastChange,
+        };
+        console.log(JSON.stringify(elemInfoCurrent));
+        console.log(JSON.stringify(elemInfoEdited));
+        if (
+          JSON.stringify(elemInfoEdited) !== JSON.stringify(elemInfoCurrent)
+        ) {
+          console.log("update tree");
+          console.log(elemInfoEdited);
+          store.set("elemInfoCurrent", elemInfoEdited);
+
+          const properties = elemInfoContent.querySelectorAll("span");
+          properties[0].innerText = `${elemInfoEdited.height} см`;
+          properties[1].innerText = `${elemInfoEdited.trunkDiameter} см`;
+          properties[2].innerText = `${AGE_CLASS[elemInfoEdited.age]}`;
+          properties[3].innerText = `${elemInfoEdited.crownProjection} см`;
+          properties[4].innerText = `${elemInfoEdited.trunkNumber} шт`;
+          properties[5].innerText = `${ASSESSMENT[elemInfoEdited.assessment]}`;
+          properties[6].innerText = `${
+            SANITARY[elemInfoEdited.sanitaryCondition]
+          }`;
+          if (elemInfoEdited.typeOfDamage.length !== 0) {
+            properties[7].innerText = `${elemInfoEdited.typeOfDamage.map(
+              (item) => DAMAGE[item]
+            )}`;
+            properties[7].parentElement.style.display = "";
+          } else {
+            properties[7].parentElement.style.display = "none";
+          }
+          if (elemInfoEdited.recommendation.length !== 0) {
+            properties[8].innerText = `${elemInfoEdited.recommendation.map(
+              (item) => RECOMMENDATION[item]
+            )}`;
+            properties[8].parentElement.style.display = "";
+          } else {
+            properties[8].parentElement.style.display = "none";
+          }
+          if (
+            elemInfoEdited.comment !== "" &&
+            elemInfoEdited.comment != undefined
+          ) {
+            properties[9].innerText = `${elemInfoEdited.comment}`;
+            properties[9].parentElement.style.display = "";
+          } else {
+            properties[9].parentElement.style.display = "none";
+          }
+
+          const elemInfoLastEdit = $(".elem-info__last-edit");
+          elemInfoLastEdit.innerText = `Последнее изменение ${dateTimeToString(
+            new Date()
+          )}`;
+          elemInfoLastEdit.classList.remove("elem-info__last-edit--hide");
+        }
       } else {
         console.log("not correct");
         return;
@@ -449,24 +524,31 @@ export function selectElement(e) {
           const properties = templateTree.querySelectorAll("span");
           properties[0].innerText = `${elem.height} см`;
           properties[1].innerText = `${elem.trunkDiameter} см`;
-          // Сделать для каждого свойства у элемента. Не показывать его если оно null(none)
-          if (elem.age) {
-            properties[2].innerText = `${AGE_CLASS[elem.age]}`;
-          } else {
-            properties[2].parentElement.style.display = "none";
-          }
+          properties[2].innerText = `${AGE_CLASS[elem.age]}`;
           properties[3].innerText = `${elem.crownProjection} см`;
           properties[4].innerText = `${elem.trunkNumber} шт`;
           properties[5].innerText = `${ASSESSMENT[elem.assessment]}`;
           properties[6].innerText = `${SANITARY[elem.sanitaryCondition]}`;
-          properties[7].innerText = `${elem.typeOfDamage.map(
-            (item) => DAMAGE[item]
-          )}`;
-          properties[8].innerText = `${elem.recommendation.map(
-            (item) => RECOMMENDATION[item]
-          )}`;
+          if (elem.typeOfDamage.length !== 0) {
+            properties[7].innerText = `${elem.typeOfDamage.map(
+              (item) => DAMAGE[item]
+            )}`;
+            properties[7].parentElement.style.display = "";
+          } else {
+            properties[7].parentElement.style.display = "none";
+          }
+
+          if (elem.recommendation.length !== 0) {
+            properties[8].innerText = `${elem.recommendation.map(
+              (item) => RECOMMENDATION[item]
+            )}`;
+            properties[8].parentElement.style.display = "";
+          } else {
+            properties[8].parentElement.style.display = "none";
+          }
           if (elem.comment !== "" && elem.comment != undefined) {
             properties[9].innerText = `${elem.comment}`;
+            properties[9].parentElement.style.display = "";
           } else {
             properties[9].parentElement.style.display = "none";
           }
