@@ -2,7 +2,7 @@ export function $(selector) {
   return document.querySelector(selector);
 }
 
-export const AGE_CLASS = [
+export const AGE = [
   "не более 5 лет",
   "не более 10 лет",
   "от 10 до 30 лет",

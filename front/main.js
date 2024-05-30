@@ -16,7 +16,7 @@ const __DEBUG__ = true;
   await initStore();
   // Инициализируем поиск
   await initSearch();
-  // Проверки сабов и данных в хранилище
+  // Дебаг для проверки сабов и данных в хранилище
   __DEBUG__ && initControlsForDebug();
   // Инициализируем карту и наполняем карту элементами
   await initMap();

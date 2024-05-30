@@ -32,7 +32,7 @@ class Tree(ElementWithoutId):
     comment: str | None = None
     age: int | None = None
     crownProjection: int | None = None
-    typeOfDamage: list[int] | None = None
+    damage: list[int] | None = None
     recommendation: list[int] | None = None
     trunkNumber: int | None = None
     sanitaryCondition: int | None = None

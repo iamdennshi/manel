@@ -7,12 +7,12 @@ import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
 import {
   getMarkerStyle,
-  handleEditingElement,
-  handleExitingElement,
-  handleLoadingImageOfElement,
-  handleRemovingElement,
+  editingElement,
+  exitingElement,
+  loadingImageOfElement,
+  removingElement,
   selectElement,
-  updateElements,
+  updateMarkers,
 } from "./elements";
 import Select from "ol/interaction/Select";
 import Modify from "ol/interaction/Modify";
@@ -25,7 +25,7 @@ export function initSubscribers() {
     console.log(`currentObjectID ${oldValue} -> ${newValue}`);
     store.get("map").getView().setCenter(objects[newValue].cords);
     localStorage.setItem("currentObjectID", newValue);
-    updateElements();
+    updateMarkers();
   });
 }
 
@@ -74,17 +74,17 @@ export async function initMap() {
 
   map.addLayer(elementVectorLayer);
 
-  updateElements();
+  updateMarkers();
 }
 
 export async function initHandlers() {
-  $(".element-card__img").addEventListener("load", handleLoadingImageOfElement);
+  $(".element-card__img").addEventListener("load", loadingImageOfElement);
 
-  $(".element-card__close").addEventListener("click", handleExitingElement);
+  $(".element-card__close").addEventListener("click", exitingElement);
 
-  $(".element-card__edit").addEventListener("click", handleEditingElement);
+  $(".element-card__edit").addEventListener("click", editingElement);
 
-  $(".element-card__remove").addEventListener("click", handleRemovingElement);
+  $(".element-card__remove").addEventListener("click", removingElement);
 }
 
 export async function initInteractions() {
