@@ -1,16 +1,58 @@
 @use "../global/colors" as *;
 @use "../global//typhography" as *;
+@use "../global/colors" as *;
 
-.elem-info {
-  width: 100%;
-  border-radius: 15px 15px 0;
-  overflow: hidden;
+.element-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background-color: $white;
+  max-height: 600px;
+  min-height: 200px;
+  width: 300px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 16px;
+  border: 1px solid #ccc;
+  bottom: 20px;
+  left: -50px;
+
+  &__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    position: absolute;
+    border-radius: 9999px;
+    height: 24px;
+    width: 24px;
+    background-color: $white;
+    top: 10px;
+    right: 10px;
+
+    &:after {
+      content: "✖";
+    }
+  }
+
+  &__arrow {
+    position: absolute;
+    bottom: -9px;
+    left: 40px;
+    width: 16px;
+    height: 16px;
+    border-width: 0px 1px 1px 0px;
+    border-style: solid;
+    border-color: #ccc;
+    transform: rotate(45deg);
+    background-color: white;
+  }
 
   &__content {
     flex-basis: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-
     word-wrap: break-word;
 
     &::-webkit-scrollbar {
@@ -44,6 +86,12 @@
     }
   }
 
+  &__main {
+    width: 100%;
+    border-radius: 15px 15px 0;
+    overflow: hidden;
+  }
+
   &__body {
     padding: 8px 16px;
     padding-bottom: 12px;
@@ -65,10 +113,6 @@
     outline: none;
   }
 
-  &--hide {
-    display: none;
-  }
-
   &__head {
     display: flex;
     justify-content: center;
@@ -80,14 +124,12 @@
     object-fit: cover;
     height: 100%;
     width: 100%;
-
-    &--hide {
-      display: none;
-    }
   }
+
   &__controls {
     display: flex;
   }
+
   &__edit {
     display: block;
     cursor: pointer;
@@ -106,6 +148,7 @@
       color: $text-furniture;
     }
   }
+
   &__remove {
     display: block;
     cursor: pointer;
@@ -116,10 +159,6 @@
     background-color: white;
     border: solid 1px red;
     color: red;
-
-    &--hide {
-      display: none;
-    }
   }
 
   &__type {
@@ -143,65 +182,60 @@
   &__last-edit {
     color: #ccc;
     text-align: center;
+  }
 
-    &--hide {
-      display: none;
+  &__error {
+    color: red;
+    font-weight: bold;
+  }
+
+  // In template
+  &__multi-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  &__single-line {
+    display: flex;
+    width: 100%;
+    gap: 8px;
+
+    label {
+      text-wrap: nowrap;
+    }
+
+    select,
+    input {
+      width: 100%;
     }
   }
-}
-
-.editable-field {
-  color: $text-tree;
-  border-radius: 6px;
-  border: 1px solid $text-tree;
-  outline: none;
-  background-color: $white;
-}
-
-.one-line {
-  display: flex;
-  width: 100%;
-  gap: 8px;
-
-  label {
-    text-wrap: nowrap;
-  }
-
-  select,
-  input {
-    width: 100%;
-  }
-}
-
-.multi-line {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.selected-option-edit {
-  display: flex;
-  padding: 0 8px;
-  gap: 8px;
-  color: $text-tree;
-  border-radius: 6px;
-  border: 1px solid $text-tree;
-
-  button {
-    color: inherit;
-    background-color: $white;
+  &__editable-field {
+    color: $text-tree;
+    border-radius: 6px;
+    border: 1px solid $text-tree;
     outline: none;
-    border: none;
-    cursor: pointer;
+    background-color: $white;
+
+    &--error {
+      color: red;
+      border-color: red;
+    }
   }
-}
+  &__selected-option {
+    display: flex;
+    padding: 0 8px;
+    gap: 8px;
+    color: $text-tree;
+    border-radius: 6px;
+    border: 1px solid $text-tree;
 
-.error-message {
-  color: red;
-  font-weight: bold;
-}
-
-.editable-field--error {
-  color: red;
-  border-color: red;
+    button {
+      color: inherit;
+      background-color: $white;
+      outline: none;
+      border: none;
+      cursor: pointer;
+    }
+  }
 }

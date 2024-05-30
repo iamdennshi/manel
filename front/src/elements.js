@@ -18,26 +18,27 @@ import {
 
 const elementInfoImgDefault =
   "https://www.svgrepo.com/show/508699/landscape-placeholder.svg";
-const elemInfoControlRemove = $(".elem-info__remove");
-const elemInfoType = $(".elem-info__type");
-const elemInfoLastEdit = $(".elem-info__last-edit");
-const elemInfoLoader = $(".elem-info__loader");
-const elemInfoImg = $(".elem-info__img");
-const elemInfoName = $(".elem-info__name");
-const elemInfoContent = $(".elem-info__content");
-const elemInfoControlEdit = $(".elem-info__edit");
+const elementCardControlRemove = $(".element-card__remove");
+const elementCardType = $(".element-card__type");
+const elementCardLastEdit = $(".element-card__last-edit");
+const elementCardLoader = $(".element-card__loader");
+const elementCardImg = $(".element-card__img");
+const elementCardImgLoader = $(".element-card__img-loader");
+const elementCardName = $(".element-card__name");
+const elementCardContent = $(".element-card__content");
+const elementCardControlEdit = $(".element-card__edit");
 
 // Обнулить режим редактирования если находились в нем
 function exitToEditMode() {
-  if (!elemInfoControlRemove.classList.contains("elem-info__remove--hide")) {
-    elemInfoControlEdit.textContent = "Редактировать";
-    elemInfoName.disabled = true; // Выкл возможность редактировать название элемента
-    elemInfoName.classList.remove("editable-field");
-    elemInfoName.nextElementSibling.classList.add("hide");
-    elemInfoName.classList.remove("editable-field--error");
+  if (!elementCardControlRemove.classList.contains("hide")) {
+    elementCardControlEdit.textContent = "Редактировать";
+    elementCardName.disabled = true; // Выкл возможность редактировать название элемента
+    elementCardName.classList.remove("element-card__editable-field");
+    elementCardName.nextElementSibling.classList.add("hide");
+    elementCardName.classList.remove("element-card__editable-field--error");
 
     store.get("elementModify").setActive(false);
-    elemInfoControlRemove.classList.add("elem-info__remove--hide");
+    elementCardControlRemove.classList.add("hide");
   }
 }
 
@@ -53,192 +54,203 @@ export function handleRemovingElement() {
 }
 
 export function handleEditingElement() {
-  const elemInfoCurrent = store.get("elemInfoCurrent");
+  const currentElement = store.get("currentElement");
   // Если вошли в режим редактирования
-  if (elemInfoControlRemove.classList.contains("elem-info__remove--hide")) {
-    elemInfoControlEdit.textContent = "Сохранить";
+  if (elementCardControlRemove.classList.contains("hide")) {
+    elementCardControlEdit.textContent = "Сохранить";
     store.get("elementModify").setActive(true);
-    elemInfoControlRemove.classList.remove("elem-info__remove--hide");
-    elemInfoName.disabled = false; // Вкл возможность редактировать название элемента
-    elemInfoName.classList.add("editable-field");
+    elementCardControlRemove.classList.remove("hide");
+    elementCardName.disabled = false; // Вкл возможность редактировать название элемента
+    elementCardName.classList.add("element-card__editable-field");
 
-    elemInfoContent
+    elementCardContent
       .querySelectorAll("li")
       .forEach((i) => i.classList.toggle("hide"));
 
     // Если редактируются - благоустройство
-    if (elemInfoControlEdit.classList.contains("elem-info__edit--furniture")) {
+    if (
+      elementCardControlEdit.classList.contains("element-card__edit--furniture")
+    ) {
       // Установка оценки
-      elemInfoContent.querySelector(
-        `#assessment-edit > option:nth-of-type(${
-          elemInfoCurrent.assessment + 1
-        })`
+      elementCardContent.querySelector(
+        `#assessment > option:nth-of-type(${currentElement.assessment + 1})`
       ).selected = true;
 
       // Установка примечания
-      elemInfoContent.querySelector(`#comment-edit`).value =
-        elemInfoCurrent.comment;
+      elementCardContent.querySelector(`#comment`).value =
+        currentElement.comment;
     }
     // Если редактируются - дерево
-    else if (elemInfoControlEdit.classList.contains("elem-info__edit--tree")) {
+    else if (
+      elementCardControlEdit.classList.contains("element-card__edit--tree")
+    ) {
       // Установка высоты
-      elemInfoContent.querySelector(`#height-edit`).value =
-        elemInfoCurrent.height;
+      elementCardContent.querySelector(`#height`).value = currentElement.height;
 
       // Установка диаметра ствола
-      elemInfoContent.querySelector(`#trunkDiameter-edit`).value =
-        elemInfoCurrent.trunkDiameter;
+      elementCardContent.querySelector(`#trunk-diameter`).value =
+        currentElement.trunkDiameter;
 
       // Установка возраста
-      elemInfoContent.querySelector(
-        `#age-edit > option:nth-of-type(${elemInfoCurrent.age + 1})`
+      elementCardContent.querySelector(
+        `#age > option:nth-of-type(${currentElement.age + 1})`
       ).selected = true;
 
       // Установка проекции кроны
-      elemInfoContent.querySelector(`#crownProjection-edit`).value =
-        elemInfoCurrent.crownProjection;
+      elementCardContent.querySelector(`#crown-projection`).value =
+        currentElement.crownProjection;
 
       // Установка стволов
-      elemInfoContent.querySelector(`#trunkNumber-edit`).value =
-        elemInfoCurrent.trunkNumber;
+      elementCardContent.querySelector(`#trunk-number`).value =
+        currentElement.trunkNumber;
 
       // Установка оценки
-      elemInfoContent.querySelector(
-        `#assessment-edit > option:nth-of-type(${
-          elemInfoCurrent.assessment + 1
-        })`
+      elementCardContent.querySelector(
+        `#assessment > option:nth-of-type(${currentElement.assessment + 1})`
       ).selected = true;
 
       // Установка санитарного состояния
-      elemInfoContent.querySelector(
-        `#sanitaryCondition-edit > option:nth-of-type(${
-          elemInfoCurrent.sanitaryCondition + 1
+      elementCardContent.querySelector(
+        `#sanitary-condition > option:nth-of-type(${
+          currentElement.sanitaryCondition + 1
         })`
       ).selected = true;
 
       // Повреждения
-      const typeOfDamage = document.getElementById("typeOfDamage-edit");
+      const typeOfDamage = document.getElementById("damage");
       // Чтобы измежать повторного добавления
       if (
-        elemInfoCurrent.typeOfDamage !== 0 &&
-        typeOfDamage.querySelectorAll(".selected-option-edit").length === 0
+        currentElement.typeOfDamage !== 0 &&
+        typeOfDamage.querySelectorAll(".element-card__selected-option")
+          .length === 0
       ) {
         // Установка повреждений и удаление уже из из select
-        elemInfoCurrent.typeOfDamage.forEach((i) => {
+        currentElement.typeOfDamage.forEach((i) => {
           insertDamageById(i);
         });
       }
 
       // Рекомендации
-      const recommendation = document.getElementById("recommendation-edit");
+      const recommendation = document.getElementById("recommendation");
       // Чтобы измежать повторного добавления
       if (
-        elemInfoCurrent.recommendation !== 0 &&
-        recommendation.querySelectorAll(".selected-option-edit").length === 0
+        currentElement.recommendation !== 0 &&
+        recommendation.querySelectorAll(".element-card__selected-option")
+          .length === 0
       ) {
-        elemInfoCurrent.recommendation.forEach((i) => {
+        currentElement.recommendation.forEach((i) => {
           insertRecommendationById(i);
         });
       }
 
       // Установка примечания
-      elemInfoContent.querySelector(`#comment-edit`).value =
-        elemInfoCurrent.comment;
+      elementCardContent.querySelector(`#comment`).value =
+        currentElement.comment;
     }
   } else {
     console.log("save");
 
     // Если сохраняется благоустройство
-    if (elemInfoControlEdit.classList.contains("elem-info__edit--furniture")) {
+    if (
+      elementCardControlEdit.classList.contains("element-card__edit--furniture")
+    ) {
       // Проверка на корректность дилны названия
-      if (elemInfoName.value.length < 2 || elemInfoName.value.length > 16) {
-        elemInfoName.nextElementSibling.classList.remove("hide");
-        startAnimation(elemInfoName.nextElementSibling, "shake");
-        elemInfoName.classList.add("editable-field--error");
+      if (
+        elementCardName.value.length < 2 ||
+        elementCardName.value.length > 16
+      ) {
+        elementCardName.nextElementSibling.classList.remove("hide");
+        startAnimation(elementCardName.nextElementSibling, "shake");
+        elementCardName.classList.add("element-card__editable-field--error");
         return;
       }
       // Порядок важен
-      const elemInfoEdited = {
-        id: elemInfoCurrent.id,
+      const editedElement = {
+        id: currentElement.id,
         cords: store
           .get("elementSelect")
           .getFeatures()
           .item(0)
           .getGeometry()
           .getCoordinates(),
-        name: elemInfoName.value,
-        assessment: parseInt(document.getElementById("assessment-edit").value),
-        comment: document.getElementById("comment-edit").value,
-        lastChange: elemInfoCurrent.lastChange,
+        name: elementCardName.value,
+        assessment: parseInt(document.getElementById("assessment").value),
+        comment: document.getElementById("comment").value,
+        lastChange: currentElement.lastChange,
       };
 
-      console.log(JSON.stringify(elemInfoEdited));
-      console.log(JSON.stringify(elemInfoCurrent));
-      if (JSON.stringify(elemInfoEdited) !== JSON.stringify(elemInfoCurrent)) {
+      console.log(JSON.stringify(editedElement));
+      console.log(JSON.stringify(currentElement));
+      if (JSON.stringify(editedElement) !== JSON.stringify(currentElement)) {
         console.log("UPDATE furn");
-        console.log(elemInfoEdited);
-        store.set("elemInfoCurrent", elemInfoEdited);
+        console.log(editedElement);
+        store.set("currentElement", editedElement);
 
-        const properties = elemInfoContent.querySelectorAll("span");
+        const properties = elementCardContent.querySelectorAll("span");
 
-        properties[0].innerText = `${ASSESSMENT[elemInfoEdited.assessment]}`;
+        properties[0].innerText = `${ASSESSMENT[editedElement.assessment]}`;
         properties[0].parentElement.style.display = "";
 
         if (
-          elemInfoEdited.comment !== "" &&
-          elemInfoEdited.comment != undefined
+          editedElement.comment !== "" &&
+          editedElement.comment != undefined
         ) {
-          properties[1].innerText = `${elemInfoEdited.comment}`;
+          properties[1].innerText = `${editedElement.comment}`;
           properties[1].parentElement.style.display = "";
         } else {
           properties[1].parentElement.style.display = "none";
         }
 
-        const elemInfoLastEdit = $(".elem-info__last-edit");
-        elemInfoLastEdit.innerText = `Последнее изменение ${dateTimeToString(
+        const elementCardLastEdit = $(".element-card__last-edit");
+        elementCardLastEdit.innerText = `Последнее изменение ${dateTimeToString(
           new Date()
         )}`;
-        elemInfoLastEdit.classList.remove("elem-info__last-edit--hide");
+        elementCardLastEdit.classList.remove("hide");
       }
     }
     // Если сохраняется - дерево
-    else if (elemInfoControlEdit.classList.contains("elem-info__edit--tree")) {
-      const heihgt = document.querySelector("#height-edit");
-      const trunkDiameter = document.querySelector("#trunkDiameter-edit");
-      const crownProjection = document.querySelector("#crownProjection-edit");
-      const trunkNumber = document.querySelector("#trunkNumber-edit");
+    else if (
+      elementCardControlEdit.classList.contains("element-card__edit--tree")
+    ) {
+      const heihgt = document.querySelector("#height");
+      const trunkDiameter = document.querySelector("#trunk-diameter");
+      const crownProjection = document.querySelector("#crown-projection");
+      const trunkNumber = document.querySelector("#trunk-number");
 
       let isCorrect = true;
 
       // Проверка на корректность дилны названия
-      if (elemInfoName.value.length < 2 || elemInfoName.value.length > 16) {
-        elemInfoName.nextElementSibling.classList.remove("hide");
-        startAnimation(elemInfoName.nextElementSibling, "shake");
-        elemInfoName.classList.add("editable-field--error");
+      if (
+        elementCardName.value.length < 2 ||
+        elementCardName.value.length > 16
+      ) {
+        elementCardName.nextElementSibling.classList.remove("hide");
+        startAnimation(elementCardName.nextElementSibling, "shake");
+        elementCardName.classList.add("element-card__editable-field--error");
         isCorrect = false;
       } else {
-        elemInfoName.nextElementSibling.classList.add("hide");
-        elemInfoName.classList.remove("editable-field--error");
+        elementCardName.nextElementSibling.classList.add("hide");
+        elementCardName.classList.remove("element-card__editable-field--error");
       }
       // Проверка на корректность высоты
       if (heihgt.value < 1) {
         heihgt.parentElement.nextElementSibling.classList.remove("hide");
         startAnimation(heihgt.parentElement.nextElementSibling, "shake");
-        heihgt.classList.add("editable-field--error");
+        heihgt.classList.add("element-card__editable-field--error");
         isCorrect = false;
       } else {
         heihgt.parentElement.nextElementSibling.classList.add("hide");
-        heihgt.classList.remove("editable-field--error");
+        heihgt.classList.remove("element-card__editable-field--error");
       }
       // Проверка на корректность диаметра ствола
       if (trunkDiameter.value < 1) {
         trunkDiameter.parentElement.nextElementSibling.classList.remove("hide");
         startAnimation(trunkDiameter.parentElement.nextElementSibling, "shake");
-        trunkDiameter.classList.add("editable-field--error");
+        trunkDiameter.classList.add("element-card__editable-field--error");
         isCorrect = false;
       } else {
         trunkDiameter.parentElement.nextElementSibling.classList.add("hide");
-        trunkDiameter.classList.remove("editable-field--error");
+        trunkDiameter.classList.remove("element-card__editable-field--error");
       }
       // Проверка на корректность проекции кроны
       if (crownProjection.value < 1) {
@@ -249,28 +261,28 @@ export function handleEditingElement() {
           crownProjection.parentElement.nextElementSibling,
           "shake"
         );
-        crownProjection.classList.add("editable-field--error");
+        crownProjection.classList.add("element-card__editable-field--error");
         isCorrect = false;
       } else {
         crownProjection.parentElement.nextElementSibling.classList.add("hide");
-        crownProjection.classList.remove("editable-field--error");
+        crownProjection.classList.remove("element-card__editable-field--error");
       }
       // Проверка на корректность стволов
       if (trunkNumber.value < 1) {
         startAnimation(trunkNumber.parentElement.nextElementSibling, "shake");
         trunkNumber.parentElement.nextElementSibling.classList.remove("hide");
-        trunkNumber.classList.add("editable-field--error");
+        trunkNumber.classList.add("element-card__editable-field--error");
         isCorrect = false;
       } else {
         trunkNumber.parentElement.nextElementSibling.classList.add("hide");
-        trunkNumber.classList.remove("editable-field--error");
+        trunkNumber.classList.remove("element-card__editable-field--error");
       }
 
       if (isCorrect) {
         console.log("correct");
         //  Получение установелнных ИД повреждений
         const typeOfDamageSelect = document.querySelector(
-          "#typeOfDamage-edit .editable-field"
+          "#damage .element-card__editable-field"
         );
         const damagesId = [];
         Array.from(typeOfDamageSelect.options).forEach((i, index) => {
@@ -281,7 +293,7 @@ export function handleEditingElement() {
 
         //  Получение установелнных ИД рекомендаций
         const recommendationSelect = document.querySelector(
-          "#recommendation-edit .editable-field"
+          "#recommendation .element-card__editable-field"
         );
         const recomendationsId = [];
         Array.from(recommendationSelect.options).forEach((i, index) => {
@@ -290,61 +302,57 @@ export function handleEditingElement() {
           }
         });
 
-        const elemInfoEdited = {
-          id: elemInfoCurrent.id,
+        const editedElement = {
+          id: currentElement.id,
           cords: store
             .get("elementSelect")
             .getFeatures()
             .item(0)
             .getGeometry()
             .getCoordinates(),
-          name: elemInfoName.value,
-          photos: elemInfoCurrent.photos,
+          name: elementCardName.value,
+          photos: currentElement.photos,
           height: parseInt(heihgt.value),
           trunkDiameter: parseInt(trunkDiameter.value),
-          assessment: parseInt(
-            document.getElementById("assessment-edit").value
-          ),
-          comment: document.getElementById("comment-edit").value,
-          age: parseInt(document.getElementById("age-edit").value),
+          assessment: parseInt(document.getElementById("assessment").value),
+          comment: document.getElementById("comment").value,
+          age: parseInt(document.getElementById("age").value),
           crownProjection: parseInt(crownProjection.value),
           typeOfDamage: damagesId,
           recommendation: recomendationsId,
           trunkNumber: parseInt(trunkNumber.value),
           sanitaryCondition: parseInt(
-            document.getElementById("sanitaryCondition-edit").value
+            document.getElementById("sanitary-condition").value
           ),
-          lastChange: elemInfoCurrent.lastChange,
+          lastChange: currentElement.lastChange,
         };
-        console.log(JSON.stringify(elemInfoCurrent));
-        console.log(JSON.stringify(elemInfoEdited));
-        if (
-          JSON.stringify(elemInfoEdited) !== JSON.stringify(elemInfoCurrent)
-        ) {
+        console.log(JSON.stringify(currentElement));
+        console.log(JSON.stringify(editedElement));
+        if (JSON.stringify(editedElement) !== JSON.stringify(currentElement)) {
           console.log("update tree");
-          console.log(elemInfoEdited);
-          store.set("elemInfoCurrent", elemInfoEdited);
+          console.log(editedElement);
+          store.set("currentElement", editedElement);
 
-          const properties = elemInfoContent.querySelectorAll("span");
-          properties[0].innerText = `${elemInfoEdited.height} см`;
-          properties[1].innerText = `${elemInfoEdited.trunkDiameter} см`;
-          properties[2].innerText = `${AGE_CLASS[elemInfoEdited.age]}`;
-          properties[3].innerText = `${elemInfoEdited.crownProjection} см`;
-          properties[4].innerText = `${elemInfoEdited.trunkNumber} шт`;
-          properties[5].innerText = `${ASSESSMENT[elemInfoEdited.assessment]}`;
+          const properties = elementCardContent.querySelectorAll("span");
+          properties[0].innerText = `${editedElement.height} см`;
+          properties[1].innerText = `${editedElement.trunkDiameter} см`;
+          properties[2].innerText = `${AGE_CLASS[editedElement.age]}`;
+          properties[3].innerText = `${editedElement.crownProjection} см`;
+          properties[4].innerText = `${editedElement.trunkNumber} шт`;
+          properties[5].innerText = `${ASSESSMENT[editedElement.assessment]}`;
           properties[6].innerText = `${
-            SANITARY[elemInfoEdited.sanitaryCondition]
+            SANITARY[editedElement.sanitaryCondition]
           }`;
-          if (elemInfoEdited.typeOfDamage.length !== 0) {
-            properties[7].innerText = `${elemInfoEdited.typeOfDamage.map(
+          if (editedElement.typeOfDamage.length !== 0) {
+            properties[7].innerText = `${editedElement.typeOfDamage.map(
               (item) => DAMAGE[item]
             )}`;
             properties[7].parentElement.style.display = "";
           } else {
             properties[7].parentElement.style.display = "none";
           }
-          if (elemInfoEdited.recommendation.length !== 0) {
-            properties[8].innerText = `${elemInfoEdited.recommendation.map(
+          if (editedElement.recommendation.length !== 0) {
+            properties[8].innerText = `${editedElement.recommendation.map(
               (item) => RECOMMENDATION[item]
             )}`;
             properties[8].parentElement.style.display = "";
@@ -352,20 +360,20 @@ export function handleEditingElement() {
             properties[8].parentElement.style.display = "none";
           }
           if (
-            elemInfoEdited.comment !== "" &&
-            elemInfoEdited.comment != undefined
+            editedElement.comment !== "" &&
+            editedElement.comment != undefined
           ) {
-            properties[9].innerText = `${elemInfoEdited.comment}`;
+            properties[9].innerText = `${editedElement.comment}`;
             properties[9].parentElement.style.display = "";
           } else {
             properties[9].parentElement.style.display = "none";
           }
 
-          const elemInfoLastEdit = $(".elem-info__last-edit");
-          elemInfoLastEdit.innerText = `Последнее изменение ${dateTimeToString(
+          const elementCardLastEdit = $(".element-card__last-edit");
+          elementCardLastEdit.innerText = `Последнее изменение ${dateTimeToString(
             new Date()
           )}`;
-          elemInfoLastEdit.classList.remove("elem-info__last-edit--hide");
+          elementCardLastEdit.classList.remove("hide");
         }
       } else {
         console.log("not correct");
@@ -373,7 +381,7 @@ export function handleEditingElement() {
       }
     }
     // Общий выход из режима редактирования
-    elemInfoContent
+    elementCardContent
       .querySelectorAll("li")
       .forEach((i) => i.classList.toggle("hide"));
 
@@ -388,10 +396,9 @@ export function handleExitingElement() {
 }
 
 export function handleLoadingImageOfElement() {
-  const elemInfoLoader = $(".elem-info__loader");
   console.log("img loaded");
-  elemInfoLoader.classList.remove("loader");
-  elemInfoImg.classList.remove("elem-info__img--hide");
+  elementCardImgLoader.classList.remove("loader");
+  elementCardImg.classList.remove("hide");
 }
 
 export function getMarkerStyle(marker, markerType = "") {
@@ -443,39 +450,40 @@ export function selectElement(e) {
     const coordinates = selectedElement.getGeometry().getCoordinates();
     const elemID = selectedElement.getProperties().id;
     const elemType = selectedElement.getProperties().type;
-    const popupLoader = $(".popup__loader");
-    const content = $(".elem-info");
+    const content = $(".element-card__main");
 
     store.get("elementOverlay").setPosition(coordinates);
-    popupLoader.classList.add("loader");
-    content.classList.add("elem-info--hide");
+    elementCardLoader.classList.add("loader");
+    content.classList.add("hide");
     fetchElement(store.get("currentObjectID"), elemID, elemType).then(
       (elem) => {
-        store.set("elemInfoCurrent", elem);
+        store.set("currentElement", elem);
 
-        content.classList.remove("elem-info--hide");
-        popupLoader.classList.remove("loader");
+        content.classList.remove("hide");
+        elementCardLoader.classList.remove("loader");
 
         if (elem.lastChange) {
-          elemInfoLastEdit.innerText = `Последнее изменение ${dateTimeToString(
+          elementCardLastEdit.innerText = `Последнее изменение ${dateTimeToString(
             new Date(elem.lastChange)
           )}`;
-          elemInfoLastEdit.classList.remove("elem-info__last-edit--hide");
+          elementCardLastEdit.classList.remove("hide");
         } else {
-          elemInfoLastEdit.classList.add("elem-info__last-edit--hide");
+          elementCardLastEdit.classList.add("hide");
         }
 
-        elemInfoLoader.classList.add("loader");
-        elemInfoImg.classList.add("elem-info__img--hide");
-        elemInfoName.value = elem.name;
-        elemInfoContent.innerHTML = "";
+        elementCardImgLoader.classList.add("loader");
+        elementCardImg.classList.add("hide");
+        elementCardName.value = elem.name;
+        elementCardContent.innerHTML = "";
 
         if (elemType === "tree") {
-          elemInfoType.innerText = "дерево";
-          elemInfoType.classList.remove(`elem-info__type--furniture`);
-          elemInfoControlEdit.classList.remove(`elem-info__edit--furniture`);
-          elemInfoType.classList.add(`elem-info__type--tree`);
-          elemInfoControlEdit.classList.add(`elem-info__edit--tree`);
+          elementCardType.innerText = "дерево";
+          elementCardType.classList.remove(`element-card__type--furniture`);
+          elementCardControlEdit.classList.remove(
+            `element-card__edit--furniture`
+          );
+          elementCardType.classList.add(`element-card__type--tree`);
+          elementCardControlEdit.classList.add(`element-card__edit--tree`);
 
           const templateTree = document
             .getElementById("template-tree")
@@ -513,13 +521,13 @@ export function selectElement(e) {
             properties[9].parentElement.style.display = "none";
           }
 
-          elemInfoContent.appendChild(templateTree);
+          elementCardContent.appendChild(templateTree);
 
           // Повреждения
-          const typeOfDamage = document.getElementById("typeOfDamage-edit");
+          const typeOfDamage = document.getElementById("damage");
           // Обработчик события select повреждений
           typeOfDamage
-            .querySelector(".editable-field")
+            .querySelector(".element-card__editable-field")
             .addEventListener("change", (i) => {
               const damageId = i.currentTarget.selectedIndex;
               insertDamageById(damageId - 1);
@@ -534,16 +542,16 @@ export function selectElement(e) {
                 i.target.previousElementSibling.dataset.optionIndex;
               i.target.parentElement.remove();
               typeOfDamage
-                .querySelector(".editable-field")
+                .querySelector(".element-card__editable-field")
                 .options[optionIndex].classList.remove("hide");
             }
           });
 
           // Рекомендации
-          const recommendation = document.getElementById("recommendation-edit");
+          const recommendation = document.getElementById("recommendation");
           // Обработчик события select рекомендаций
           recommendation
-            .querySelector(".editable-field")
+            .querySelector(".element-card__editable-field")
             .addEventListener("change", (i) => {
               const recommendationId = i.currentTarget.selectedIndex;
               insertRecommendationById(recommendationId - 1);
@@ -558,16 +566,16 @@ export function selectElement(e) {
                 i.target.previousElementSibling.dataset.optionIndex;
               i.target.parentElement.remove();
               recommendation
-                .querySelector(".editable-field")
+                .querySelector(".element-card__editable-field")
                 .options[optionIndex].classList.remove("hide");
             }
           });
         } else if (elemType === "furniture") {
-          elemInfoType.innerText = "благоустройство";
-          elemInfoType.classList.remove(`elem-info__type--tree`);
-          elemInfoControlEdit.classList.remove(`elem-info__edit--tree`);
-          elemInfoType.classList.add(`elem-info__type--furniture`);
-          elemInfoControlEdit.classList.add(`elem-info__edit--furniture`);
+          elementCardType.innerText = "благоустройство";
+          elementCardType.classList.remove(`element-card__type--tree`);
+          elementCardControlEdit.classList.remove(`element-card__edit--tree`);
+          elementCardType.classList.add(`element-card__type--furniture`);
+          elementCardControlEdit.classList.add(`element-card__edit--furniture`);
 
           const templateFurniture = document
             .getElementById("template-furniture")
@@ -586,13 +594,13 @@ export function selectElement(e) {
             properties[1].parentElement.style.display = "none";
           }
 
-          elemInfoContent.appendChild(templateFurniture);
+          elementCardContent.appendChild(templateFurniture);
         }
 
         if (elem.photos) {
-          elemInfoImg.src = elem.photos;
+          elementCardImg.src = elem.photos;
         } else {
-          elemInfoImg.src = elementInfoImgDefault;
+          elementCardImg.src = elementInfoImgDefault;
         }
 
         console.log(elem);
@@ -647,7 +655,7 @@ function startAnimation(elem, animationName) {
 }
 
 function insertDamageById(damageId) {
-  const typeOfDamage = document.getElementById("typeOfDamage-edit");
+  const typeOfDamage = document.getElementById("damage");
   const templateSelectedOption = document
     .getElementById("template-selected-option")
     .content.cloneNode(true);
@@ -657,14 +665,15 @@ function insertDamageById(damageId) {
 
   typeOfDamage.appendChild(templateSelectedOption);
 
-  const typeOfDamageOptions =
-    typeOfDamage.querySelector(".editable-field").options;
+  const typeOfDamageOptions = typeOfDamage.querySelector(
+    ".element-card__editable-field"
+  ).options;
   // + 1 исключает первый option "выбрать"
   typeOfDamageOptions[damageId + 1].classList.add("hide");
 }
 
 function insertRecommendationById(recommendationId) {
-  const recommendation = document.getElementById("recommendation-edit");
+  const recommendation = document.getElementById("recommendation");
   const templateSelectedOption = document
     .getElementById("template-selected-option")
     .content.cloneNode(true);
@@ -674,8 +683,9 @@ function insertRecommendationById(recommendationId) {
 
   recommendation.appendChild(templateSelectedOption);
 
-  const recommendationOptions =
-    recommendation.querySelector(".editable-field").options;
+  const recommendationOptions = recommendation.querySelector(
+    ".element-card__editable-field"
+  ).options;
   // + 1 исключает первый option "выбрать"
   recommendationOptions[recommendationId + 1].classList.add("hide");
 }

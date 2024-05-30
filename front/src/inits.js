@@ -78,20 +78,20 @@ export async function initMap() {
 }
 
 export async function initHandlers() {
-  $(".elem-info__img").addEventListener("load", handleLoadingImageOfElement);
+  $(".element-card__img").addEventListener("load", handleLoadingImageOfElement);
 
-  $(".popup__close").addEventListener("click", handleExitingElement);
+  $(".element-card__close").addEventListener("click", handleExitingElement);
 
-  $(".elem-info__edit").addEventListener("click", handleEditingElement);
+  $(".element-card__edit").addEventListener("click", handleEditingElement);
 
-  $(".elem-info__remove").addEventListener("click", handleRemovingElement);
+  $(".element-card__remove").addEventListener("click", handleRemovingElement);
 }
 
 export async function initInteractions() {
   const elementOverlay = store.init(
     "elementOverlay",
     new Overlay({
-      element: $(".popup"),
+      element: $(".element-card"),
       autoPan: {
         animation: {
           duration: 0,
@@ -139,7 +139,7 @@ export async function initStore() {
   );
   store.init("objects", await fetchObjects());
   // Полная информация о выбранном элементе
-  store.init("elemInfoCurrent", "");
+  store.init("currentElement", "");
 }
 
 export async function initSearch() {

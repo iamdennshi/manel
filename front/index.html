@@ -12,27 +12,25 @@
   </head>
   <body>
     <div id="map"></div>
-    <div class="popup">
-      <div class="popup__close"></div>
-      <div class="popup__loader"></div>
-      <div class="popup__arrow"></div>
-      <div class="elem-info">
-        <div class="elem-info__head">
-          <div class="elem-info__loader"></div>
-          <img class="elem-info__img" />
+    <div class="element-card">
+      <div class="element-card__close"></div>
+      <div class="element-card__loader"></div>
+      <div class="element-card__arrow"></div>
+      <div class="element-card__main">
+        <div class="element-card__head">
+          <div class="element-card__img-loader"></div>
+          <img class="element-card__img" />
         </div>
-        <div class="elem-info__body">
-          <input class="elem-info__name" maxlength="16" disabled />
-          <p class="error-message hide">⚠ Введите корректное название</p>
-          <div class="elem-info__type">дерево</div>
-          <div class="elem-info__content"></div>
-          <div class="elem-info__controls">
-            <button class="elem-info__edit">Редактировать</button>
-            <button class="elem-info__remove elem-info__remove--hide">
-              Удалить
-            </button>
+        <div class="element-card__body">
+          <input class="element-card__name" maxlength="16" disabled />
+          <p class="element-card__error hide">⚠ Введите корректное название</p>
+          <div class="element-card__type">дерево</div>
+          <div class="element-card__content"></div>
+          <div class="element-card__controls">
+            <button class="element-card__edit">Редактировать</button>
+            <button class="element-card__remove hide">Удалить</button>
           </div>
-          <div class="elem-info__last-edit">
+          <div class="element-card__last-edit">
             Последнее изменение --.--.---- --:--
           </div>
         </div>
@@ -43,38 +41,42 @@
         <li>Высота: <span></span></li>
         <li class="hide">
           <div>
-            <div class="one-line">
+            <div class="element-card__single-line">
               <label>Высота, см:</label>
               <input
-                id="height-edit"
-                class="editable-field"
+                id="height"
+                class="element-card__editable-field"
                 min="1"
                 type="number"
               />
             </div>
-            <p class="error-message hide">⚠ Введите корректное значение</p>
+            <p class="element-card__error hide">
+              ⚠ Введите корректное значение
+            </p>
           </div>
         </li>
         <li>Диаметр ствола: <span></span></li>
         <li class="hide">
           <div>
-            <div class="one-line">
+            <div class="element-card__single-line">
               <label>Диаметр ствола, см:</label>
               <input
-                id="trunkDiameter-edit"
-                class="editable-field"
+                id="trunk-diameter"
+                class="element-card__editable-field"
                 min="1"
                 type="number"
               />
             </div>
-            <p class="error-message hide">⚠ Введите корректное значение</p>
+            <p class="element-card__error hide">
+              ⚠ Введите корректное значение
+            </p>
           </div>
         </li>
         <li>Возраст: <span></span></li>
         <li class="hide">
-          <div class="one-line">
+          <div class="element-card__single-line">
             <label>Возраст:</label>
-            <select id="age-edit" class="editable-field">
+            <select id="age" class="element-card__editable-field">
               <option value="0">не более 5 лет</option>
               <option value="1">не более 10 лет</option>
               <option value="2">от 10 до 30 лет</option>
@@ -85,38 +87,42 @@
         <li>Проекция кроны: <span></span></li>
         <li class="hide">
           <div>
-            <div class="one-line">
+            <div class="element-card__single-line">
               <label>Проекция кроны, см:</label>
               <input
-                id="crownProjection-edit"
-                class="editable-field"
+                id="crown-projection"
+                class="element-card__editable-field"
                 min="1"
                 type="number"
               />
             </div>
-            <p class="error-message hide">⚠ Введите корректное значение</p>
+            <p class="element-card__error hide">
+              ⚠ Введите корректное значение
+            </p>
           </div>
         </li>
         <li>Стволов: <span></span></li>
         <li class="hide">
           <div>
-            <div class="one-line">
+            <div class="element-card__single-line">
               <label>Стволов, шт:</label>
               <input
-                id="trunkNumber-edit"
-                class="editable-field"
+                id="trunk-number"
+                class="element-card__editable-field"
                 min="1"
                 type="number"
               />
             </div>
-            <p class="error-message hide">⚠ Введите корректное значение</p>
+            <p class="element-card__error hide">
+              ⚠ Введите корректное значение
+            </p>
           </div>
         </li>
         <li>Оценка: <span></span></li>
         <li class="hide">
-          <div class="one-line">
+          <div class="element-card__single-line">
             <label>Оценка: </label>
-            <select id="assessment-edit" class="editable-field">
+            <select id="assessment" class="element-card__editable-field">
               <option value="0">отличная</option>
               <option value="1">хорошая</option>
               <option value="2">удовлетворительная</option>
@@ -127,9 +133,12 @@
         </li>
         <li>Санитарное состояние: <span></span></li>
         <li class="hide">
-          <div class="one-line">
+          <div class="element-card__single-line">
             <label>Санитарное состояние: </label>
-            <select id="sanitaryCondition-edit" class="editable-field">
+            <select
+              id="sanitary-condition"
+              class="element-card__editable-field"
+            >
               <option value="0">здоровые</option>
               <option value="1">ослабленные</option>
               <option value="2">сильно ослабленные</option>
@@ -145,10 +154,10 @@
         </li>
         <li>Повреждения: <span></span></li>
         <li class="hide">
-          <div id="typeOfDamage-edit" class="multi-line">
-            <div class="one-line">
+          <div id="damage" class="element-card__multi-line">
+            <div class="element-card__single-line">
               <label>Повреждения: </label>
-              <select class="editable-field">
+              <select class="element-card__editable-field">
                 <option>выбирите</option>
                 <option value="0">1 дупло</option>
                 <option value="1">2 дупла</option>
@@ -185,10 +194,10 @@
         </li>
         <li>Рекомендации по уходу:<span></span></li>
         <li class="hide">
-          <div id="recommendation-edit" class="multi-line">
-            <div class="one-line">
+          <div id="recommendation" class="element-card__multi-line">
+            <div class="element-card__single-line">
               <label>Рекомендации по уходу:</label>
-              <select class="editable-field">
+              <select class="element-card__editable-field">
                 <option>выбирите</option>
                 <option value="0">
                   рубка с последующей корчевкой прикорневого кома
@@ -258,11 +267,11 @@
         </li>
         <li>Примечание: <span></span></li>
         <li class="hide">
-          <div class="multi-line">
+          <div class="element-card__multi-line">
             <label>Примечание: </label>
             <textarea
-              id="comment-edit"
-              class="editable-field"
+              id="comment"
+              class="element-card__editable-field"
               maxlength="100"
             ></textarea>
           </div>
@@ -273,9 +282,9 @@
       <ul>
         <li>Оценка: <span></span></li>
         <li class="hide">
-          <div class="one-line">
+          <div class="element-card__single-line">
             <label>Оценка: </label>
-            <select id="assessment-edit" class="editable-field">
+            <select id="assessment" class="element-card__editable-field">
               <option value="0">отличная</option>
               <option value="1">хорошая</option>
               <option value="2">удовлетворительная</option>
@@ -286,11 +295,11 @@
         </li>
         <li>Примечание: <span></span></li>
         <li class="hide">
-          <div class="multi-line">
+          <div class="element-card__multi-line">
             <label>Примечание: </label>
             <textarea
-              id="comment-edit"
-              class="editable-field"
+              id="comment"
+              class="element-card__editable-field"
               maxlength="100"
             ></textarea>
           </div>
@@ -298,7 +307,7 @@
       </ul>
     </template>
     <template id="template-selected-option">
-      <div class="selected-option-edit">
+      <div class="element-card__selected-option">
         <p>повреждение</p>
         <button>x</button>
       </div>
