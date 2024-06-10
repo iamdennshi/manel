@@ -11,13 +11,12 @@ import {
   exitingElement,
   loadingImageOfElement,
   removingElement,
-  selectElement,
+  selectingElement,
   updateMarkers,
 } from "./elements";
 import Select from "ol/interaction/Select";
 import Modify from "ol/interaction/Modify";
 import Style from "ol/style/Style";
-import { $ } from "./utils";
 
 export function initSubscribers() {
   store.subscribe("currentObjectID", (oldValue, newValue) => {
@@ -78,20 +77,28 @@ export async function initMap() {
 }
 
 export async function initHandlers() {
-  $(".element-card__img").addEventListener("load", loadingImageOfElement);
+  document
+    .querySelector(".element-card__img")
+    .addEventListener("load", loadingImageOfElement);
 
-  $(".element-card__close").addEventListener("click", exitingElement);
+  document
+    .querySelector(".element-card__close")
+    .addEventListener("click", exitingElement);
 
-  $(".element-card__edit").addEventListener("click", editingElement);
+  document
+    .querySelector(".element-card__edit")
+    .addEventListener("click", editingElement);
 
-  $(".element-card__remove").addEventListener("click", removingElement);
+  document
+    .querySelector(".element-card__remove")
+    .addEventListener("click", removingElement);
 }
 
 export async function initInteractions() {
   const elementOverlay = store.init(
     "elementOverlay",
     new Overlay({
-      element: $(".element-card"),
+      element: document.querySelector(".element-card"),
       autoPan: {
         animation: {
           duration: 0,
@@ -114,7 +121,7 @@ export async function initInteractions() {
     })
   );
 
-  elementSelect.addEventListener("select", selectElement);
+  elementSelect.addEventListener("select", selectingElement);
   elementModify.setActive(false);
   elementModify.on("modifystart", (e) => {
     elementOverlay.setPosition(undefined);

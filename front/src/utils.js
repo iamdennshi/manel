@@ -1,5 +1,17 @@
-export function $(selector) {
-  return document.querySelector(selector);
+export function dateTimeToString(dateTime) {
+  return `${dateTime.getDate().toString().padStart(2, "0")}.${dateTime
+    .getMonth()
+    .toString()
+    .padStart(2, "0")}.${dateTime.getFullYear()} ${dateTime
+    .getHours()
+    .toString()
+    .padStart(2, "0")}:${dateTime.getMinutes().toString().padStart(2, "0")}`;
+}
+
+export function startAnimation(elementHtml, animationName) {
+  elementHtml.classList.remove(animationName); // удалене анимации тряски
+  elementHtml.offsetWidth; // Принудительная переоценка, чтобы сбросить анимацию
+  elementHtml.classList.add(animationName); // анимация тряски
 }
 
 export const AGE = [
