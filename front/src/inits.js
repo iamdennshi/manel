@@ -1,6 +1,7 @@
 import { Map, Overlay, View } from "ol";
 import TileLayer from "ol/layer/Tile";
 import { OSM } from "ol/source";
+import { ScaleLine, defaults as defaultControls } from "ol/control.js";
 import store from "./store";
 import { fetchObjects } from "./fetches";
 import VectorSource from "ol/source/Vector";
@@ -46,6 +47,7 @@ export async function initMap() {
   const map = store.init(
     "map",
     new Map({
+      controls: defaultControls().extend([new ScaleLine()]),
       layers: [
         new TileLayer({
           source: new OSM(),

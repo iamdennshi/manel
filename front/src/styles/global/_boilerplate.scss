@@ -39,6 +39,12 @@ li {
   display: none;
 }
 
+// Scale line
+.ol-scale-line {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 /* Hide blue background on click for Android */
 button,
 ul {
