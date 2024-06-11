@@ -16,6 +16,8 @@ class Object(BaseModel):
 class Element(BaseModel):
      cords: list[float] | None = None
      name: str | None = None
+     type: int | None = None # 0 - насаждение / 1 - благоустройство
+
 
 
 class ElementWithId(Element, Id):
@@ -46,8 +48,8 @@ class TreeWithoutId(Tree):
      pass
 
 class Elements(BaseModel):
-     trees: list[ElementWithId]
-     furnitures: list[ElementWithId]
+     trees: list[ElementWithId] | None = None
+     furnitures: list[ElementWithId] | None = None
      areas: list[ElementWithId] | None = None
 
 
@@ -55,10 +57,23 @@ class Furniture(ElementWithoutId):
      assessment: int | None = None
      comment: str | None = None
      lastChange: datetime | None = None
-
 class FurnitureWithoutId(Furniture):
      pass
 
 
 class FurnitureWithId(Furniture, Id):
+     pass
+
+class Area(ElementWithoutId):
+     assessment: int | None = None
+     comment: str | None = None
+     lastChange: datetime | None = None
+     totalArea: float | None = None
+
+
+class AreaWithoutId(Area):
+     pass
+
+
+class AreaWithId(Area, Id):
      pass

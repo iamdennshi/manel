@@ -105,3 +105,5 @@ export const RECOMMENDATION = [
   "комплексный уход",
   "обработка химикатами",
 ];
+
+export const AREA_TYPE = ["насаждение", "благоустройство"];

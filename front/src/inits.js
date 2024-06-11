@@ -1,4 +1,4 @@
-import { Map, Overlay, View } from "ol";
+import { Feature, Map, Overlay, View } from "ol";
 import TileLayer from "ol/layer/Tile";
 import { OSM } from "ol/source";
 import { ScaleLine, defaults as defaultControls } from "ol/control.js";
@@ -18,6 +18,7 @@ import {
 import Select from "ol/interaction/Select";
 import Modify from "ol/interaction/Modify";
 import Style from "ol/style/Style";
+import { Polygon } from "ol/geom";
 
 export function initSubscribers() {
   store.subscribe("currentObjectID", (oldValue, newValue) => {
@@ -76,6 +77,11 @@ export async function initMap() {
   map.addLayer(elementVectorLayer);
 
   updateMarkers();
+
+  // Вывод координат в консоль при клике
+  map.on("click", (e) => {
+    console.log(e.coordinate);
+  });
 }
 
 export async function initHandlers() {

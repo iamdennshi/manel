@@ -33,10 +33,10 @@ export async function fetchElement(objectID, elementID, elementType) {
       `http://${BACKEND_IP}/objects/${objectID}/elements/${elementType}s/${elementID}`
     );
     if (!response.ok) {
-      throw new Error("Failed to fetch tree");
+      throw new Error("Failed to fetch the element");
     }
     return await response.json();
   } catch (error) {
-    console.error("Error fetching tree:", error);
+    console.error("Error fetching the element:", error);
   }
 }

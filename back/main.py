@@ -64,7 +64,7 @@ async def get_elements(object_id: int) -> Elements:
     
     new_elements = elements[object_id].copy() 
     for x in new_elements.keys(): # Аналог SQL запроса - SELECT id, cords from 'Elements', чтобы исплючить не нужные свойства
-        new_elements.update({x: list(map(lambda elem: {'id': elem['id'], 'cords': elem['cords'], 'name': elem['name']}, new_elements[x]))}) 
+        new_elements.update({x: list(map(lambda elem: {'id': elem['id'], 'cords': elem['cords'], 'name': elem['name'], 'type': elem['type']}, new_elements[x]))}) 
     return new_elements
 
 
@@ -147,3 +147,14 @@ async def get_furniture_by_id(object_id: int, furniture_id: int) -> FurnitureWit
          if i['id'] == furniture_id:
               return i
     raise HTTPException(status_code=404, detail="Furniture not found")
+
+
+@app.get("/objects/{object_id}/elements/areas/{area_id}")
+async def get_area_by_id(object_id: int, area_id: int) -> AreaWithId:
+    if object_id >= len(objects):
+         raise HTTPException(status_code=404, detail="Object not found")
+
+    for i in elements[object_id].get('areas'):
+         if i['id'] == area_id:
+              return i
+    raise HTTPException(status_code=404, detail="Area not found")

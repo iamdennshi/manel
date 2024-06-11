@@ -1,7 +1,7 @@
 import { exitEditMode } from "./exitEditMode";
 import store from "./../store";
 import { fetchElement } from "../fetches";
-import { dateTimeToString } from "../utils";
+import { AREA_TYPE, dateTimeToString } from "../utils";
 import { insertDamageById, insertRecommendationById } from "./utils";
 import { elementCardImgDefault } from "./image";
 import { updateProperties } from "./updateProperies";
@@ -25,12 +25,23 @@ export async function selectingElement(e) {
     // Выбираем элемент
     exitEditMode();
 
-    const selectedMarkerCoords = selectedMarker.getGeometry().getCoordinates();
     const selectedElementId = selectedMarker.getProperties().id;
     const selectedElementType = selectedMarker.getProperties().type;
     const elementCardMain = document.querySelector(".element-card__main");
 
-    store.get("elementOverlay").setPosition(selectedMarkerCoords);
+    if (selectedElementType == "area") {
+      const selectedMarkerCoords = store
+        .get("map")
+        .getEventCoordinate(e.mapBrowserEvent.originalEvent);
+
+      store.get("elementOverlay").setPosition(selectedMarkerCoords);
+    } else {
+      const selectedMarkerCoords = selectedMarker
+        .getGeometry()
+        .getCoordinates();
+      store.get("elementOverlay").setPosition(selectedMarkerCoords);
+    }
+
     elementCardLoader.classList.add("loader");
     elementCardMain.classList.add("hide");
 
@@ -126,6 +137,32 @@ export async function selectingElement(e) {
       elementCardControlEdit.classList.remove(`element-card__edit--tree`);
       elementCardType.classList.add(`element-card__type--furniture`);
       elementCardControlEdit.classList.add(`element-card__edit--furniture`);
+
+      const templateFurniture = document
+        .getElementById("template-furniture")
+        .content.cloneNode(true);
+
+      updateProperties("furniture", templateFurniture, selectedElement);
+
+      elementCardContent.appendChild(templateFurniture);
+    } else if (selectedElementType === "area") {
+      console.log("area");
+      const areaType = selectedMarker.getProperties().areaType;
+
+      elementCardType.innerText = AREA_TYPE[areaType];
+      if (areaType == 0) {
+        elementCardType.classList.remove(`element-card__type--furniture`);
+        elementCardControlEdit.classList.remove(
+          `element-card__edit--furniture`
+        );
+        elementCardType.classList.add(`element-card__type--tree`);
+        elementCardControlEdit.classList.add(`element-card__edit--tree`);
+      } else {
+        elementCardType.classList.remove(`element-card__type--tree`);
+        elementCardControlEdit.classList.remove(`element-card__edit--tree`);
+        elementCardType.classList.add(`element-card__type--furniture`);
+        elementCardControlEdit.classList.add(`element-card__edit--furniture`);
+      }
 
       const templateFurniture = document
         .getElementById("template-furniture")
