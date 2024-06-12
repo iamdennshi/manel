@@ -146,7 +146,6 @@ export async function selectingElement(e) {
 
       elementCardContent.appendChild(templateFurniture);
     } else if (selectedElementType === "area") {
-      console.log("area");
       const areaType = selectedMarker.getProperties().areaType;
 
       elementCardType.innerText = AREA_TYPE[areaType];
@@ -165,10 +164,10 @@ export async function selectingElement(e) {
       }
 
       const templateFurniture = document
-        .getElementById("template-furniture")
+        .getElementById("template-area")
         .content.cloneNode(true);
 
-      updateProperties("furniture", templateFurniture, selectedElement);
+      updateProperties("area", templateFurniture, selectedElement);
 
       elementCardContent.appendChild(templateFurniture);
     }

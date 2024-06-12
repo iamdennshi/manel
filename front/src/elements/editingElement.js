@@ -14,6 +14,8 @@ export function editingElement() {
 
   const currentElement = store.get("currentElement");
 
+  console.log(currentElement);
+
   // Если вошли в режим редактирования
   if (elementCardControlRemove.classList.contains("hide")) {
     elementCardControlEdit.textContent = "Сохранить";
@@ -36,8 +38,17 @@ export function editingElement() {
       `#assessment > option:nth-of-type(${currentElement.assessment + 1})`
     ).selected = true;
 
+    // Если редактируются - площадь
+    if (currentElement.totalArea !== undefined) {
+      // Установка общей площади
+      elementCardContent.querySelector(`#total-area`).value =
+        currentElement.totalArea;
+    }
     // Если редактируются - дерево
-    if (elementCardControlEdit.classList.contains("element-card__edit--tree")) {
+    else if (
+      currentElement.totalArea === undefined &&
+      currentElement.type === 0
+    ) {
       // Установка высоты
       elementCardContent.querySelector(`#height`).value = currentElement.height;
 
@@ -93,11 +104,69 @@ export function editingElement() {
     }
   } else {
     console.log("save");
+    // Если сохраняется площадь
+    if (currentElement.totalArea !== undefined) {
+      // Валидация названия
+      if (
+        elementCardName.value.length < 2 ||
+        elementCardName.value.length > 16
+      ) {
+        elementCardName.nextElementSibling.classList.remove("hide");
+        startAnimation(elementCardName.nextElementSibling, "shake");
+        elementCardName.classList.add("element-card__editable-field--error");
+        return;
+      }
 
+      const oldCords = store
+        .get("elementSelect")
+        .getFeatures()
+        .item(0)
+        .getGeometry()
+        .getCoordinates()[0];
+
+      let newCords = [];
+      for (let i = 0; i < oldCords.length - 1; i++) {
+        newCords.push(oldCords[i][0], oldCords[i][1]);
+      }
+
+      // Порядок важен
+      const editedElement = {
+        id: currentElement.id,
+        cords: newCords,
+        name: elementCardName.value,
+        type: currentElement.type,
+        assessment: parseInt(document.getElementById("assessment").value),
+        comment: document.getElementById("comment").value,
+        lastChange: currentElement.lastChange,
+        totalArea: store
+          .get("elementSelect")
+          .getFeatures()
+          .item(0)
+          .getGeometry()
+          .getArea()
+          .toFixed(2),
+      };
+
+      console.log(JSON.stringify(editedElement));
+      console.log(JSON.stringify(currentElement));
+      if (JSON.stringify(editedElement) !== JSON.stringify(currentElement)) {
+        console.log("UPDATE area");
+        console.log(editedElement);
+        store.set("currentElement", editedElement);
+
+        updateProperties("area", elementCardContent, editedElement);
+
+        const elementCardLastEdit = document.querySelector(
+          ".element-card__last-edit"
+        );
+        elementCardLastEdit.innerText = `Последнее изменение ${dateTimeToString(
+          new Date()
+        )}`;
+        elementCardLastEdit.classList.remove("hide");
+      }
+    }
     // Если сохраняется благоустройство
-    if (
-      elementCardControlEdit.classList.contains("element-card__edit--furniture")
-    ) {
+    if (currentElement.totalArea === undefined && currentElement.type === 1) {
       // Валидация названия
       if (
         elementCardName.value.length < 2 ||
@@ -118,6 +187,7 @@ export function editingElement() {
           .getGeometry()
           .getCoordinates(),
         name: elementCardName.value,
+        type: currentElement.type,
         assessment: parseInt(document.getElementById("assessment").value),
         comment: document.getElementById("comment").value,
         lastChange: currentElement.lastChange,
@@ -143,7 +213,8 @@ export function editingElement() {
     }
     // Если сохраняется - дерево
     else if (
-      elementCardControlEdit.classList.contains("element-card__edit--tree")
+      currentElement.totalArea === undefined &&
+      currentElement.type === 0
     ) {
       const height = document.querySelector("#height");
       const trunkDiameter = document.querySelector("#trunk-diameter");
@@ -244,6 +315,7 @@ export function editingElement() {
             .getGeometry()
             .getCoordinates(),
           name: elementCardName.value,
+          type: currentElement.type,
           photos: currentElement.photos,
           height: parseInt(height.value),
           trunkDiameter: parseInt(trunkDiameter.value),

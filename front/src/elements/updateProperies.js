@@ -38,5 +38,14 @@ export function updateProperties(type, elementHtml, data) {
     } else {
       properties[1].parentElement.style.display = "none";
     }
+  } else if (type === "area") {
+    properties[0].innerText = `${data.totalArea} м²`;
+    properties[1].innerText = `${ASSESSMENT[data.assessment]}`;
+    if (data.comment !== "" && data.comment != undefined) {
+      properties[2].innerText = `${data.comment}`;
+      properties[2].parentElement.style.display = "";
+    } else {
+      properties[2].parentElement.style.display = "none";
+    }
   }
 }

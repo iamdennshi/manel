@@ -90,11 +90,16 @@ export function getMarkerStyle(marker, markerType = "") {
   } else {
     return new Style({
       stroke: new Stroke({
-        color: "#00A36Cff",
-        width: 2,
+        color:
+          markerType === "selected"
+            ? "#FF0000"
+            : marker.get("areaType") === 0
+            ? "#00A36Cff"
+            : "#ff8c00ff",
+        width: markerType === "selected" ? 4 : 2,
       }),
       fill: new Fill({
-        color: "#00A36C33",
+        color: marker.get("areaType") === 0 ? "#00A36C33" : "#ff8c0033",
       }),
     });
   }

@@ -221,6 +221,11 @@
       color: red;
       border-color: red;
     }
+
+    &:disabled {
+      border-color: #ccc;
+      color: #ccc;
+    }
   }
   &__selected-option {
     display: flex;

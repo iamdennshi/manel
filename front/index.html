@@ -306,6 +306,46 @@
         </li>
       </ul>
     </template>
+    <template id="template-area">
+      <ul>
+        <li>Общая площадь: <span></span></li>
+        <li class="hide">
+          <div class="element-card__single-line">
+            <label>Общая площадь, м²:</label>
+            <input
+              id="total-area"
+              class="element-card__editable-field"
+              type="number"
+              disabled
+            />
+          </div>
+        </li>
+        <li>Оценка: <span></span></li>
+        <li class="hide">
+          <div class="element-card__single-line">
+            <label>Оценка: </label>
+            <select id="assessment" class="element-card__editable-field">
+              <option value="0">отличная</option>
+              <option value="1">хорошая</option>
+              <option value="2">удовлетворительная</option>
+              <option value="3">неудовлетворительная</option>
+              <option value="4">аварийное</option>
+            </select>
+          </div>
+        </li>
+        <li>Примечание: <span></span></li>
+        <li class="hide">
+          <div class="element-card__multi-line">
+            <label>Примечание: </label>
+            <textarea
+              id="comment"
+              class="element-card__editable-field"
+              maxlength="100"
+            ></textarea>
+          </div>
+        </li>
+      </ul>
+    </template>
     <template id="template-selected-option">
       <div class="element-card__selected-option">
         <p>повреждение</p>
