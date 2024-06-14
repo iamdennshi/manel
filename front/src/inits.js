@@ -137,6 +137,7 @@ export async function initInteractions() {
   });
   elementModify.on("modifyend", (e) => {
     var coordinates = e.features.item(0).getGeometry().getCoordinates();
+    console.log(coordinates);
     elementOverlay.setPosition(coordinates);
     store.get("map").getTarget().style.cursor = "";
   });

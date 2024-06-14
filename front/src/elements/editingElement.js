@@ -1,6 +1,7 @@
 import store from "../store";
 import { dateTimeToString, startAnimation } from "../utils";
 import { exitEditMode } from "./exitEditMode";
+import { getMarkerStyle } from "./markers";
 import { updateProperties } from "./updateProperies";
 import { insertDamageById, insertRecommendationById } from "./utils";
 
@@ -13,11 +14,16 @@ export function editingElement() {
   const elementCardControlEdit = document.querySelector(".element-card__edit");
 
   const currentElement = store.get("currentElement");
+  const currentMarker = store.get("elementSelect").getFeatures().item(0);
 
   console.log(currentElement);
 
   // Если вошли в режим редактирования
   if (elementCardControlRemove.classList.contains("hide")) {
+    if (currentMarker.getGeometry().getType() !== "Point") {
+      currentMarker.setStyle((marker) => getMarkerStyle(marker, "editing"));
+    }
+
     elementCardControlEdit.textContent = "Сохранить";
     elementCardControlRemove.classList.remove("hide");
 
@@ -117,12 +123,7 @@ export function editingElement() {
         return;
       }
 
-      const oldCords = store
-        .get("elementSelect")
-        .getFeatures()
-        .item(0)
-        .getGeometry()
-        .getCoordinates()[0];
+      const oldCords = currentMarker.getGeometry().getCoordinates()[0];
 
       let newCords = [];
       for (let i = 0; i < oldCords.length - 1; i++) {
@@ -138,13 +139,7 @@ export function editingElement() {
         assessment: parseInt(document.getElementById("assessment").value),
         comment: document.getElementById("comment").value,
         lastChange: currentElement.lastChange,
-        totalArea: store
-          .get("elementSelect")
-          .getFeatures()
-          .item(0)
-          .getGeometry()
-          .getArea()
-          .toFixed(2),
+        totalArea: currentMarker.getGeometry().getArea().toFixed(2),
       };
 
       console.log(JSON.stringify(editedElement));
@@ -180,12 +175,7 @@ export function editingElement() {
       // Порядок важен
       const editedElement = {
         id: currentElement.id,
-        cords: store
-          .get("elementSelect")
-          .getFeatures()
-          .item(0)
-          .getGeometry()
-          .getCoordinates(),
+        cords: currentMarker.getGeometry().getCoordinates(),
         name: elementCardName.value,
         type: currentElement.type,
         assessment: parseInt(document.getElementById("assessment").value),
@@ -308,12 +298,7 @@ export function editingElement() {
 
         const editedElement = {
           id: currentElement.id,
-          cords: store
-            .get("elementSelect")
-            .getFeatures()
-            .item(0)
-            .getGeometry()
-            .getCoordinates(),
+          cords: currentMarker.getGeometry().getCoordinates(),
           name: elementCardName.value,
           type: currentElement.type,
           photos: currentElement.photos,
@@ -357,7 +342,9 @@ export function editingElement() {
     elementCardContent
       .querySelectorAll("li")
       .forEach((li) => li.classList.toggle("hide"));
-
+    if (currentMarker.getGeometry().getType() !== "Point") {
+      currentMarker.setStyle((marker) => getMarkerStyle(marker, "selected"));
+    }
     exitEditMode();
   }
 }

@@ -1,7 +1,7 @@
 import { Feature } from "ol";
 import { fetchElements } from "../fetches";
 import store from "../store";
-import { Point, Polygon } from "ol/geom";
+import { MultiPoint, Point, Polygon } from "ol/geom";
 import Stroke from "ol/style/Stroke";
 import Style from "ol/style/Style";
 import CircleStyle from "ol/style/Circle";
@@ -88,19 +88,54 @@ export function getMarkerStyle(marker, markerType = "") {
       }),
     });
   } else {
-    return new Style({
-      stroke: new Stroke({
-        color:
-          markerType === "selected"
-            ? "#FF0000"
-            : marker.get("areaType") === 0
-            ? "#00A36Cff"
-            : "#ff8c00ff",
-        width: markerType === "selected" ? 4 : 2,
-      }),
-      fill: new Fill({
-        color: marker.get("areaType") === 0 ? "#00A36C33" : "#ff8c0033",
-      }),
-    });
+    if (markerType === "editing") {
+      return [
+        new Style({
+          stroke: new Stroke({
+            color: "#FF0000",
+            width: 4,
+          }),
+          fill: new Fill({
+            color: marker.get("areaType") === 0 ? "#00A36C33" : "#ff8c0033",
+          }),
+        }),
+        new Style({
+          image: new CircleStyle({
+            radius: 10,
+            fill: new Fill({
+              color: "#FF0000",
+            }),
+          }),
+          geometry: function (feature) {
+            return new MultiPoint(feature.getGeometry().getCoordinates()[0]);
+          },
+        }),
+      ];
+    } else if (markerType === "selected") {
+      return new Style({
+        stroke: new Stroke({
+          color:
+            markerType === "selected"
+              ? "#FF0000"
+              : marker.get("areaType") === 0
+              ? "#00A36Cff"
+              : "#ff8c00ff",
+          width: markerType === "selected" ? 4 : 2,
+        }),
+        fill: new Fill({
+          color: marker.get("areaType") === 0 ? "#00A36C33" : "#ff8c0033",
+        }),
+      });
+    } else {
+      return new Style({
+        stroke: new Stroke({
+          color: marker.get("areaType") === 0 ? "#00A36Cff" : "#ff8c00ff",
+          width: 2,
+        }),
+        fill: new Fill({
+          color: marker.get("areaType") === 0 ? "#00A36C33" : "#ff8c0033",
+        }),
+      });
+    }
   }
 }
