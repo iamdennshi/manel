@@ -11,7 +11,46 @@
     <title>Using OpenLayers with Vite</title>
   </head>
   <body>
-    <div id="map"></div>
+    <div id="map">
+      <div class="search">
+        <div class="search__wrapper">
+          <div class="search__input">
+            <img
+              src="./src/assets/serach-icon.svg"
+              alt=""
+              class="search__icon"
+            />
+            <input
+              tabindex="1"
+              type="text"
+              class="search__input-field"
+              placeholder="Название объекта"
+            />
+            <button class="search__clear" tabindex="2">
+              <img
+                src="./src/assets/clear-icon.svg"
+                alt=""
+                class="search__clear-icon"
+              />
+            </button>
+          </div>
+          <!-- <ul class="search__elements">
+            <li class="search__element">сад Декабристов</li>
+            <li class="search__element">сад Декабристов</li>
+            <li class="search__element">сад Декабристов</li>
+            <li class="search__element">сад Декабристов</li>
+            <li class="search__element">сад Декабристов</li>
+            <li class="search__element">сад Декабристов</li>
+            <li class="search__element">сад Декабристов</li>
+            <li class="search__element">сад Декабристов</li>
+            <li class="search__element">сад Декабристов</li>
+            <li class="search__element">сад Декабристов</li>
+            <li class="search__element">сад Декабристов</li>
+            <li class="search__element">сад Декабристов</li>
+          </ul> -->
+        </div>
+      </div>
+    </div>
     <div class="element-card">
       <div class="element-card__close"></div>
       <div class="element-card__loader"></div>

@@ -9,13 +9,13 @@ import {
   initInteractions,
 } from "./src/inits";
 
-const __DEBUG__ = true;
+const __DEBUG__ = false;
 
 (async function main() {
   // Инициализация хранилища текущим ид объекта и списком всех объектов
   await initStore();
   // Инициализируем поиск
-  await initSearch();
+  // await initSearch();
   // Дебаг для проверки сабов и данных в хранилище
   __DEBUG__ && initControlsForDebug();
   // Инициализируем карту и наполняем карту элементами
