@@ -1,4 +1,5 @@
-@use "../global/colors" as *;
+@use "../global/variables" as *;
+@use "../global/mixins" as *;
 
 .search {
   font-size: 16px;
@@ -75,16 +76,7 @@
     max-height: 440px;
     overflow: auto;
 
-    &::-webkit-scrollbar {
-      width: 5px;
-      border-radius: 999px;
-      background-color: $secondary;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      border-radius: 999px;
-      background-color: $primary;
-    }
+    @include scrollbar;
   }
 
   &__element {

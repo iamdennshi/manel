@@ -1,0 +1,14 @@
+@use "./variables" as *;
+
+@mixin scrollbar {
+  &::-webkit-scrollbar {
+    width: 5px;
+    border-radius: 999px;
+    background-color: $secondary;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background-color: $primary;
+  }
+}
