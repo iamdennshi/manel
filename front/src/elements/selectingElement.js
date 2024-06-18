@@ -5,6 +5,7 @@ import { AREA_TYPE, dateTimeToString } from "../utils";
 import { insertDamageById, insertRecommendationById } from "./utils";
 import { elementCardImgDefault } from "./image";
 import { updateProperties } from "./updateProperies";
+import { hideSearch, showSearch } from "../search";
 
 export async function selectingElement(e) {
   const elementCardType = document.querySelector(".element-card__type");
@@ -24,6 +25,7 @@ export async function selectingElement(e) {
   if (selectedMarker) {
     // Выбираем элемент
     exitEditMode();
+    hideSearch();
 
     const selectedElementId = selectedMarker.getProperties().id;
     const selectedElementType = selectedMarker.getProperties().type;
@@ -183,5 +185,6 @@ export async function selectingElement(e) {
     // Вышли из элемента кликнув на пустое место на карте
     exitEditMode();
     store.get("elementOverlay").setPosition(undefined);
+    showSearch();
   }
 }

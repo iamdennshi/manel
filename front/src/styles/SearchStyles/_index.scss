@@ -1,6 +1,20 @@
 @use "../global/variables" as *;
 @use "../global/mixins" as *;
 
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: black;
+  opacity: 0.5;
+  z-index: 1;
+  transition-duration: 300ms;
+
+  &--hide {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
 .search {
   font-size: 16px;
 
@@ -12,6 +26,12 @@
   max-width: 400px;
   width: 100%;
   padding: 0 16px;
+  transition-duration: 500ms;
+  transition-property: top;
+
+  &--hide {
+    top: -64px;
+  }
 
   &__wrapper {
     background-color: $white;
@@ -28,7 +48,10 @@
   &__input {
     display: flex;
     padding: 14px 0;
-    border-bottom: 1px solid #e6edee;
+
+    &--showing-elements {
+      border-bottom: 1px solid #e6edee;
+    }
   }
 
   &__input-field {
@@ -43,6 +66,10 @@
 
     &::placeholder {
       color: #c1c1c1;
+    }
+
+    &--error {
+      color: red;
     }
   }
 
@@ -65,6 +92,10 @@
     &:focus {
       background-color: #e6fbf3;
     }
+
+    &:active {
+      background-color: $secondary;
+    }
   }
 
   &__elements {
@@ -77,6 +108,10 @@
     overflow: auto;
 
     @include scrollbar;
+
+    &--hide {
+      display: none;
+    }
   }
 
   &__element {

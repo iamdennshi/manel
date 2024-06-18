@@ -159,23 +159,143 @@ export async function initStore() {
 }
 
 export async function initSearch() {
-  const search = document.createElement("select");
-  search.classList.add("search-input");
+  const search = document.querySelector(".search__wrapper");
+  const overlay = document.querySelector(".overlay");
+  const searchInputField = document.querySelector(".search__input-field");
+  const searchInput = document.querySelector(".search__input");
+  const searchElements = document.querySelector(".search__elements");
+  const searchClear = document.querySelector(".search__clear");
+  const currentObjectID = store.get("currentObjectID");
+  const currentObject = store.get("objects")[currentObjectID];
 
-  for (const object of store.get("objects")) {
-    const option = document.createElement("option");
+  searchInputField.value = currentObject.address;
 
-    if (object.id === store.get("currentObjectID")) {
-      option.selected = true;
+  const objects = store.get("objects");
+
+  let addressObjects = objects.map((obj) => ({
+    id: obj.id,
+    address: obj.address,
+  }));
+
+  const currentInputedAddress = searchInputField.value;
+  const correspondingAddress = addressObjects.filter((obj) =>
+    currentInputedAddress.includes(obj.address)
+  );
+
+  if (correspondingAddress) {
+    for (let obj of correspondingAddress) {
+      const element = document.createElement("li");
+      element.classList.add("search__element");
+      element.textContent = obj.address;
+      element.dataset.id = obj.id;
+      searchElements.appendChild(element);
     }
-    option.value = object.id;
-    option.textContent = object.address;
-    search.appendChild(option);
   }
 
-  document.getElementById("map").appendChild(search);
-
-  search.addEventListener("change", () => {
-    store.set("currentObjectID", search.value);
+  searchElements.addEventListener("click", (e) => {
+    const target = e.target;
+    if (target.dataset.id == store.get("currentObjectID")) {
+      searchInputField.value = currentObject.address;
+    } else {
+      const currentObjectId = store.set("currentObjectID", target.dataset.id);
+      searchInputField.value = objects[currentObjectId].address;
+    }
+    overlay.classList.add("overlay--hide");
+    searchElements.classList.add("search__elements--hide");
+    searchInput.classList.remove("search__input--showing-elements");
+    search.classList.remove("search__wrapper--showing-elements");
+    e.stopPropagation();
   });
+
+  searchClear.addEventListener("click", () => {
+    searchInputField.focus();
+    searchInputField.value = "";
+    searchElements.innerHTML = "";
+    searchInputField.classList.remove("search__input-field--error");
+    for (let obj of objects) {
+      const element = document.createElement("li");
+      element.classList.add("search__element");
+      element.textContent = obj.address;
+      element.dataset.id = obj.id;
+      searchElements.appendChild(element);
+    }
+  });
+
+  search.addEventListener("click", () => {
+    searchElements.classList.remove("search__elements--hide");
+    search.classList.add("search__wrapper--showing-elements");
+    searchInput.classList.add("search__input--showing-elements");
+
+    overlay.classList.remove("overlay--hide");
+    searchInputField.focus();
+  });
+
+  searchInputField.addEventListener("input", () => {
+    const currentInputedAddress = searchInputField.value;
+    searchElements.innerHTML = "";
+    const correspondingAddress = addressObjects.filter((obj) =>
+      obj.address.includes(currentInputedAddress)
+    );
+    console.log(correspondingAddress);
+
+    if (correspondingAddress.length !== 0) {
+      searchElements.classList.remove("search__elements--hide");
+      searchInputField.classList.remove("search__input-field--error");
+      search.classList.add("search__wrapper--showing-elements");
+      searchInput.classList.add("search__input--showing-elements");
+
+      for (let obj of correspondingAddress) {
+        const element = document.createElement("li");
+        element.classList.add("search__element");
+        element.textContent = obj.address;
+        element.dataset.id = obj.id;
+        searchElements.appendChild(element);
+      }
+    } else {
+      searchInputField.classList.add("search__input-field--error");
+      searchElements.classList.add("search__elements--hide");
+      search.classList.remove("search__wrapper--showing-elements");
+      searchInput.classList.remove("search__input--showing-elements");
+    }
+  });
+
+  overlay.addEventListener("click", () => {
+    console.log("overlay");
+    if (!overlay.classList.contains("overlay--hide")) {
+      overlay.classList.add("overlay--hide");
+      searchElements.classList.add("search__elements--hide");
+      searchInput.classList.remove("search__input--showing-elements");
+      search.classList.remove("search__wrapper--showing-elements");
+      searchInputField.value = currentObject.address;
+
+      if (searchInputField.classList.contains("search__input-field--error")) {
+        searchElements.innerHTML = "";
+        searchInputField.classList.remove("search__input-field--error");
+        for (let obj of correspondingAddress) {
+          const element = document.createElement("li");
+          element.classList.add("search__element");
+          element.textContent = obj.address;
+          element.dataset.id = obj.id;
+          searchElements.appendChild(element);
+        }
+      }
+    }
+  });
+
+  // for (const obj of store.get("objects")) {
+  //   if (obj.id === store.get("currentObjectID")) {
+  //     option.selected = true;
+  //   } else {
+  //     const element = document.createElement("li");
+  //     element.classList.add("search__element");
+  //     option.textContent = obj.address;
+  //     searchElements.appendChild(option);
+  //   }
+  // }
+
+  // document.getElementById("map").appendChild(search);
+
+  // search.addEventListener("change", () => {
+  //   store.set("currentObjectID", search.value);
+  // });
 }

@@ -1,5 +1,4 @@
 import store from "./../store";
-import { getMarkerStyle } from "./markers";
 
 const elementCardControlRemove = document.querySelector(
   ".element-card__remove"
