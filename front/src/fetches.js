@@ -1,8 +1,6 @@
-const BACKEND_IP = "192.168.1.100:8000"; // 192.168.1.100:8000 - ОБЩАГА | 192.168.0.13:8000 - ДОМ
-
 export async function fetchObjects() {
   try {
-    const response = await fetch(`http://${BACKEND_IP}/objects/`);
+    const response = await fetch(`http://${process.env.BACKEND_IP}/objects/`);
     if (!response.ok) {
       throw new Error("Failed to fetch objects");
     }
@@ -16,7 +14,7 @@ export async function fetchObjects() {
 export async function fetchElements(objectID) {
   try {
     const response = await fetch(
-      `http://${BACKEND_IP}/objects/${objectID}/elements`
+      `http://${process.env.BACKEND_IP}/objects/${objectID}/elements`
     );
     if (!response.ok) {
       throw new Error("Failed to fetch elements");
@@ -30,7 +28,7 @@ export async function fetchElements(objectID) {
 export async function fetchElement(objectID, elementID, elementType) {
   try {
     const response = await fetch(
-      `http://${BACKEND_IP}/objects/${objectID}/elements/${elementType}s/${elementID}`
+      `http://${process.env.BACKEND_IP}/objects/${objectID}/elements/${elementType}s/${elementID}`
     );
     if (!response.ok) {
       throw new Error("Failed to fetch the element");
