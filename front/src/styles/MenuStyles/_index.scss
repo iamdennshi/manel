@@ -1,0 +1,85 @@
+@use "../global/variables" as *;
+
+.menu {
+  display: flex;
+  position: absolute;
+  z-index: 1;
+  height: 66px;
+  max-width: 400px;
+  width: 100%;
+  left: 50%;
+  bottom: 38px;
+  transform: translateX(-50%);
+  padding: 0 16px;
+  transition: 500ms;
+
+  &__side {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: $primary;
+    max-width: 400px;
+    width: 100%;
+    height: 100%;
+
+    &--left {
+      border-top-left-radius: 9999px;
+      border-bottom-left-radius: 9999px;
+      margin-right: -3px;
+    }
+
+    &--right {
+      border-top-right-radius: 9999px;
+      border-bottom-right-radius: 9999px;
+      margin-left: -3px;
+    }
+  }
+
+  &__middle {
+    position: relative;
+    bottom: 5px;
+  }
+
+  &__button {
+    position: relative;
+    cursor: pointer;
+    display: block;
+    background-color: transparent;
+    border: none;
+    z-index: 1;
+    padding: 8px;
+  }
+
+  &__button-circle {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background-color: $secondary;
+    border-radius: 9999px;
+    width: 41px;
+    height: 41px;
+    box-shadow: rgba(9, 255, 0, 0.5) 0px 0px 16px;
+  }
+
+  &__button-img {
+    transition: 150ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+
+  &__button-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $secondary;
+    position: relative;
+    bottom: 100px;
+    left: 12px;
+    border-radius: 9999px;
+    border: none;
+    width: 64px;
+    height: 64px;
+  }
+}

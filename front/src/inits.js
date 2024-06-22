@@ -1,4 +1,4 @@
-import { Feature, Map, Overlay, View } from "ol";
+import { Map, Overlay, View } from "ol";
 import TileLayer from "ol/layer/Tile";
 import { OSM } from "ol/source";
 import { ScaleLine, defaults as defaultControls } from "ol/control.js";
@@ -18,14 +18,12 @@ import {
 import Select from "ol/interaction/Select";
 import Modify from "ol/interaction/Modify";
 import Style from "ol/style/Style";
-import { Polygon } from "ol/geom";
 import {
   changeSearchInputField,
   clickOnSearch,
   clickOnSearchClear,
   clickOnSearchLiElement,
   clickOnSearchOverlay,
-  updateSearchLiElements,
 } from "./search";
 
 export function initSubscribers() {
@@ -190,21 +188,4 @@ export async function initSearch() {
   overlay.addEventListener("click", (e) =>
     clickOnSearchOverlay(e, addressObjects)
   );
-
-  // for (const obj of store.get("objects")) {
-  //   if (obj.id === store.get("currentObjectID")) {
-  //     option.selected = true;
-  //   } else {
-  //     const element = document.createElement("li");
-  //     element.classList.add("search__element");
-  //     option.textContent = obj.address;
-  //     searchElements.appendChild(option);
-  //   }
-  // }
-
-  // document.getElementById("map").appendChild(search);
-
-  // search.addEventListener("change", () => {
-  //   store.set("currentObjectID", search.value);
-  // });
 }
