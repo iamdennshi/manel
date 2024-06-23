@@ -40,15 +40,22 @@
       </div>
       <div class="menu">
         <ul class="menu__side menu__side--left">
-          <li>
-            <button class="menu__button">
+          <li class="menu__item menu__item--active">
+            <button data-id="0" class="menu__button">
               <div class="menu__button-circle"></div>
               <div class="menu__button-img">
                 <img src="./src/assets/home-icon.svg" alt="" />
               </div>
             </button>
           </li>
-          <li><button class="menu__button"></button></li>
+          <li class="menu__item">
+            <button data-id="1" class="menu__button">
+              <div class="menu__button-circle"></div>
+              <div class="menu__button-img">
+                <img src="./src/assets/info-icon.svg" alt="" />
+              </div>
+            </button>
+          </li>
         </ul>
         <div class="menu__middle">
           <svg
@@ -73,8 +80,22 @@
           </button>
         </div>
         <ul class="menu__side menu__side--right">
-          <li><button class="menu__button"></button></li>
-          <li><button class="menu__button"></button></li>
+          <li class="menu__item">
+            <button data-id="2" class="menu__button">
+              <div class="menu__button-circle"></div>
+              <div class="menu__button-img">
+                <img src="./src/assets/bell-icon.svg" alt="" />
+              </div>
+            </button>
+          </li>
+          <li class="menu__item">
+            <button data-id="3" class="menu__button">
+              <div class="menu__button-circle"></div>
+              <div class="menu__button-img">
+                <img src="./src/assets/settings-icon.svg" alt="" />
+              </div>
+            </button>
+          </li>
         </ul>
       </div>
     </div>

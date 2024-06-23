@@ -12,6 +12,27 @@
   transform: translateX(-50%);
   padding: 0 16px;
   transition: 500ms;
+  transition-property: bottom;
+
+  &--hide {
+    bottom: -100px;
+  }
+
+  &__item {
+    width: 41px;
+    height: 41px;
+
+    &--active {
+      .menu__button-img img {
+        opacity: 1;
+      }
+
+      .menu__button-circle {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  }
 
   &__side {
     display: flex;
@@ -48,6 +69,14 @@
     border: none;
     z-index: 1;
     padding: 8px;
+    width: 100%;
+    height: 100%;
+
+    &:active {
+      .menu__button-img {
+        transform: scale(0.9);
+      }
+    }
   }
 
   &__button-circle {
@@ -58,14 +87,23 @@
     border-radius: 9999px;
     width: 41px;
     height: 41px;
+    transition-duration: 500ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: rgba(9, 255, 0, 0.5) 0px 0px 16px;
+
+    transform: scale(0);
+    opacity: 0;
   }
 
   &__button-img {
+    display: flex;
+    justify-content: center;
     transition: 150ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    &:active {
-      transform: scale(0.9);
+
+    img {
+      transition: 150ms;
+      opacity: 0.3;
     }
   }
 
@@ -73,6 +111,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     background-color: $secondary;
     position: relative;
     bottom: 100px;
@@ -81,5 +120,10 @@
     border: none;
     width: 64px;
     height: 64px;
+    transition: 150ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    &:active {
+      transform: scale(0.9);
+    }
   }
 }

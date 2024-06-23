@@ -7,6 +7,7 @@ import {
   initSubscribers,
   initHandlers,
   initInteractions,
+  initMenu,
 } from "./src/inits";
 
 const __DEBUG__ = false;
@@ -16,6 +17,8 @@ const __DEBUG__ = false;
   await initStore();
   // Инициализируем поиск
   await initSearch();
+  // Инициализация меню
+  await initMenu();
   // Дебаг для проверки сабов и данных в хранилище
   __DEBUG__ && initControlsForDebug();
   // Инициализируем карту и наполняем карту элементами

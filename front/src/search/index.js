@@ -1,3 +1,4 @@
+import { hideMenu, showMenu } from "../menu";
 import store from "../store";
 
 const searchInputField = document.querySelector(".search__input-field");
@@ -21,6 +22,8 @@ export function clickOnSearchLiElement(e) {
   const currentObject = objects[store.get("currentObjectID")];
   const target = e.target;
 
+  showMenu();
+
   // Если выбрана li с уже выбранным объектом
   if (target.dataset.id == store.get("currentObjectID")) {
     searchInputField.value = currentObject.address;
@@ -40,10 +43,12 @@ export function clickOnSearchClear(e) {
   searchInputField.dispatchEvent(new Event("input"));
   overlay.classList.remove("overlay--hide");
   searchInputField.focus();
+  hideMenu();
   e.stopPropagation(); // prevent clickOnSearch
 }
 
 export function clickOnSearch(e, addressObjects) {
+  hideMenu();
   searchElements.classList.remove("search__elements--hide");
   search.classList.add("search__wrapper--showing-elements");
   searchInput.classList.add("search__input--showing-elements");
@@ -89,6 +94,7 @@ export function clickOnSearchOverlay(e, addressObjects) {
 
     searchInputField.value = currentObject.address;
 
+    showMenu();
     if (searchInputField.classList.contains("search__input-field--error")) {
       searchInputField.classList.remove("search__input-field--error");
       updateSearchLiElements(addressObjects);

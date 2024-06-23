@@ -25,6 +25,7 @@ import {
   clickOnSearchLiElement,
   clickOnSearchOverlay,
 } from "./search";
+import { clickOnMenuAdd, clickOnMenuElement } from "./menu";
 
 export function initSubscribers() {
   store.subscribe("currentObjectID", (oldValue, newValue) => {
@@ -33,6 +34,31 @@ export function initSubscribers() {
     store.get("map").getView().setCenter(objects[newValue].cords);
     localStorage.setItem("currentObjectID", newValue);
     updateMarkers();
+  });
+
+  store.subscribe("selectedMenuItem", (oldValue, newValue) => {
+    console.log(`selectedMenuItem ${oldValue} -> ${newValue}`);
+
+    const menuSides = document.querySelectorAll(".menu__side");
+    let selectedMenuLi, willSelectedMenuLi;
+
+    if (oldValue === 0 || oldValue === 1) {
+      selectedMenuLi = menuSides[0].querySelectorAll(".menu__item")[oldValue];
+    } else {
+      selectedMenuLi =
+        menuSides[1].querySelectorAll(".menu__item")[oldValue - 2];
+    }
+
+    if (newValue === 0 || newValue === 1) {
+      willSelectedMenuLi =
+        menuSides[0].querySelectorAll(".menu__item")[newValue];
+    } else {
+      willSelectedMenuLi =
+        menuSides[1].querySelectorAll(".menu__item")[newValue - 2];
+    }
+
+    selectedMenuLi.classList.remove("menu__item--active");
+    willSelectedMenuLi.classList.add("menu__item--active");
   });
 }
 
@@ -188,4 +214,14 @@ export async function initSearch() {
   overlay.addEventListener("click", (e) =>
     clickOnSearchOverlay(e, addressObjects)
   );
+}
+
+export async function initMenu() {
+  store.init("selectedMenuItem", 0);
+
+  const menuAddButton = document.querySelector(".menu__button-add");
+  const menu = document.querySelector(".menu");
+
+  menuAddButton.addEventListener("click", clickOnMenuAdd);
+  menu.addEventListener("click", clickOnMenuElement);
 }
