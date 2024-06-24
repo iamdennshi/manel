@@ -6,7 +6,7 @@ import { insertDamageById, insertRecommendationById } from "./utils";
 import { elementCardImgDefault } from "./image";
 import { updateProperties } from "./updateProperies";
 import { hideSearch, showSearch } from "../search";
-import { hideMenu, showMenu } from "../menu";
+import { hideNav, showNav } from "../menu";
 
 export async function selectingElement(e) {
   const elementCardType = document.querySelector(".element-card__type");
@@ -27,7 +27,7 @@ export async function selectingElement(e) {
     // Выбираем элемент
     exitEditMode();
     hideSearch();
-    hideMenu();
+    hideNav();
 
     const selectedElementId = selectedMarker.getProperties().id;
     const selectedElementType = selectedMarker.getProperties().type;
@@ -188,6 +188,6 @@ export async function selectingElement(e) {
     exitEditMode();
     store.get("elementOverlay").setPosition(undefined);
     showSearch();
-    showMenu();
+    showNav();
   }
 }

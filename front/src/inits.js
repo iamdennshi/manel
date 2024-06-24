@@ -25,7 +25,7 @@ import {
   clickOnSearchLiElement,
   clickOnSearchOverlay,
 } from "./search";
-import { clickOnMenuAdd, clickOnMenuElement } from "./menu";
+import { clickOnNavAdd, clickOnNavElement, transitionPageEnd } from "./menu";
 
 export function initSubscribers() {
   store.subscribe("currentObjectID", (oldValue, newValue) => {
@@ -36,29 +36,43 @@ export function initSubscribers() {
     updateMarkers();
   });
 
-  store.subscribe("selectedMenuItem", (oldValue, newValue) => {
-    console.log(`selectedMenuItem ${oldValue} -> ${newValue}`);
+  store.subscribe("selectedNavItem", (oldValue, newValue) => {
+    console.log(`selectedNavItem ${oldValue} -> ${newValue}`);
 
-    const menuSides = document.querySelectorAll(".menu__side");
-    let selectedMenuLi, willSelectedMenuLi;
+    const navSides = document.querySelectorAll(".nav__side");
+    const page = document.querySelector(".page");
+    const pageItemOld = document.querySelector(
+      `.page__item:nth-of-type(${oldValue}`
+    );
+    const pageItemNew = document.querySelector(
+      `.page__item:nth-of-type(${newValue})`
+    );
+
+    let selectedNavLi, willSelectedNavLi;
 
     if (oldValue === 0 || oldValue === 1) {
-      selectedMenuLi = menuSides[0].querySelectorAll(".menu__item")[oldValue];
+      selectedNavLi = navSides[0].querySelectorAll(".nav__item")[oldValue];
     } else {
-      selectedMenuLi =
-        menuSides[1].querySelectorAll(".menu__item")[oldValue - 2];
+      selectedNavLi = navSides[1].querySelectorAll(".nav__item")[oldValue - 2];
     }
 
     if (newValue === 0 || newValue === 1) {
-      willSelectedMenuLi =
-        menuSides[0].querySelectorAll(".menu__item")[newValue];
+      willSelectedNavLi = navSides[0].querySelectorAll(".nav__item")[newValue];
     } else {
-      willSelectedMenuLi =
-        menuSides[1].querySelectorAll(".menu__item")[newValue - 2];
+      willSelectedNavLi =
+        navSides[1].querySelectorAll(".nav__item")[newValue - 2];
     }
 
-    selectedMenuLi.classList.remove("menu__item--active");
-    willSelectedMenuLi.classList.add("menu__item--active");
+    if (oldValue != 0) {
+      page.classList.remove("page--active");
+      pageItemOld.classList.add("page__item--hidden");
+    } else {
+      page.classList.add("page--active");
+    }
+    pageItemNew.classList.remove("page__item--hidden");
+
+    selectedNavLi.classList.remove("nav__item--active");
+    willSelectedNavLi.classList.add("nav__item--active");
   });
 }
 
@@ -217,11 +231,13 @@ export async function initSearch() {
 }
 
 export async function initMenu() {
-  store.init("selectedMenuItem", 0);
+  store.init("selectedNavItem", 0);
 
-  const menuAddButton = document.querySelector(".menu__button-add");
-  const menu = document.querySelector(".menu");
+  const navAddButton = document.querySelector(".nav__button-add");
+  const nav = document.querySelector(".nav");
+  const page = document.querySelector(".page");
 
-  menuAddButton.addEventListener("click", clickOnMenuAdd);
-  menu.addEventListener("click", clickOnMenuElement);
+  page.addEventListener("transitionend", transitionPageEnd);
+  navAddButton.addEventListener("click", clickOnNavAdd);
+  nav.addEventListener("click", clickOnNavElement);
 }

@@ -1,6 +1,27 @@
 @use "../global/variables" as *;
 
-.menu {
+.page {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-color: white;
+  top: 100%;
+  border-radius: 32px;
+  transition-duration: 500ms;
+  transition-property: top;
+
+  &--active {
+    top: 12%;
+  }
+
+  &__item {
+    &--hidden {
+      display: none;
+    }
+  }
+}
+
+.nav {
   display: flex;
   position: absolute;
   z-index: 1;
@@ -23,11 +44,11 @@
     height: 41px;
 
     &--active {
-      .menu__button-img img {
+      .nav__button-img img {
         opacity: 1;
       }
 
-      .menu__button-circle {
+      .nav__button-circle {
         transform: scale(1);
         opacity: 1;
       }
@@ -73,7 +94,7 @@
     height: 100%;
 
     &:active {
-      .menu__button-img {
+      .nav__button-img {
         transform: scale(0.9);
       }
     }

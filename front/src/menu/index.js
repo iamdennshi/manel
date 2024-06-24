@@ -1,21 +1,23 @@
 import store from "../store";
 
-const menu = document.querySelector(".menu");
+const nav = document.querySelector(".nav");
 
-export function hideMenu() {
-  menu.classList.add("menu--hide");
-  store.set("selectedMenuItem", 0);
+export function hideNav() {
+  nav.classList.add("nav--hide");
+  if (store.get("selectedNavItem") !== 0) {
+    store.set("selectedNavItem", 0);
+  }
 }
 
-export function showMenu() {
-  menu.classList.remove("menu--hide");
+export function showNav() {
+  nav.classList.remove("nav--hide");
 }
 
-export function clickOnMenuAdd(e) {
+export function clickOnNavAdd(e) {
   console.log("click add");
 }
 
-export function clickOnMenuElement(e) {
+export function clickOnNavElement(e) {
   const target = e.target;
   let elementId;
   if (target.tagName === "IMG") {
@@ -27,8 +29,16 @@ export function clickOnMenuElement(e) {
   }
 
   if (elementId) {
-    if (Number(elementId) !== store.get("selectedMenuItem")) {
-      store.set("selectedMenuItem", Number(elementId));
+    if (Number(elementId) !== store.get("selectedNavItem")) {
+      store.set("selectedNavItem", Number(elementId));
     }
+  }
+}
+
+export function transitionPageEnd(e) {
+  const selectedNav = store.get("selectedNavItem");
+  if (selectedNav !== 0) {
+    const page = document.querySelector(".page");
+    page.classList.add("page--active");
   }
 }
