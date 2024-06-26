@@ -1,4 +1,5 @@
 @use "../global/variables" as *;
+@use "../global/mixins" as *;
 
 .page {
   position: absolute;
@@ -9,10 +10,17 @@
   border-radius: 32px;
   transition-duration: 500ms;
   transition-property: top;
-  padding: 8px 24px 0;
+  padding: 8px 24px;
 
   &--active {
     top: 12%;
+  }
+  &__accordion {
+    margin-top: 16px;
+  }
+
+  &__accordion:first-of-type {
+    margin: 0;
   }
 
   &__separator {
@@ -24,10 +32,21 @@
     margin: 0 auto;
   }
 
+  &__main {
+    height: 70%;
+    overflow-y: auto;
+    @include scrollbar;
+
+    margin: 16px 0;
+    padding-right: 8px;
+  }
+
   &__items {
+    height: 100%;
   }
 
   &__item {
+    height: 100%;
     &--hidden {
       display: none;
     }
@@ -98,8 +117,14 @@
     display: flex;
     gap: 4px;
 
+    &--separator {
+      border-top: 2px solid #e6edee;
+      margin: 12px 0;
+    }
+
     p {
       padding-left: 15px;
+      white-space: nowrap;
     }
 
     div {
