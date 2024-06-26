@@ -25,7 +25,12 @@ import {
   clickOnSearchLiElement,
   clickOnSearchOverlay,
 } from "./search";
-import { clickOnNavAdd, clickOnNavElement, transitionPageEnd } from "./menu";
+import {
+  changeSelectedNavItem,
+  clickOnNavAdd,
+  clickOnNavElement,
+  transitionPageEnd,
+} from "./menu";
 
 export function initSubscribers() {
   store.subscribe("currentObjectID", (oldValue, newValue) => {
@@ -38,41 +43,7 @@ export function initSubscribers() {
 
   store.subscribe("selectedNavItem", (oldValue, newValue) => {
     console.log(`selectedNavItem ${oldValue} -> ${newValue}`);
-
-    const navSides = document.querySelectorAll(".nav__side");
-    const page = document.querySelector(".page");
-    const pageItemOld = document.querySelector(
-      `.page__item:nth-of-type(${oldValue}`
-    );
-    const pageItemNew = document.querySelector(
-      `.page__item:nth-of-type(${newValue})`
-    );
-
-    let selectedNavLi, willSelectedNavLi;
-
-    if (oldValue === 0 || oldValue === 1) {
-      selectedNavLi = navSides[0].querySelectorAll(".nav__item")[oldValue];
-    } else {
-      selectedNavLi = navSides[1].querySelectorAll(".nav__item")[oldValue - 2];
-    }
-
-    if (newValue === 0 || newValue === 1) {
-      willSelectedNavLi = navSides[0].querySelectorAll(".nav__item")[newValue];
-    } else {
-      willSelectedNavLi =
-        navSides[1].querySelectorAll(".nav__item")[newValue - 2];
-    }
-
-    if (oldValue != 0) {
-      page.classList.remove("page--active");
-      pageItemOld.classList.add("page__item--hidden");
-    } else {
-      page.classList.add("page--active");
-    }
-    pageItemNew.classList.remove("page__item--hidden");
-
-    selectedNavLi.classList.remove("nav__item--active");
-    willSelectedNavLi.classList.add("nav__item--active");
+    changeSelectedNavItem(oldValue, newValue);
   });
 }
 
