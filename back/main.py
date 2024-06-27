@@ -158,3 +158,21 @@ async def get_area_by_id(object_id: int, area_id: int) -> AreaWithId:
          if i['id'] == area_id:
               return i
     raise HTTPException(status_code=404, detail="Area not found")
+
+
+@app.get("/objects/{object_id}/stats")
+async def get_object_stats_by_id(object_id: int) :
+    if object_id >= len(objects):
+         raise HTTPException(status_code=404, detail="Object not found")
+
+    treeNumber = len(elements[object_id]['trees'])
+    damagedTreeNumber = len(list(filter(lambda e: e['assessment'] == 4, elements[object_id]['trees'])))
+    furnitureNumber = len(elements[object_id]['furnitures'])
+    damagedFurnitureNumber = len(list(filter(lambda e: e['assessment'] == 4, elements[object_id]['furnitures'])))
+    greenAreaNumber = len(list(filter(lambda e: e['type'] == 0, elements[object_id]['areas'])))
+    orangeAreaNumber = len(list(filter(lambda e: e['type'] == 1, elements[object_id]['areas'])))
+
+    
+    totalAreaOfAreas = sum(list(map(lambda e: e['totalArea'], elements[object_id]['areas'])))
+
+    print(totalAreaOfAreas)

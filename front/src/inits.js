@@ -30,6 +30,7 @@ import {
   clickOnNavAdd,
   clickOnNavElement,
   transitionPageEnd,
+  updateObjectStatInMenu,
 } from "./menu";
 
 export function initSubscribers() {
@@ -39,6 +40,7 @@ export function initSubscribers() {
     store.get("map").getView().setCenter(objects[newValue].cords);
     localStorage.setItem("currentObjectID", newValue);
     updateMarkers();
+    updateObjectStatInMenu();
   });
 
   store.subscribe("selectedNavItem", (oldValue, newValue) => {
@@ -94,6 +96,7 @@ export async function initMap() {
   map.addLayer(elementVectorLayer);
 
   updateMarkers();
+  updateObjectStatInMenu();
 
   // Вывод координат в консоль при клике
   map.on("click", (e) => {

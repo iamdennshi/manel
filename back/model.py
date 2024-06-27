@@ -9,7 +9,7 @@ class Object(BaseModel):
       id: int
       cords: list[float]
       address: str
-      total_area: float
+      totalArea: int
       class Config:
         orm_mode = True
 

@@ -1,3 +1,4 @@
+import { toLonLat } from "ol/proj";
 import store from "../store";
 
 const nav = document.querySelector(".nav");
@@ -81,4 +82,50 @@ export function transitionPageEnd(e) {
       item.classList.add("page__item--hidden");
     }
   });
+}
+
+export function updateObjectStatInMenu() {
+  const currentObjectInfo = store.get("objects")[store.get("currentObjectID")];
+  const elementsOfStats = {
+    name: document.getElementById("object-name"),
+    totalArea: document.getElementById("object-total-area"),
+    coords: document.getElementById("object-coords"),
+
+    greenTotalArea: document.getElementById("green-total-area"),
+    treeNumber: document.getElementById("tree-number"),
+    treeTotalArea: document.getElementById("tree-total-area"),
+    damagedTreeNumber: document.getElementById("damaged-tree-number"),
+    damagedTreeTotalArea: document.getElementById("damaged-tree-total-area"),
+    shrubNumber: document.getElementById("shrub-number"),
+    shrubTotalArea: document.getElementById("shrubTotalArea"),
+    damagedShrubNumber: document.getElementById("damaged-shrub-number"),
+    damagedShrubTotalArea: document.getElementById("damaged-shrub-total-area"),
+    flowerNumber: document.getElementById("flower-number"),
+    flowerTotalArea: document.getElementById("flower-total-area"),
+    damagedFlowerNumber: document.getElementById("damaged-flower-number"),
+    damagedFlowerTotalArea: document.getElementById(
+      "damaged-flower-total-area"
+    ),
+    grassNumber: document.getElementById("grass-number"),
+    grassTotalArea: document.getElementById("grass-total-area"),
+    damagedGrassNumber: document.getElementById("damaged-grass-number"),
+    damagedGrassTotalArea: document.getElementById("damaged-grass-total-area"),
+
+    orangeTotalArea: document.getElementById("orange-total-area"),
+    mafNumber: document.getElementById("maf-number"),
+    damagedMafNumber: document.getElementById("damaged-maf-number"),
+    walkNumber: document.getElementById("walk-number"),
+    walkTotalArea: document.getElementById("walk-total-area"),
+    damagedWalkNumber: document.getElementById("damaged-walk-number"),
+    damagedWalkTotalArea: document.getElementById("damaged-walk-total-area"),
+  };
+  const normalCoords = toLonLat(currentObjectInfo.cords).map((i) =>
+    i.toFixed(4)
+  );
+  const totalTrees = (elementsOfStats.name.textContent =
+    currentObjectInfo.address);
+  elementsOfStats.totalArea.textContent = currentObjectInfo.totalArea;
+  elementsOfStats.coords.textContent = `${normalCoords[1]}, ${normalCoords[0]}`;
+
+  console.log(currentObjectInfo);
 }

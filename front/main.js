@@ -10,7 +10,7 @@ import {
   initMenu,
 } from "./src/inits";
 
-const __DEBUG__ = false;
+const __DEBUG__ = true;
 
 (async function main() {
   // Инициализация хранилища текущим ид объекта и списком всех объектов
