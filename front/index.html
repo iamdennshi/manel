@@ -52,7 +52,7 @@
                     id="first-ch"
                   />
                   <label class="accordion__inner" for="first-ch">
-                    <div class="accordion__title">
+                    <dl class="accordion__title">
                       <div class="accordion__arrow">
                         <svg
                           class="accordion__svg"
@@ -68,19 +68,25 @@
                           ></path>
                         </svg>
                       </div>
-                      <p>Общие сведения</p>
-                      <span>сад Декабристов</span>
-                    </div>
+                      <dt>Общие сведения</dt>
+                      <dd id="object-name">сад Декабристов</dd>
+                    </dl>
                     <ul class="accordion__items">
                       <li class="accordion__item">
-                        <p>общая площадь</p>
-                        <div></div>
-                        <span>1000 кв.м.</span>
+                        <dl>
+                          <dt>общая площадь</dt>
+                          <div></div>
+                          <dd>
+                            <span id="object-total-area">1000</span> кв.м.
+                          </dd>
+                        </dl>
                       </li>
                       <li class="accordion__item">
-                        <p>координаты</p>
-                        <div></div>
-                        <span>58.013581, 56.260677</span>
+                        <dl>
+                          <dt>координаты</dt>
+                          <div></div>
+                          <dd id="object-coords">58.013581, 56.260677</dd>
+                        </dl>
                       </li>
                     </ul>
                   </label>
@@ -92,7 +98,7 @@
                     id="second-ch"
                   />
                   <label class="accordion__inner" for="second-ch">
-                    <div class="accordion__title">
+                    <dl class="accordion__title">
                       <div class="accordion__arrow">
                         <svg
                           class="accordion__svg"
@@ -108,110 +114,150 @@
                           ></path>
                         </svg>
                       </div>
-                      <p>Зеленые насаждения</p>
-                      <span>300 кв.м</span>
-                    </div>
+                      <dt>Зеленые насаждения</dt>
+                      <dd><span id="green-total-area">0</span> кв.м</dd>
+                    </dl>
                     <ul class="accordion__items">
                       <li class="accordion__item">
-                        <p>деревьев</p>
-                        <div></div>
-                        <span>3 шт.</span>
+                        <dl>
+                          <dt>деревьев</dt>
+                          <div></div>
+                          <dd><span id="tree-number">0</span> шт.</dd>
+                        </dl>
                       </li>
                       <li class="accordion__item">
-                        <p>площадь деревьев</p>
-                        <div></div>
-                        <span>20 кв.м.</span>
-                      </li>
-                      <li
-                        class="accordion__item accordion__item--separator"
-                      ></li>
-                      <li class="accordion__item">
-                        <p>аварийных деревьев</p>
-                        <div></div>
-                        <span>2 шт.</span>
-                      </li>
-                      <li class="accordion__item">
-                        <p>площадь аварийных деревьев</p>
-                        <div></div>
-                        <span>2 кв.м.</span>
+                        <dl>
+                          <dt>их площадь</dt>
+                          <div></div>
+                          <dd><span id="tree-total-area">0</span> кв.м.</dd>
+                        </dl>
                       </li>
                       <li
                         class="accordion__item accordion__item--separator"
                       ></li>
                       <li class="accordion__item">
-                        <p>кустарников</p>
-                        <div></div>
-                        <span>2 шт.</span>
+                        <dl>
+                          <dt>аварийных деревьев</dt>
+                          <div></div>
+                          <dd><span id="damaged-tree-number">0</span> шт.</dd>
+                        </dl>
                       </li>
                       <li class="accordion__item">
-                        <p>площадь кустарников</p>
-                        <div></div>
-                        <span>2 кв.м.</span>
-                      </li>
-                      <li
-                        class="accordion__item accordion__item--separator"
-                      ></li>
-                      <li class="accordion__item">
-                        <p>аварийных кустарников</p>
-                        <div></div>
-                        <span>2 шт.</span>
-                      </li>
-                      <li class="accordion__item">
-                        <p>площадь аварийных кустарников</p>
-                        <div></div>
-                        <span>2 кв.м.</span>
+                        <dl>
+                          <dt>их площадь</dt>
+                          <div></div>
+                          <dd>
+                            <span id="damaged-tree-total-area">0</span> кв.м.
+                          </dd>
+                        </dl>
                       </li>
                       <li
                         class="accordion__item accordion__item--separator"
                       ></li>
                       <li class="accordion__item">
-                        <p>цветников</p>
-                        <div></div>
-                        <span>2 шт.</span>
+                        <dl>
+                          <dt>кустарники</dt>
+                          <div></div>
+                          <dd><span id="shrub-number">0</span> шт.</dd>
+                        </dl>
                       </li>
                       <li class="accordion__item">
-                        <p>площадь цветников</p>
-                        <div></div>
-                        <span>2 кв.м.</span>
-                      </li>
-                      <li
-                        class="accordion__item accordion__item--separator"
-                      ></li>
-                      <li class="accordion__item">
-                        <p>аварийных цветников</p>
-                        <div></div>
-                        <span>2 шт.</span>
-                      </li>
-                      <li class="accordion__item">
-                        <p>площадь аварийных цветников</p>
-                        <div></div>
-                        <span>2 кв.м.</span>
+                        <dl>
+                          <dt>их площадь</dt>
+                          <div></div>
+                          <dd><span id="shrub-total-area">0</span> кв.м.</dd>
+                        </dl>
                       </li>
                       <li
                         class="accordion__item accordion__item--separator"
                       ></li>
                       <li class="accordion__item">
-                        <p>газонов</p>
-                        <div></div>
-                        <span>2 шт.</span>
+                        <dl>
+                          <dt>аварийных кустарников</dt>
+                          <div></div>
+                          <dd><span id="damaged-shrub-number">0</span> шт.</dd>
+                        </dl>
                       </li>
                       <li class="accordion__item">
-                        <p>площадь газонов</p>
-                        <div></div>
-                        <span>2 кв.м.</span>
+                        <dl>
+                          <dt>их площадь</dt>
+                          <div></div>
+                          <dd>
+                            <span id="damaged-shrub-total-area">0</span> кв.м.
+                          </dd>
+                        </dl>
                       </li>
                       <li
                         class="accordion__item accordion__item--separator"
                       ></li>
                       <li class="accordion__item">
-                        <p>аварийных газонов</p>
-                        <div></div>
-                        <span>2 шт.</span>
+                        <dl>
+                          <dt>цветников</dt>
+                          <div></div>
+                          <dd><span id="flower-number">0</span> шт.</dd>
+                        </dl>
                       </li>
                       <li class="accordion__item">
-                        <p>площадь аварийных газонов</p>
-                        <div></div>
-                        <span>2 кв.м.</span>
+                        <dl>
+                          <dt>их площадь</dt>
+                          <div></div>
+                          <dd><span id="flower-total-area">0</span> кв.м.</dd>
+                        </dl>
+                      </li>
+                      <li
+                        class="accordion__item accordion__item--separator"
+                      ></li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>аварийных цветников</dt>
+                          <div></div>
+                          <dd><span id="damaged-flower-number">0</span> шт.</dd>
+                        </dl>
+                      </li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>их площадь</dt>
+                          <div></div>
+                          <dd>
+                            <span id="damaged-flower-total-area">0</span> кв.м.
+                          </dd>
+                        </dl>
+                      </li>
+                      <li
+                        class="accordion__item accordion__item--separator"
+                      ></li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>газонов</dt>
+                          <div></div>
+                          <dd><span id="grass-number">0</span> шт.</dd>
+                        </dl>
+                      </li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>их площадь</dt>
+                          <div></div>
+                          <dd><span id="grass-total-area">0</span> кв.м.</dd>
+                        </dl>
+                      </li>
+                      <li
+                        class="accordion__item accordion__item--separator"
+                      ></li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>аварийных газонов</dt>
+                          <div></div>
+                          <dd><span id="damaged-grass-number">0</span> шт.</dd>
+                        </dl>
+                      </li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>их площадь</dt>
+                          <div></div>
+                          <dd>
+                            <span id="damaged-grass-total-area">0</span> кв.м.
+                          </dd>
+                        </dl>
                       </li>
                     </ul>
                   </label>
@@ -223,7 +269,7 @@
                     id="third-ch"
                   />
                   <label class="accordion__inner" for="third-ch">
-                    <div class="accordion__title">
+                    <dl class="accordion__title">
                       <div class="accordion__arrow">
                         <svg
                           class="accordion__svg"
@@ -239,45 +285,59 @@
                           ></path>
                         </svg>
                       </div>
-                      <p>Элементы благоустройства</p>
-                      <span>300 кв.м</span>
-                    </div>
+                      <dt>Элементы благоустройства</dt>
+                      <dd><span id="green-total-area">0</span> кв.м</dd>
+                    </dl>
                     <ul class="accordion__items">
                       <li class="accordion__item">
-                        <p>элементов</p>
-                        <div></div>
-                        <span>3 шт.</span>
+                        <dl>
+                          <dt>точечных</dt>
+                          <div></div>
+                          <dd><span id="maf-number">0</span> шт.</dd>
+                        </dl>
                       </li>
                       <li class="accordion__item">
-                        <p>аварийных элементов</p>
-                        <div></div>
-                        <span>3 шт.</span>
-                      </li>
-                      <li
-                        class="accordion__item accordion__item--separator"
-                      ></li>
-                      <li class="accordion__item">
-                        <p>тротуаров</p>
-                        <div></div>
-                        <span>2 шт.</span>
-                      </li>
-                      <li class="accordion__item">
-                        <p>площадь тротуаров</p>
-                        <div></div>
-                        <span>2 кв.м.</span>
+                        <dl>
+                          <dt>из них аварийных</dt>
+                          <div></div>
+                          <dd><span id="damaged-maf-number">0</span> шт.</dd>
+                        </dl>
                       </li>
                       <li
                         class="accordion__item accordion__item--separator"
                       ></li>
                       <li class="accordion__item">
-                        <p>аварийных тротуаров</p>
-                        <div></div>
-                        <span>2 шт.</span>
+                        <dl>
+                          <dt>поверхностей</dt>
+                          <div></div>
+                          <dd><span id="walk-number">0</span> шт.</dd>
+                        </dl>
                       </li>
                       <li class="accordion__item">
-                        <p>площадь аварийных тротуаров</p>
-                        <div></div>
-                        <span>2 кв.м.</span>
+                        <dl>
+                          <dt>их площадь</dt>
+                          <div></div>
+                          <dd><span id="walk-total-area">0</span> кв.м.</dd>
+                        </dl>
+                      </li>
+                      <li
+                        class="accordion__item accordion__item--separator"
+                      ></li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>аварийных поверхностей</dt>
+                          <div></div>
+                          <dd><span id="damaged-walk-number">0</span> шт.</dd>
+                        </dl>
+                      </li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>их площадь</dt>
+                          <div></div>
+                          <dd>
+                            <span id="damaged-walk-total-area">0</span> кв.м.
+                          </dd>
+                        </dl>
                       </li>
                     </ul>
                   </label>

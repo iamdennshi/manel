@@ -7,10 +7,16 @@
   z-index: 1;
   background-color: white;
   top: 100%;
-  border-radius: 32px;
+  width: 600px;
+  margin: 0 auto;
+  border-radius: 32px 32px 0 0;
   transition-duration: 500ms;
   transition-property: top;
   padding: 8px 24px;
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 
   &--active {
     top: 12%;
@@ -99,7 +105,7 @@
     display: flex;
     font-weight: bold;
 
-    span {
+    dd {
       text-align: right;
       flex-grow: 1;
     }
@@ -114,27 +120,30 @@
 
   &__item {
     margin-top: 4px;
-    display: flex;
-    gap: 4px;
 
     &--separator {
       border-top: 2px solid #e6edee;
       margin: 12px 0;
     }
 
-    p {
-      padding-left: 15px;
-      white-space: nowrap;
-    }
+    dl {
+      display: flex;
+      gap: 4px;
 
-    div {
-      flex-basis: 100%;
-      border-bottom: 2px dotted #abc2c5;
-      height: 17px;
-    }
-    span {
-      display: block;
-      white-space: nowrap;
+      dt {
+        padding-left: 15px;
+        white-space: nowrap;
+      }
+
+      div {
+        flex-basis: 100%;
+        border-bottom: 2px dotted #abc2c5;
+        height: 17px;
+      }
+      dd {
+        display: block;
+        white-space: nowrap;
+      }
     }
   }
 }
