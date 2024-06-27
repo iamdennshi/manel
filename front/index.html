@@ -343,7 +343,8 @@
               </div>
             </li>
             <li class="page__item page__item--hidden">
-              <h2 class="page__title">Уведомления</h2>
+              <h2 class="page__title">Последние изменения</h2>
+              <div class="page__main"></div>
             </li>
             <li class="page__item page__item--hidden">
               <h2 class="page__title">Настройки</h2>
@@ -393,7 +394,7 @@
           </div>
           <ul class="nav__side nav__side--right">
             <li class="nav__item">
-              <button data-id="2" class="nav__button">
+              <button data-id="2" class="nav__button nav__button--noticed">
                 <div class="nav__button-circle"></div>
                 <div class="nav__button-img">
                   <img src="./src/assets/bell-icon.svg" alt="" />
@@ -750,6 +751,17 @@
       <div class="element-card__selected-option">
         <p>повреждение</p>
         <button>x</button>
+      </div>
+    </template>
+    <template id="template-notification">
+      <div class="page__notification notification">
+        <div class="notification__header">
+          <div class="notification__author">Пользователь Ширинкин Д.А.</div>
+          <div class="notification__datetime">15.10.23 08:44</div>
+        </div>
+        <div class="notification__message">
+          добавил новый элемент (Скамейка - ID 24)
+        </div>
       </div>
     </template>
     <script type="module" src="./main.js"></script>

@@ -65,6 +65,13 @@ export function changeSelectedNavItem(oldValue, newValue) {
     pageItem.classList.remove("page__item--hidden");
   }
 
+  // Нажали на уведомление
+  if (newValue === 2) {
+    document
+      .querySelector("[data-id='2']")
+      .classList.remove("nav__button--noticed");
+  }
+
   selectedNavLi.classList.remove("nav__item--active");
   willSelectedNavLi.classList.add("nav__item--active");
 }
