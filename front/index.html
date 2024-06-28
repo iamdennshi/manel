@@ -44,33 +44,35 @@
           <ul class="page__items">
             <li class="page__item page__item--hidden">
               <h2 class="page__title">Характеристика объекта</h2>
-              <div class="page__main">
-                <div class="page__accordion accordion">
+              <div class="page__main stats">
+                <div class="stats__accordion accordion">
                   <input
                     type="checkbox"
                     class="accordion__input"
                     id="first-ch"
                   />
-                  <label class="accordion__inner" for="first-ch">
-                    <dl class="accordion__title">
-                      <div class="accordion__arrow">
-                        <svg
-                          class="accordion__svg"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="7"
-                          height="11"
-                          viewBox="0 0 7 11"
-                          fill="none"
-                        >
-                          <path
-                            d="M0 11L-4.80825e-07 0L7 5.5L0 11Z"
-                            fill="#024751"
-                          ></path>
-                        </svg>
-                      </div>
-                      <dt>Общие сведения</dt>
-                      <dd id="object-name"></dd>
-                    </dl>
+                  <div class="accordion__inner">
+                    <label for="first-ch" class="accordion__header">
+                      <dl class="accordion__title">
+                        <div class="accordion__arrow">
+                          <svg
+                            class="accordion__svg"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="7"
+                            height="11"
+                            viewBox="0 0 7 11"
+                            fill="none"
+                          >
+                            <path
+                              d="M0 11L-4.80825e-07 0L7 5.5L0 11Z"
+                              fill="#024751"
+                            ></path>
+                          </svg>
+                        </div>
+                        <dt>Общие сведения</dt>
+                        <dd id="object-name"></dd>
+                      </dl>
+                    </label>
                     <ul class="accordion__items">
                       <li class="accordion__item">
                         <dl>
@@ -87,34 +89,36 @@
                         </dl>
                       </li>
                     </ul>
-                  </label>
+                  </div>
                 </div>
-                <div class="page__accordion accordion">
+                <div class="stats__accordion accordion">
                   <input
                     type="checkbox"
                     class="accordion__input"
                     id="second-ch"
                   />
-                  <label class="accordion__inner" for="second-ch">
-                    <dl class="accordion__title">
-                      <div class="accordion__arrow">
-                        <svg
-                          class="accordion__svg"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="7"
-                          height="11"
-                          viewBox="0 0 7 11"
-                          fill="none"
-                        >
-                          <path
-                            d="M0 11L-4.80825e-07 0L7 5.5L0 11Z"
-                            fill="#024751"
-                          ></path>
-                        </svg>
-                      </div>
-                      <dt>Зеленые насаждения</dt>
-                      <dd><span id="green-total-area">0</span> м²</dd>
-                    </dl>
+                  <div class="accordion__inner">
+                    <label class="accordion__header" for="second-ch">
+                      <dl class="accordion__title">
+                        <div class="accordion__arrow">
+                          <svg
+                            class="accordion__svg"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="7"
+                            height="11"
+                            viewBox="0 0 7 11"
+                            fill="none"
+                          >
+                            <path
+                              d="M0 11L-4.80825e-07 0L7 5.5L0 11Z"
+                              fill="#024751"
+                            ></path>
+                          </svg>
+                        </div>
+                        <dt>Зеленые насаждения</dt>
+                        <dd><span id="green-total-area">0</span> м²</dd>
+                      </dl>
+                    </label>
                     <ul class="accordion__items">
                       <li class="accordion__item">
                         <dl>
@@ -258,34 +262,36 @@
                         </dl>
                       </li>
                     </ul>
-                  </label>
+                  </div>
                 </div>
-                <div class="page__accordion accordion">
+                <div class="stats__accordion accordion">
                   <input
                     type="checkbox"
                     class="accordion__input"
                     id="third-ch"
                   />
-                  <label class="accordion__inner" for="third-ch">
-                    <dl class="accordion__title">
-                      <div class="accordion__arrow">
-                        <svg
-                          class="accordion__svg"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="7"
-                          height="11"
-                          viewBox="0 0 7 11"
-                          fill="none"
-                        >
-                          <path
-                            d="M0 11L-4.80825e-07 0L7 5.5L0 11Z"
-                            fill="#024751"
-                          ></path>
-                        </svg>
-                      </div>
-                      <dt>Элементы благоустройства</dt>
-                      <dd><span id="orange-total-area">0</span> м²</dd>
-                    </dl>
+                  <div class="accordion__inner">
+                    <label class="accordion__header" for="third-ch">
+                      <dl class="accordion__title">
+                        <div class="accordion__arrow">
+                          <svg
+                            class="accordion__svg"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="7"
+                            height="11"
+                            viewBox="0 0 7 11"
+                            fill="none"
+                          >
+                            <path
+                              d="M0 11L-4.80825e-07 0L7 5.5L0 11Z"
+                              fill="#024751"
+                            ></path>
+                          </svg>
+                        </div>
+                        <dt>Элементы благоустройства</dt>
+                        <dd><span id="orange-total-area">0</span> м²</dd>
+                      </dl>
+                    </label>
                     <ul class="accordion__items">
                       <li class="accordion__item">
                         <dl>
@@ -338,7 +344,7 @@
                         </dl>
                       </li>
                     </ul>
-                  </label>
+                  </div>
                 </div>
               </div>
             </li>
@@ -348,6 +354,56 @@
             </li>
             <li class="page__item page__item--hidden">
               <h2 class="page__title">Конфигурация</h2>
+              <div class="page__main config">
+                <div class="config__accordion accordion">
+                  <input
+                    type="checkbox"
+                    class="accordion__input"
+                    id="object-values-ch"
+                  />
+                  <div class="accordion__inner">
+                    <label for="object-values-ch" class="accordion__header">
+                      <dl class="accordion__title">
+                        <div class="accordion__arrow">
+                          <svg
+                            class="accordion__svg"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="7"
+                            height="11"
+                            viewBox="0 0 7 11"
+                            fill="none"
+                          >
+                            <path
+                              d="M0 11L-4.80825e-07 0L7 5.5L0 11Z"
+                              fill="#024751"
+                            ></path>
+                          </svg>
+                        </div>
+                        <dt>Скачать объемы объектов</dt>
+                        <dd></dd></dl
+                    ></label>
+                    <div class="accordion__items accordion__items--flat">
+                      <p class="accordion__subtitle">
+                        Выберете из списка те объекты, объемы которых хотите
+                        скачать и нажмите кнопку <b>"Скачать"</b>
+                      </p>
+                      <ul class="accordion__objects">
+                        <li class="accordion__object">
+                          <input type="checkbox" name="" id="object-values-1" />
+                          <label for="object-values-1">сад Декабристов</label>
+                        </li>
+                        <li class="accordion__object">
+                          <input type="checkbox" name="" id="object-values-2" />
+                          <label for="object-values-2"
+                            >парк имени Любимого</label
+                          >
+                        </li>
+                      </ul>
+                      <button class="accordion__button">Скачать</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </li>
           </ul>
         </div>

@@ -23,13 +23,6 @@
   &--active {
     top: 12%;
   }
-  &__accordion {
-    margin-top: 16px;
-  }
-
-  &__accordion:first-of-type {
-    margin: 0;
-  }
 
   &__separator {
     width: 40px;
@@ -68,14 +61,18 @@
   }
 }
 
+.stats {
+  &__accordion {
+    margin-top: 16px;
+  }
+
+  &__accordion:first-of-type {
+    margin: 0;
+  }
+}
+
 .accordion {
   font-size: 16px;
-  border-radius: 16px;
-  background-color: #f2f6f6;
-
-  &:active {
-    background-color: #ccdadc;
-  }
 
   &__input {
     display: none;
@@ -95,8 +92,19 @@
   }
 
   &__inner {
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  &__header {
     display: block;
     padding: 16px 18px;
+    border-radius: 16px 16px 0 0;
+    background-color: #f2f6f6;
+
+    &:active {
+      background-color: #ccdadc;
+    }
   }
 
   &__arrow {
@@ -113,11 +121,46 @@
     }
   }
 
+  &__objects {
+    margin: 8px 0;
+  }
+
+  &__object {
+    label {
+      font-weight: bold;
+    }
+  }
+
+  &__button {
+    display: block;
+    cursor: pointer;
+    color: white;
+    border: none;
+    outline: none;
+    background-color: $primary;
+    font-weight: bold;
+    padding: 8px 32px;
+    margin: 0 auto;
+    border-radius: 32px;
+
+    &:active {
+      color: red;
+    }
+  }
+
   &__items {
     display: none;
     border-top: 2px solid #e6edee;
-    margin-top: 8px;
-    padding-top: 4px;
+
+    padding: 8px 18px 16px;
+
+    border-radius: 0 0 16px 16px;
+    background-color: #f2f6f6;
+
+    &--flat {
+      padding-left: 15px;
+      padding-top: 8px;
+    }
   }
 
   &__item {
