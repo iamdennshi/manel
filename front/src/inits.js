@@ -214,4 +214,30 @@ export async function initMenu() {
   page.addEventListener("transitionend", transitionPageEnd);
   navAddButton.addEventListener("click", clickOnNavAdd);
   nav.addEventListener("click", clickOnNavElement);
+
+  // Иницифлизация конфигурации доступными объектами
+
+  // Создаем фрагмент документа для улучшенной производительности, чтобы множества элементов добавить в DOM один раз
+  const fragment = document.createDocumentFragment();
+
+  const containerForObjectsInConfig = document.querySelector(
+    ".config .accordion__objects"
+  );
+  const objectNames = store.get("objects").map((i) => i.address);
+  const templateObject = document.getElementById(
+    "template-object-config"
+  ).content;
+
+  objectNames.forEach((i, index) => {
+    const template = templateObject.cloneNode(true);
+    const label = template.querySelector("label");
+    const input = template.querySelector("input");
+    label.textContent = i;
+
+    label.setAttribute("for", `object-values-${index}`);
+    input.setAttribute("id", `object-values-${index}`);
+    fragment.appendChild(template);
+  });
+
+  containerForObjectsInConfig.appendChild(fragment);
 }

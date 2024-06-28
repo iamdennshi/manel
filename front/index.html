@@ -387,28 +387,7 @@
                         Выберете из списка те объекты, объемы которых хотите
                         скачать и нажмите кнопку <b>"Скачать"</b>
                       </p>
-                      <ul class="accordion__objects">
-                        <li class="accordion__object">
-                          <input
-                            class="accordion__checkbox"
-                            type="checkbox"
-                            id="object-values-1"
-                          />
-                          <div class="accordion__custom-checkbox"></div>
-                          <label for="object-values-1">сад Декабристов</label>
-                        </li>
-                        <li class="accordion__object">
-                          <input
-                            class="accordion__checkbox"
-                            type="checkbox"
-                            id="object-values-2"
-                          />
-                          <div class="accordion__custom-checkbox"></div>
-                          <label for="object-values-2"
-                            >парк имени Любимого</label
-                          >
-                        </li>
-                      </ul>
+                      <ul class="accordion__objects"></ul>
                       <button class="accordion__button">Скачать</button>
                     </div>
                   </div>
@@ -829,6 +808,17 @@
           добавил новый элемент (Скамейка - ID 24)
         </div>
       </div>
+    </template>
+    <template id="template-object-config">
+      <li class="accordion__object">
+        <input
+          class="accordion__checkbox"
+          type="checkbox"
+          id="object-values-1"
+        />
+        <div class="accordion__custom-checkbox"></div>
+        <label for="object-values-1">сад Декабристов</label>
+      </li>
     </template>
     <script type="module" src="./main.js"></script>
   </body>
