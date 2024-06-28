@@ -122,12 +122,59 @@
   }
 
   &__objects {
-    margin: 8px 0;
+    margin: 24px 0;
+    max-height: 160px;
+    overflow-x: auto;
+
+    @include scrollbar;
   }
 
   &__object {
+    position: relative;
+    margin-bottom: 8px;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+
     label {
       font-weight: bold;
+    }
+  }
+
+  &__checkbox {
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-right: 6px;
+    width: 18px;
+    height: 18px;
+
+    &:checked + .accordion__custom-checkbox::after {
+      transform: rotate(227deg) rotateX(180deg) scale(1);
+    }
+  }
+
+  &__custom-checkbox {
+    position: absolute;
+    inset: 0;
+    top: 1px;
+    width: 20px;
+    height: 20px;
+    background-color: $primary;
+    border-radius: 6px;
+
+    &::after {
+      position: absolute;
+      content: "L";
+      color: $secondary;
+      font-weight: bold;
+      top: -2px;
+      right: 5px;
+      transform: rotate(227deg) rotateX(180deg) scale(0);
+      transition: transform 0.15s ease-in-out;
     }
   }
 
@@ -142,16 +189,17 @@
     padding: 8px 32px;
     margin: 0 auto;
     border-radius: 32px;
+    transition: 150ms;
 
     &:active {
-      color: red;
+      transform: scale(0.9);
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     }
   }
 
   &__items {
     display: none;
     border-top: 2px solid #e6edee;
-
     padding: 8px 18px 16px;
 
     border-radius: 0 0 16px 16px;
