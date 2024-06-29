@@ -2,7 +2,7 @@ import { hideNav, showNav } from "../menu";
 import store from "../store";
 
 const searchInputField = document.querySelector(".search__input-field");
-const overlay = document.querySelector(".overlay");
+const overlay = document.getElementById("search-overlay");
 const searchElements = document.querySelector(".search__elements");
 const searchInput = document.querySelector(".search__input");
 const search = document.querySelector(".search__wrapper");

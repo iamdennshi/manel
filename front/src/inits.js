@@ -1,7 +1,12 @@
 import { Map, Overlay, View } from "ol";
 import TileLayer from "ol/layer/Tile";
 import { OSM } from "ol/source";
-import { ScaleLine, defaults as defaultControls } from "ol/control.js";
+import {
+  ScaleLine,
+  Zoom,
+  ZoomSlider,
+  defaults as defaultControls,
+} from "ol/control.js";
 import store from "./store";
 import { fetchObjects } from "./fetches";
 import VectorSource from "ol/source/Vector";
@@ -67,7 +72,7 @@ export async function initMap() {
   const map = store.init(
     "map",
     new Map({
-      controls: defaultControls().extend([new ScaleLine()]),
+      controls: [new ScaleLine(), new Zoom()],
       layers: [
         new TileLayer({
           source: new OSM(),
@@ -180,7 +185,7 @@ export async function initStore() {
 
 export async function initSearch() {
   const search = document.querySelector(".search__wrapper");
-  const overlay = document.querySelector(".overlay");
+  const overlay = document.getElementById("search-overlay");
   const searchInputField = document.querySelector(".search__input-field");
   const searchElements = document.querySelector(".search__elements");
   const searchClear = document.querySelector(".search__clear");

@@ -1,0 +1,57 @@
+@use "../global/variables" as *;
+
+.ol-zoom {
+  position: absolute;
+  background: transparent;
+
+  z-index: 1;
+  inset: initial;
+
+  right: 2%;
+  bottom: 15%;
+
+  transition: 150ms;
+
+  &--hidden {
+    right: -8%;
+  }
+}
+
+.ol-zoom .ol-zoom-in,
+.ol-zoom .ol-zoom-out {
+  display: block;
+  color: white;
+  background-color: $primary;
+  width: 41px;
+  height: 41px;
+  font-size: 20px;
+  margin-bottom: 20px;
+  outline: none;
+  border: none;
+  border-radius: 8px;
+  transition: 500ms;
+
+  &:hover,
+  &:focus {
+    color: white;
+    outline: none;
+  }
+
+  &:active {
+    transform: scale(0.8);
+  }
+}
+
+.ol-scale-line {
+  transform: translate(-50%);
+  left: 50%;
+  font-weight: bold;
+  color: $primary;
+  background: transparent;
+  div {
+    position: relative;
+    font-size: 16px;
+    border: none;
+    border-bottom: 2px solid $primary;
+  }
+}

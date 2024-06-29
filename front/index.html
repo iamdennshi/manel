@@ -11,8 +11,8 @@
     <title>Using OpenLayers with Vite</title>
   </head>
   <body>
-    <div id="map">
-      <div class="overlay overlay--hide"></div>
+    <div id="map" style="display: none">
+      <div id="search-overlay" class="overlay overlay--hide"></div>
       <div class="search">
         <div class="search__wrapper">
           <div class="search__input">
@@ -457,27 +457,29 @@
           </ul>
         </div>
       </div>
-    </div>
-    <div class="element-card">
-      <div class="element-card__close"></div>
-      <div class="element-card__loader"></div>
-      <div class="element-card__arrow"></div>
-      <div class="element-card__main">
-        <div class="element-card__head">
-          <div class="element-card__img-loader"></div>
-          <img class="element-card__img" />
-        </div>
-        <div class="element-card__body">
-          <input class="element-card__name" maxlength="16" disabled />
-          <p class="element-card__error hide">⚠ Введите корректное название</p>
-          <div class="element-card__type">дерево</div>
-          <div class="element-card__content"></div>
-          <div class="element-card__controls">
-            <button class="element-card__edit">Редактировать</button>
-            <button class="element-card__remove hide">Удалить</button>
+      <div class="element-card">
+        <div class="element-card__close"></div>
+        <div class="element-card__loader"></div>
+        <div class="element-card__arrow"></div>
+        <div class="element-card__main">
+          <div class="element-card__head">
+            <div class="element-card__img-loader"></div>
+            <img class="element-card__img" />
           </div>
-          <div class="element-card__last-edit">
-            Последнее изменение --.--.---- --:--
+          <div class="element-card__body">
+            <input class="element-card__name" maxlength="16" disabled />
+            <p class="element-card__error hide">
+              ⚠ Введите корректное название
+            </p>
+            <div class="element-card__type">дерево</div>
+            <div class="element-card__content"></div>
+            <div class="element-card__controls">
+              <button class="element-card__edit">Редактировать</button>
+              <button class="element-card__remove hide">Удалить</button>
+            </div>
+            <div class="element-card__last-edit">
+              Последнее изменение --.--.---- --:--
+            </div>
           </div>
         </div>
       </div>

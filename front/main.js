@@ -9,8 +9,9 @@ import {
   initInteractions,
   initMenu,
 } from "./src/inits";
+import store from "./src/store";
 
-const __DEBUG__ = true;
+const __DEBUG__ = false;
 
 (async function main() {
   // Инициализация хранилища текущим ид объекта и списком всех объектов
@@ -29,4 +30,6 @@ const __DEBUG__ = true;
   await initHandlers();
   // Подписываемся на изменения
   initSubscribers();
+  // Чтобы не показывались вначале призрачные элементы
+  store.get("map").getTarget().style.display = "";
 })();

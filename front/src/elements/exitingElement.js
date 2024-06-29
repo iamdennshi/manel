@@ -7,6 +7,7 @@ export function exitingElement() {
   store.get("elementOverlay").setPosition(undefined);
   store.get("elementSelect").getFeatures().clear();
   showSearch();
+  showSearch();
   showNav();
   exitEditMode();
 }

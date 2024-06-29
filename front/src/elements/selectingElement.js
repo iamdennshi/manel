@@ -7,6 +7,7 @@ import { elementCardImgDefault } from "./image";
 import { updateProperties } from "./updateProperies";
 import { hideSearch, showSearch } from "../search";
 import { hideNav, showNav } from "../menu";
+import { hideControls, showControls } from "../controls";
 
 export async function selectingElement(e) {
   const elementCardType = document.querySelector(".element-card__type");
@@ -27,6 +28,7 @@ export async function selectingElement(e) {
     // Выбираем элемент
     exitEditMode();
     hideSearch();
+    hideControls();
     hideNav();
 
     const selectedElementId = selectedMarker.getProperties().id;
@@ -188,6 +190,7 @@ export async function selectingElement(e) {
     exitEditMode();
     store.get("elementOverlay").setPosition(undefined);
     showSearch();
+    showControls();
     showNav();
   }
 }
