@@ -6,6 +6,7 @@ export default {
   build: {
     sourcemap: true,
   },
+  base: "/manel/",
   define: {
     "process.env": env,
   },
