@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://openlayers.org/favicon.ico"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Using OpenLayers with Vite</title>
+    <script type="module" crossorigin src="/manel/assets/index-DnbgYVxP.js"></script>
+    <link rel="stylesheet" crossorigin href="/manel/assets/index-BLu9u1rN.css">
+  </head>
+  <body>
+    <div id="map" style="display: none">
+      <div id="search-overlay" class="overlay overlay--hide"></div>
+      <div class="search">
+        <div class="search__wrapper">
+          <div class="search__input">
+            <img
+              src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20width='20'%20height='20'%20viewBox='0%200%2020%2020'%20fill='none'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M13.5775%2013.5774C13.9029%2013.252%2014.4305%2013.252%2014.756%2013.5774L18.381%2017.2024C18.7064%2017.5278%2018.7064%2018.0555%2018.381%2018.3809C18.0555%2018.7064%2017.5279%2018.7064%2017.2025%2018.3809L13.5775%2014.7559C13.252%2014.4305%2013.252%2013.9028%2013.5775%2013.5774Z'%20fill='%23024751'/%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M9.16663%203.33333C5.94496%203.33333%203.33329%205.945%203.33329%209.16666C3.33329%2012.3883%205.94496%2015%209.16663%2015C12.3883%2015%2015%2012.3883%2015%209.16666C15%205.945%2012.3883%203.33333%209.16663%203.33333ZM1.66663%209.16666C1.66663%205.02453%205.02449%201.66666%209.16663%201.66666C13.3088%201.66666%2016.6666%205.02453%2016.6666%209.16666C16.6666%2013.3088%2013.3088%2016.6667%209.16663%2016.6667C5.02449%2016.6667%201.66663%2013.3088%201.66663%209.16666Z'%20fill='%2300D47E'/%3e%3c/svg%3e"
+              alt=""
+              class="search__icon"
+            />
+            <input
+              tabindex="1"
+              type="text"
+              class="search__input-field"
+              placeholder="Название объекта"
+            />
+            <button class="search__clear" tabindex="2">
+              <img
+                src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20width='10'%20height='10'%20viewBox='0%200%2010%2010'%20fill='%23B2ABAB'%3e%3cpath%20d='M6.24741%205L9.73899%201.50842C9.9047%201.343%209.99791%201.11853%209.99812%200.884393C9.99833%200.650251%209.90551%200.425617%209.74009%200.259907C9.57468%200.0941974%209.35021%200.000986589%209.11607%200.000779811C8.88192%200.000573033%208.65729%200.0933872%208.49158%200.258804L5%203.75038L1.50842%200.258804C1.34271%200.0930948%201.11796%200%200.883613%200C0.649264%200%200.424514%200.0930948%200.258804%200.258804C0.0930948%200.424514%200%200.649264%200%200.883613C0%201.11796%200.0930948%201.34271%200.258804%201.50842L3.75038%205L0.258804%208.49158C0.0930948%208.65729%200%208.88204%200%209.11639C0%209.35074%200.0930948%209.57549%200.258804%209.7412C0.424514%209.90691%200.649264%2010%200.883613%2010C1.11796%2010%201.34271%209.90691%201.50842%209.7412L5%206.24962L8.49158%209.7412C8.65729%209.90691%208.88204%2010%209.11639%2010C9.35074%2010%209.57549%209.90691%209.7412%209.7412C9.90691%209.57549%2010%209.35074%2010%209.11639C10%208.88204%209.90691%208.65729%209.7412%208.49158L6.24741%205Z'%20fill='%23024751'/%3e%3c/svg%3e"
+                alt=""
+                class="search__clear-icon"
+              />
+            </button>
+          </div>
+          <ul class="search__elements search__elements--hide"></ul>
+        </div>
+      </div>
+      <div class="menu">
+        <div class="menu__page page">
+          <div class="page__separator"></div>
+          <ul class="page__items">
+            <li class="page__item page__item--hidden">
+              <h2 class="page__title">Характеристика объекта</h2>
+              <div class="page__main stats">
+                <div class="stats__accordion accordion">
+                  <input
+                    type="checkbox"
+                    class="accordion__input"
+                    id="first-ch"
+                  />
+                  <div class="accordion__inner">
+                    <label for="first-ch" class="accordion__header">
+                      <dl class="accordion__title">
+                        <div class="accordion__arrow">
+                          <svg
+                            class="accordion__svg"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="7"
+                            height="11"
+                            viewBox="0 0 7 11"
+                            fill="none"
+                          >
+                            <path
+                              d="M0 11L-4.80825e-07 0L7 5.5L0 11Z"
+                              fill="#024751"
+                            ></path>
+                          </svg>
+                        </div>
+                        <dt>Общие сведения</dt>
+                        <dd id="object-name"></dd>
+                      </dl>
+                    </label>
+                    <ul class="accordion__items">
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>общая площадь</dt>
+                          <div></div>
+                          <dd><span id="object-total-area">0</span> м²</dd>
+                        </dl>
+                      </li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>координаты</dt>
+                          <div></div>
+                          <dd id="object-coords">0.0, 0.0</dd>
+                        </dl>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="stats__accordion accordion">
+                  <input
+                    type="checkbox"
+                    class="accordion__input"
+                    id="second-ch"
+                  />
+                  <div class="accordion__inner">
+                    <label class="accordion__header" for="second-ch">
+                      <dl class="accordion__title">
+                        <div class="accordion__arrow">
+                          <svg
+                            class="accordion__svg"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="7"
+                            height="11"
+                            viewBox="0 0 7 11"
+                            fill="none"
+                          >
+                            <path
+                              d="M0 11L-4.80825e-07 0L7 5.5L0 11Z"
+                              fill="#024751"
+                            ></path>
+                          </svg>
+                        </div>
+                        <dt>Зеленые насаждения</dt>
+                        <dd><span id="green-total-area">0</span> м²</dd>
+                      </dl>
+                    </label>
+                    <ul class="accordion__items">
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>деревьев</dt>
+                          <div></div>
+                          <dd><span id="tree-number">0</span> шт</dd>
+                        </dl>
+                      </li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>их площадь</dt>
+                          <div></div>
+                          <dd><span id="tree-total-area">0</span> м²</dd>
+                        </dl>
+                      </li>
+                      <li
+                        class="accordion__item accordion__item--separator"
+                      ></li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>аварийных деревьев</dt>
+                          <div></div>
+                          <dd><span id="damaged-tree-number">0</span> шт</dd>
+                        </dl>
+                      </li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>их площадь</dt>
+                          <div></div>
+                          <dd>
+                            <span id="damaged-tree-total-area">0</span> м²
+                          </dd>
+                        </dl>
+                      </li>
+                      <li
+                        class="accordion__item accordion__item--separator"
+                      ></li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>кустарников</dt>
+                          <div></div>
+                          <dd><span id="shrub-number">0</span> шт</dd>
+                        </dl>
+                      </li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>их площадь</dt>
+                          <div></div>
+                          <dd><span id="shrub-total-area">0</span> м²</dd>
+                        </dl>
+                      </li>
+                      <li
+                        class="accordion__item accordion__item--separator"
+                      ></li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>аварийных кустарников</dt>
+                          <div></div>
+                          <dd><span id="damaged-shrub-number">0</span> шт</dd>
+                        </dl>
+                      </li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>их площадь</dt>
+                          <div></div>
+                          <dd>
+                            <span id="damaged-shrub-total-area">0</span> м²
+                          </dd>
+                        </dl>
+                      </li>
+                      <li
+                        class="accordion__item accordion__item--separator"
+                      ></li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>цветников</dt>
+                          <div></div>
+                          <dd><span id="flower-number">0</span> шт</dd>
+                        </dl>
+                      </li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>их площадь</dt>
+                          <div></div>
+                          <dd><span id="flower-total-area">0</span> м²</dd>
+                        </dl>
+                      </li>
+                      <li
+                        class="accordion__item accordion__item--separator"
+                      ></li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>аварийных цветников</dt>
+                          <div></div>
+                          <dd><span id="damaged-flower-number">0</span> шт</dd>
+                        </dl>
+                      </li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>их площадь</dt>
+                          <div></div>
+                          <dd>
+                            <span id="damaged-flower-total-area">0</span> м²
+                          </dd>
+                        </dl>
+                      </li>
+                      <li
+                        class="accordion__item accordion__item--separator"
+                      ></li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>газонов</dt>
+                          <div></div>
+                          <dd><span id="grass-number">0</span> шт</dd>
+                        </dl>
+                      </li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>их площадь</dt>
+                          <div></div>
+                          <dd><span id="grass-total-area">0</span> м²</dd>
+                        </dl>
+                      </li>
+                      <li
+                        class="accordion__item accordion__item--separator"
+                      ></li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>аварийных газонов</dt>
+                          <div></div>
+                          <dd><span id="damaged-grass-number">0</span> шт</dd>
+                        </dl>
+                      </li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>их площадь</dt>
+                          <div></div>
+                          <dd>
+                            <span id="damaged-grass-total-area">0</span> м²
+                          </dd>
+                        </dl>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="stats__accordion accordion">
+                  <input
+                    type="checkbox"
+                    class="accordion__input"
+                    id="third-ch"
+                  />
+                  <div class="accordion__inner">
+                    <label class="accordion__header" for="third-ch">
+                      <dl class="accordion__title">
+                        <div class="accordion__arrow">
+                          <svg
+                            class="accordion__svg"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="7"
+                            height="11"
+                            viewBox="0 0 7 11"
+                            fill="none"
+                          >
+                            <path
+                              d="M0 11L-4.80825e-07 0L7 5.5L0 11Z"
+                              fill="#024751"
+                            ></path>
+                          </svg>
+                        </div>
+                        <dt>Элементы благоустройства</dt>
+                        <dd><span id="orange-total-area">0</span> м²</dd>
+                      </dl>
+                    </label>
+                    <ul class="accordion__items">
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>точечных</dt>
+                          <div></div>
+                          <dd><span id="maf-number">0</span> шт</dd>
+                        </dl>
+                      </li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>из них аварийных</dt>
+                          <div></div>
+                          <dd><span id="damaged-maf-number">0</span> шт</dd>
+                        </dl>
+                      </li>
+                      <li
+                        class="accordion__item accordion__item--separator"
+                      ></li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>поверхностей</dt>
+                          <div></div>
+                          <dd><span id="walk-number">0</span> шт</dd>
+                        </dl>
+                      </li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>их площадь</dt>
+                          <div></div>
+                          <dd><span id="walk-total-area">0</span> м²</dd>
+                        </dl>
+                      </li>
+                      <li
+                        class="accordion__item accordion__item--separator"
+                      ></li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>аварийных поверхностей</dt>
+                          <div></div>
+                          <dd><span id="damaged-walk-number">0</span> шт</dd>
+                        </dl>
+                      </li>
+                      <li class="accordion__item">
+                        <dl>
+                          <dt>их площадь</dt>
+                          <div></div>
+                          <dd>
+                            <span id="damaged-walk-total-area">0</span> м²
+                          </dd>
+                        </dl>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="page__item page__item--hidden">
+              <h2 class="page__title">Последние изменения</h2>
+              <div class="page__main"></div>
+            </li>
+            <li class="page__item page__item--hidden">
+              <h2 class="page__title">Конфигурация</h2>
+              <div class="page__main config">
+                <div class="config__accordion accordion">
+                  <input
+                    type="checkbox"
+                    class="accordion__input"
+                    id="object-values-ch"
+                  />
+                  <div class="accordion__inner">
+                    <label for="object-values-ch" class="accordion__header">
+                      <dl class="accordion__title">
+                        <div class="accordion__arrow">
+                          <svg
+                            class="accordion__svg"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="7"
+                            height="11"
+                            viewBox="0 0 7 11"
+                            fill="none"
+                          >
+                            <path
+                              d="M0 11L-4.80825e-07 0L7 5.5L0 11Z"
+                              fill="#024751"
+                            ></path>
+                          </svg>
+                        </div>
+                        <dt>Скачать объемы объектов</dt>
+                        <dd></dd></dl
+                    ></label>
+                    <div class="accordion__items accordion__items--flat">
+                      <p class="accordion__subtitle">
+                        Выберете из списка те объекты, объемы которых хотите
+                        скачать и нажмите кнопку <b>"Скачать"</b>
+                      </p>
+                      <ul class="accordion__objects"></ul>
+                      <button class="accordion__button">Скачать</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="menu__nav nav">
+          <ul class="nav__side nav__side--left">
+            <li class="nav__item nav__item--active">
+              <button data-id="0" class="nav__button">
+                <div class="nav__button-circle"></div>
+                <div class="nav__button-img">
+                  <img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20width='25'%20height='25'%20viewBox='0%200%2025%2025'%20fill='white'%20%3e%3cpath%20d='M11.5944%200.62011C12.2322%200.238803%2013.0288%200.242514%2013.6629%200.629748L24.0423%206.96729C24.6371%207.33052%2025%207.97725%2025%208.67425V20.2632C25%2022.8792%2022.8792%2025%2020.2632%2025C17.6471%2025%2015.5263%2022.8792%2015.5263%2020.2632V19.1875C15.5263%2018.0829%2014.6309%2017.1875%2013.5263%2017.1875H11.4737C10.3691%2017.1875%209.47368%2018.0829%209.47368%2019.1875V20.2632C9.47368%2022.8792%207.35293%2025%204.73684%2025C2.12076%2025%200%2022.8792%200%2020.2632V8.68653C0%207.98289%200.36976%207.33101%200.973694%206.96994L11.5944%200.62011Z'%20/%3e%3c/svg%3e" alt="" />
+                </div>
+              </button>
+            </li>
+            <li class="nav__item">
+              <button data-id="1" class="nav__button">
+                <div class="nav__button-circle"></div>
+                <div class="nav__button-img">
+                  <img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20width='21'%20height='25'%20viewBox='0%200%2021%2025'%20fill='white'%20%3e%3cpath%20d='M17.1818%200H3.81818C2.80588%200.00103396%201.83535%200.37764%201.11954%201.04719C0.403732%201.71674%200.0011054%202.62454%200%203.57143V21.4286C0.0011054%2022.3755%200.403732%2023.2833%201.11954%2023.9528C1.83535%2024.6224%202.80588%2024.999%203.81818%2025H17.1818C18.1941%2024.999%2019.1647%2024.6224%2019.8805%2023.9528C20.5963%2023.2833%2020.9989%2022.3755%2021%2021.4286V3.57143C20.9989%202.62454%2020.5963%201.71674%2019.8805%201.04719C19.1647%200.37764%2018.1941%200.00103396%2017.1818%200ZM10.5%2015.1786H5.72727C5.47411%2015.1786%205.23132%2015.0845%205.05231%2014.9171C4.8733%2014.7496%204.77273%2014.5225%204.77273%2014.2857C4.77273%2014.0489%204.8733%2013.8218%205.05231%2013.6544C5.23132%2013.4869%205.47411%2013.3929%205.72727%2013.3929H10.5C10.7532%2013.3929%2010.996%2013.4869%2011.175%2013.6544C11.354%2013.8218%2011.4545%2014.0489%2011.4545%2014.2857C11.4545%2014.5225%2011.354%2014.7496%2011.175%2014.9171C10.996%2015.0845%2010.7532%2015.1786%2010.5%2015.1786ZM15.2727%2010.7143H5.72727C5.47411%2010.7143%205.23132%2010.6202%205.05231%2010.4528C4.8733%2010.2853%204.77273%2010.0582%204.77273%209.82143C4.77273%209.58463%204.8733%209.35753%205.05231%209.19008C5.23132%209.02264%205.47411%208.92857%205.72727%208.92857H15.2727C15.5259%208.92857%2015.7687%209.02264%2015.9477%209.19008C16.1267%209.35753%2016.2273%209.58463%2016.2273%209.82143C16.2273%2010.0582%2016.1267%2010.2853%2015.9477%2010.4528C15.7687%2010.6202%2015.5259%2010.7143%2015.2727%2010.7143ZM15.2727%206.25H5.72727C5.47411%206.25%205.23132%206.15593%205.05231%205.98849C4.8733%205.82104%204.77273%205.59394%204.77273%205.35714C4.77273%205.12034%204.8733%204.89324%205.05231%204.7258C5.23132%204.55835%205.47411%204.46429%205.72727%204.46429H15.2727C15.5259%204.46429%2015.7687%204.55835%2015.9477%204.7258C16.1267%204.89324%2016.2273%205.12034%2016.2273%205.35714C16.2273%205.59394%2016.1267%205.82104%2015.9477%205.98849C15.7687%206.15593%2015.5259%206.25%2015.2727%206.25Z'%20/%3e%3c/svg%3e" alt="" />
+                </div>
+              </button>
+            </li>
+          </ul>
+          <div class="nav__middle">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="87"
+              height="71"
+              viewBox="0 0 87 55"
+              fill="#024751"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M3 0H0V69H87V0H84C84 22.0914 65.8676 40 43.5 40C21.1324 40 3 22.0914 3 0Z"
+              ></path>
+            </svg>
+            <button class="nav__button-add">
+              <svg fill="white" viewBox="0 0 16 16" height="48px" width="48px">
+                <path
+                  d="M8 4a.5.5 0 01.5.5v3h3a.5.5 0 010 1h-3v3a.5.5 0 01-1 0v-3h-3a.5.5 0 010-1h3v-3A.5.5 0 018 4z"
+                ></path>
+              </svg>
+            </button>
+            <ul class="nav__add-elements">
+              <li class="nav__add-element">
+                <img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2038%2038'%20fill='none'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M20.9%2038H17.1V29.8838C15.5686%2029.5545%2014.2253%2028.8373%2013.2259%2027.8667C12.0821%2028.2736%2010.8224%2028.5%209.5%2028.5C4.256%2028.5%200%2024.9533%200%2020.5833C0%2018.3318%201.1305%2016.2973%202.945%2014.8564C2.2838%2013.9951%201.9%2012.9722%201.9%2011.875C1.9%208.9015%204.7177%206.47108%208.2479%206.33967C9.8116%202.64733%2014.0372%200%2019%200C23.9628%200%2028.1884%202.64733%2029.7521%206.33967C33.2823%206.47108%2036.1%208.9015%2036.1%2011.875C36.1%2012.9722%2035.7162%2013.9951%2035.055%2014.8564C36.8695%2016.2973%2038%2018.3318%2038%2020.5833C38%2024.9533%2033.744%2028.5%2028.5%2028.5C27.1776%2028.5%2025.9179%2028.2736%2024.7741%2027.8667C23.7747%2028.8373%2022.4314%2029.5545%2020.9%2029.8838V38Z'%20fill='%23024751'/%3e%3c/svg%3e" alt="" />
+              </li>
+              <li class="nav__add-element">
+                <img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2038%2038'%20fill='none'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M20.9%2038H17.1V29.8838C15.5686%2029.5545%2014.2253%2028.8373%2013.2259%2027.8667C12.0821%2028.2736%2010.8224%2028.5%209.5%2028.5C4.256%2028.5%200%2024.9533%200%2020.5833C0%2018.3318%201.1305%2016.2973%202.945%2014.8564C2.2838%2013.9951%201.9%2012.9722%201.9%2011.875C1.9%208.9015%204.7177%206.47108%208.2479%206.33967C9.8116%202.64733%2014.0372%200%2019%200C23.9628%200%2028.1884%202.64733%2029.7521%206.33967C33.2823%206.47108%2036.1%208.9015%2036.1%2011.875C36.1%2012.9722%2035.7162%2013.9951%2035.055%2014.8564C36.8695%2016.2973%2038%2018.3318%2038%2020.5833C38%2024.9533%2033.744%2028.5%2028.5%2028.5C27.1776%2028.5%2025.9179%2028.2736%2024.7741%2027.8667C23.7747%2028.8373%2022.4314%2029.5545%2020.9%2029.8838V38Z'%20fill='%23024751'/%3e%3c/svg%3e" alt="" />
+              </li>
+              <li class="nav__add-element">
+                <img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2038%2038'%20fill='none'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M20.9%2038H17.1V29.8838C15.5686%2029.5545%2014.2253%2028.8373%2013.2259%2027.8667C12.0821%2028.2736%2010.8224%2028.5%209.5%2028.5C4.256%2028.5%200%2024.9533%200%2020.5833C0%2018.3318%201.1305%2016.2973%202.945%2014.8564C2.2838%2013.9951%201.9%2012.9722%201.9%2011.875C1.9%208.9015%204.7177%206.47108%208.2479%206.33967C9.8116%202.64733%2014.0372%200%2019%200C23.9628%200%2028.1884%202.64733%2029.7521%206.33967C33.2823%206.47108%2036.1%208.9015%2036.1%2011.875C36.1%2012.9722%2035.7162%2013.9951%2035.055%2014.8564C36.8695%2016.2973%2038%2018.3318%2038%2020.5833C38%2024.9533%2033.744%2028.5%2028.5%2028.5C27.1776%2028.5%2025.9179%2028.2736%2024.7741%2027.8667C23.7747%2028.8373%2022.4314%2029.5545%2020.9%2029.8838V38Z'%20fill='%23024751'/%3e%3c/svg%3e" alt="" />
+              </li>
+              <li class="nav__add-element">
+                <img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2038%2038'%20fill='none'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M20.9%2038H17.1V29.8838C15.5686%2029.5545%2014.2253%2028.8373%2013.2259%2027.8667C12.0821%2028.2736%2010.8224%2028.5%209.5%2028.5C4.256%2028.5%200%2024.9533%200%2020.5833C0%2018.3318%201.1305%2016.2973%202.945%2014.8564C2.2838%2013.9951%201.9%2012.9722%201.9%2011.875C1.9%208.9015%204.7177%206.47108%208.2479%206.33967C9.8116%202.64733%2014.0372%200%2019%200C23.9628%200%2028.1884%202.64733%2029.7521%206.33967C33.2823%206.47108%2036.1%208.9015%2036.1%2011.875C36.1%2012.9722%2035.7162%2013.9951%2035.055%2014.8564C36.8695%2016.2973%2038%2018.3318%2038%2020.5833C38%2024.9533%2033.744%2028.5%2028.5%2028.5C27.1776%2028.5%2025.9179%2028.2736%2024.7741%2027.8667C23.7747%2028.8373%2022.4314%2029.5545%2020.9%2029.8838V38Z'%20fill='%23024751'/%3e%3c/svg%3e" alt="" />
+              </li>
+            </ul>
+          </div>
+          <ul class="nav__side nav__side--right">
+            <li class="nav__item">
+              <button data-id="2" class="nav__button nav__button--noticed">
+                <div class="nav__button-circle"></div>
+                <div class="nav__button-img">
+                  <img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20width='25'%20height='25'%20viewBox='0%200%2025%2025'%20fill='white'%20%3e%3cpath%20d='M12.0283%200L12.1812%200.0122475C15.8537%200.306493%2018.8786%203.01485%2019.5755%206.63265V14.5408L20.8742%2016.0677C22.5002%2017.9793%2021.1416%2020.9184%2018.6321%2020.9184H4.71698C2.76454%2020.9184%201.64393%2018.6957%202.80494%2017.126L4.71698%2014.5408V6.63265L4.73244%206.55241C5.42057%202.97972%208.40247%200.301678%2012.0283%200Z'%20/%3e%3cpath%20d='M14.5805%2021.4285C14.8358%2021.4285%2015.0182%2021.6756%2014.943%2021.9196L14.7301%2022.6103C14.6599%2022.8383%2014.527%2023.0419%2014.3466%2023.198C13.151%2024.2325%2011.3773%2024.2325%2010.1817%2023.198C10.0013%2023.0419%209.86841%2022.8383%209.79815%2022.6103L9.58529%2021.9196C9.51011%2021.6756%209.69251%2021.4285%209.9478%2021.4285H14.5805Z'%20/%3e%3c/svg%3e" alt="" />
+                </div>
+              </button>
+            </li>
+            <li class="nav__item">
+              <button data-id="3" class="nav__button">
+                <div class="nav__button-circle"></div>
+                <div class="nav__button-img">
+                  <img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2048%2047'%20fill='none'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M0.5%2019.2V26.9081C0.5%2027.5886%200.84604%2028.2225%201.41848%2028.5905L5.77626%2031.3919C6.85854%2032.0876%207.54008%2033.2615%207.6077%2034.5464L7.94042%2040.868C7.97738%2041.5702%208.3804%2042.2014%209.00188%2042.5304L15.4466%2045.9423C16.0956%2046.2859%2016.8807%2046.2462%2017.4918%2045.8388L21.7028%2043.0314C23.0856%2042.1096%2024.8943%2042.1388%2026.2466%2043.1047L29.9235%2045.7311C30.5762%2046.1973%2031.4444%2046.2284%2032.1288%2045.8101L39.0429%2041.5849C39.6374%2041.2216%2040%2040.5751%2040%2039.8783V35.2648C40%2033.8597%2040.7372%2032.5577%2041.942%2031.8348L46.529%2029.0826C47.1314%2028.7212%2047.5%2028.0701%2047.5%2027.3676V19.2C47.5%2018.4614%2047.0929%2017.7829%2046.4412%2017.4353L42.1176%2015.1294C40.8142%2014.4342%2040%2013.0772%2040%2011.6V6.62167C40%205.92494%2039.6374%205.27842%2039.0429%204.91511L32.0698%200.653763C31.4156%200.253952%2030.5903%200.263355%2029.9454%200.67797L26.2453%203.05661C24.8859%203.93052%2023.1341%203.90055%2021.8054%202.98066L18.4502%200.657814C17.8623%200.250802%2017.1018%200.188622%2016.4556%200.494723L9.14383%203.95819C8.44533%204.28905%208%204.99277%208%205.76566V11.6C8%2013.0772%207.18581%2014.4342%205.88235%2015.1294L1.55882%2017.4353C0.907096%2017.7829%200.5%2018.4614%200.5%2019.2ZM25.2509%2015.4644C20.6869%2014.6815%2016.449%2018.0221%2016.1446%2022.6428L16.1127%2023.126C15.791%2028.0093%2019.9669%2031.9935%2024.8297%2031.4427V31.4427C29.1768%2030.9503%2032.2826%2026.9993%2031.7346%2022.6588L31.6739%2022.1783C31.2437%2018.7707%2028.6361%2016.045%2025.2509%2015.4644V15.4644Z'%20fill='white'/%3e%3c/svg%3e" alt="" />
+                </div>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="element-card">
+        <div class="element-card__close"></div>
+        <div class="element-card__loader"></div>
+        <div class="element-card__arrow"></div>
+        <div class="element-card__main">
+          <div class="element-card__head">
+            <div class="element-card__img-loader"></div>
+            <img class="element-card__img" />
+          </div>
+          <div class="element-card__body">
+            <input class="element-card__name" maxlength="16" disabled />
+            <p class="element-card__error hide">
+              ⚠ Введите корректное название
+            </p>
+            <div class="element-card__type">дерево</div>
+            <div class="element-card__content"></div>
+            <div class="element-card__controls">
+              <button class="element-card__edit">Редактировать</button>
+              <button class="element-card__remove hide">Удалить</button>
+            </div>
+            <div class="element-card__last-edit">
+              Последнее изменение --.--.---- --:--
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <template id="template-tree">
+      <ul>
+        <li>Высота: <span></span></li>
+        <li class="hide">
+          <div>
+            <div class="element-card__single-line">
+              <label>Высота, см:</label>
+              <input
+                id="height"
+                class="element-card__editable-field"
+                min="1"
+                type="number"
+              />
+            </div>
+            <p class="element-card__error hide">
+              ⚠ Введите корректное значение
+            </p>
+          </div>
+        </li>
+        <li>Диаметр ствола: <span></span></li>
+        <li class="hide">
+          <div>
+            <div class="element-card__single-line">
+              <label>Диаметр ствола, см:</label>
+              <input
+                id="trunk-diameter"
+                class="element-card__editable-field"
+                min="1"
+                type="number"
+              />
+            </div>
+            <p class="element-card__error hide">
+              ⚠ Введите корректное значение
+            </p>
+          </div>
+        </li>
+        <li>Возраст: <span></span></li>
+        <li class="hide">
+          <div class="element-card__single-line">
+            <label>Возраст:</label>
+            <select id="age" class="element-card__editable-field">
+              <option value="0">не более 5 лет</option>
+              <option value="1">не более 10 лет</option>
+              <option value="2">от 10 до 30 лет</option>
+              <option value="3">от 30 и более лет</option>
+            </select>
+          </div>
+        </li>
+        <li>Проекция кроны: <span></span></li>
+        <li class="hide">
+          <div>
+            <div class="element-card__single-line">
+              <label>Проекция кроны, см:</label>
+              <input
+                id="crown-projection"
+                class="element-card__editable-field"
+                min="1"
+                type="number"
+              />
+            </div>
+            <p class="element-card__error hide">
+              ⚠ Введите корректное значение
+            </p>
+          </div>
+        </li>
+        <li>Стволов: <span></span></li>
+        <li class="hide">
+          <div>
+            <div class="element-card__single-line">
+              <label>Стволов, шт:</label>
+              <input
+                id="trunk-number"
+                class="element-card__editable-field"
+                min="1"
+                type="number"
+              />
+            </div>
+            <p class="element-card__error hide">
+              ⚠ Введите корректное значение
+            </p>
+          </div>
+        </li>
+        <li>Оценка: <span></span></li>
+        <li class="hide">
+          <div class="element-card__single-line">
+            <label>Оценка: </label>
+            <select id="assessment" class="element-card__editable-field">
+              <option value="0">отличная</option>
+              <option value="1">хорошая</option>
+              <option value="2">удовлетворительная</option>
+              <option value="3">неудовлетворительная</option>
+              <option value="4">аварийное</option>
+            </select>
+          </div>
+        </li>
+        <li>Санитарное состояние: <span></span></li>
+        <li class="hide">
+          <div class="element-card__single-line">
+            <label>Санитарное состояние: </label>
+            <select
+              id="sanitary-condition"
+              class="element-card__editable-field"
+            >
+              <option value="0">здоровые</option>
+              <option value="1">ослабленные</option>
+              <option value="2">сильно ослабленные</option>
+              <option value="3">усыхающие</option>
+              <option value="4">погибшие</option>
+              <option value="5">свежий сухостой</option>
+              <option value="6">свежий ветровал</option>
+              <option value="7">свежий бурелом</option>
+              <option value="8">старый ветровал</option>
+              <option value="9">старый бурелом</option>
+            </select>
+          </div>
+        </li>
+        <li>Повреждения: <span></span></li>
+        <li class="hide">
+          <div id="damage" class="element-card__multi-line">
+            <div class="element-card__single-line">
+              <label>Повреждения: </label>
+              <select class="element-card__editable-field">
+                <option>выбирите</option>
+                <option value="0">1 дупло</option>
+                <option value="1">2 дупла</option>
+                <option value="2">более 2 дупел</option>
+                <option value="3">морозобоина</option>
+                <option value="4">несколько морозобоин</option>
+                <option value="5">сухобочина</option>
+                <option value="6">трещина</option>
+                <option value="7">механическое повреждение ствола</option>
+                <option value="8">отслойка коры</option>
+                <option value="9">в стволе инородные предметы</option>
+                <option value="10">усохшие скелетные ветви</option>
+                <option value="11">наличие капа или сувеля</option>
+                <option value="12">наличие плодовых тел</option>
+                <option value="13">ствол наклонен</option>
+                <option value="14">ствол искривлен</option>
+                <option value="15">вершина ствола сломана на высоте</option>
+                <option value="16">развилка ствола на высоте</option>
+                <option value="17">повреждение корней</option>
+                <option value="18">обнажение корневых лап</option>
+                <option value="19">обтаптывание корней</option>
+                <option value="20">
+                  повреждения при прокладке инженерных сетей
+                </option>
+                <option value="21">повреждение кроны</option>
+                <option value="22">изменен цвет листвы/хвои</option>
+                <option value="23">измельчение листьев/хвои</option>
+                <option value="24">повреждение вредителями</option>
+                <option value="25">повреждение болезнями</option>
+                <option value="26">механические повреждения кроны</option>
+              </select>
+            </div>
+          </div>
+        </li>
+        <li>Рекомендации по уходу:<span></span></li>
+        <li class="hide">
+          <div id="recommendation" class="element-card__multi-line">
+            <div class="element-card__single-line">
+              <label>Рекомендации по уходу:</label>
+              <select class="element-card__editable-field">
+                <option>выбирите</option>
+                <option value="0">
+                  рубка с последующей корчевкой прикорневого кома
+                </option>
+                <option value="1">рубка с дроблением пил</option>
+                <option value="2">
+                  обрезка санитарная кроны до 5 сухих сучьев
+                </option>
+                <option value="3">
+                  обрезка санитарная кроны от 6 до 15 сухих сучьев
+                </option>
+                <option value="4">
+                  обрезка санитарная кроны более 15 сухих сучьев
+                </option>
+                <option value="5">обрезка вершины</option>
+                <option value="6">обрезка формовочная кроны слабая</option>
+                <option value="7">обрезка формовочная кроны средняя</option>
+                <option value="8">обрезка формовочная кроны сильная</option>
+                <option value="9">
+                  лечение ран ствола и корневых лап размером до 1 дм³
+                </option>
+                <option value="10">
+                  лечение ран ствола и корневых лап размером более 1 до 5 дм³
+                </option>
+                <option value="11">
+                  лечение ран ствола и корневых лап размером более 5 до 10 дм³
+                </option>
+                <option value="12">
+                  лечение ран ствола и корневых лап размером более 10 дм³
+                </option>
+                <option value="13">
+                  лечение и пломбирование дупла размером до 10 дм²
+                </option>
+                <option value="14">
+                  лечение и пломбирование дупла размером более 10 до 30 дм ³
+                </option>
+                <option value="15">
+                  лечение и пломбирование дупла размером более 30 дм³
+                </option>
+                <option value="16">
+                  закраска ран ствола и корневых лап размером до 1 дм²
+                </option>
+                <option value="17">
+                  закраска ран ствола и корневых лап размером от 1 до 5 дм³
+                </option>
+                <option value="18">
+                  закраска ран ствола и корневых лап размером более 5 до 10 дм³
+                </option>
+                <option value="19">
+                  закраска ран ствола и корневых лап размером более 10 дм³
+                </option>
+                <option value="20">санитарная рубка</option>
+                <option value="21">рубки ухода</option>
+                <option value="22">удаление поросли</option>
+                <option value="23">удаление водяных побегов</option>
+                <option value="24">удаление плодовых тел</option>
+                <option value="25">крепление ствола подпорками</option>
+                <option value="26">
+                  стягивание ствола (при развале кроны)
+                </option>
+                <option value="27">засыпка корней</option>
+                <option value="28">комплексный уход</option>
+                <option value="29">обработка химикатами</option>
+              </select>
+            </div>
+          </div>
+        </li>
+        <li>Примечание: <span></span></li>
+        <li class="hide">
+          <div class="element-card__multi-line">
+            <label>Примечание: </label>
+            <textarea
+              id="comment"
+              class="element-card__editable-field"
+              maxlength="100"
+            ></textarea>
+          </div>
+        </li>
+      </ul>
+    </template>
+    <template id="template-furniture">
+      <ul>
+        <li>Оценка: <span></span></li>
+        <li class="hide">
+          <div class="element-card__single-line">
+            <label>Оценка: </label>
+            <select id="assessment" class="element-card__editable-field">
+              <option value="0">отличная</option>
+              <option value="1">хорошая</option>
+              <option value="2">удовлетворительная</option>
+              <option value="3">неудовлетворительная</option>
+              <option value="4">аварийное</option>
+            </select>
+          </div>
+        </li>
+        <li>Примечание: <span></span></li>
+        <li class="hide">
+          <div class="element-card__multi-line">
+            <label>Примечание: </label>
+            <textarea
+              id="comment"
+              class="element-card__editable-field"
+              maxlength="100"
+            ></textarea>
+          </div>
+        </li>
+      </ul>
+    </template>
+    <template id="template-area">
+      <ul>
+        <li>Общая площадь: <span></span></li>
+        <li class="hide">
+          <div class="element-card__single-line">
+            <label>Общая площадь, м²:</label>
+            <input
+              id="total-area"
+              class="element-card__editable-field"
+              type="number"
+              disabled
+            />
+          </div>
+        </li>
+        <li>Оценка: <span></span></li>
+        <li class="hide">
+          <div class="element-card__single-line">
+            <label>Оценка: </label>
+            <select id="assessment" class="element-card__editable-field">
+              <option value="0">отличная</option>
+              <option value="1">хорошая</option>
+              <option value="2">удовлетворительная</option>
+              <option value="3">неудовлетворительная</option>
+              <option value="4">аварийное</option>
+            </select>
+          </div>
+        </li>
+        <li>Примечание: <span></span></li>
+        <li class="hide">
+          <div class="element-card__multi-line">
+            <label>Примечание: </label>
+            <textarea
+              id="comment"
+              class="element-card__editable-field"
+              maxlength="100"
+            ></textarea>
+          </div>
+        </li>
+      </ul>
+    </template>
+    <template id="template-selected-option">
+      <div class="element-card__selected-option">
+        <p>повреждение</p>
+        <button>x</button>
+      </div>
+    </template>
+    <template id="template-notification">
+      <div class="page__notification notification">
+        <div class="notification__header">
+          <div class="notification__author">Пользователь Ширинкин Д.А.</div>
+          <div class="notification__datetime">15.10.23 08:44</div>
+        </div>
+        <div class="notification__message">
+          добавил новый элемент (Скамейка - ID 24)
+        </div>
+      </div>
+    </template>
+    <template id="template-object-config">
+      <li class="accordion__object">
+        <input
+          class="accordion__checkbox"
+          type="checkbox"
+          id="object-values-1"
+        />
+        <div class="accordion__custom-checkbox"></div>
+        <label for="object-values-1">сад Декабристов</label>
+      </li>
+    </template>
+  </body>
+</html>
