@@ -12,3 +12,9 @@
     background-color: $primary;
   }
 }
+
+@mixin phone-size {
+  @media screen and (max-width: 600px) {
+    @content;
+  }
+}
