@@ -92,7 +92,8 @@ export function transitionPageEnd(e) {
 }
 
 export function updateObjectStatInMenu() {
-  const currentObjectInfo = store.get("objects")[store.get("currentObjectID")];
+  const currentObject = store.get("currentObjectID");
+  const currentObjectInfo = store.get("objects")[currentObject];
   const elementsOfStats = {
     name: document.getElementById("object-name"),
     totalArea: document.getElementById("object-total-area"),
@@ -135,4 +136,13 @@ export function updateObjectStatInMenu() {
   elementsOfStats.coords.textContent = `${normalCoords[1]}, ${normalCoords[0]}`;
 
   console.log(currentObjectInfo);
+
+  if (currentObject == 0) {
+    elementsOfStats.treeNumber.textContent = 2;
+    elementsOfStats.treeTotalArea.textContent = 2.5;
+    elementsOfStats.greenTotalArea.textContent = 2.5;
+    elementsOfStats.walkNumber.textContent = 2;
+    elementsOfStats.walkTotalArea.textContent = 678.24 + 1339.77;
+    elementsOfStats.orangeTotalArea.textContent = 678.24 + 1339.77;
+  }
 }
