@@ -73,6 +73,7 @@ export const elements = [
         id: 0,
         totalArea: 678.24,
         assessment: 1,
+        photos: ["https://i.ibb.co/RHrw3V0/image.png"],
         cords: [
           6262924.59226444, 7970149.201124107, 6262896.315102937,
           7970135.232244444, 6262914.898891578, 7970114.497947435,
