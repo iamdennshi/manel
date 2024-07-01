@@ -7,7 +7,6 @@ import Style from "ol/style/Style";
 import CircleStyle from "ol/style/Circle";
 import Fill from "ol/style/Fill";
 import Text from "ol/style/Text";
-import { AREA_TYPE } from "../utils";
 
 export async function updateMarkers() {
   const elements = await fetchElements(store.get("currentObjectID"));

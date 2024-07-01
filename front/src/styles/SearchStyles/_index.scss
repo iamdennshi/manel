@@ -29,6 +29,10 @@
   transition-duration: 500ms;
   transition-property: top;
 
+  &--android {
+    top: 32px;
+  }
+
   &--hide {
     top: -64px;
   }

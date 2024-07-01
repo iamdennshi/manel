@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
 
 
         if (isNetworkAvailable()) {
+            WebView.setWebContentsDebuggingEnabled(true);
             myWebView.webViewClient = WebViewClient()
             myWebView.webChromeClient = WebChromeClient()
             myWebView.loadUrl("https://iamdennshi.github.io/manel/")
