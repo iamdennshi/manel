@@ -43,9 +43,7 @@ export function initSubscribers() {
     const objects = store.get("objects");
     console.log(`currentObjectID ${oldValue} -> ${newValue}`);
     store.get("map").getView().setCenter(objects[newValue].cords);
-    if (!wondow.Andorid) {
-      localStorage.setItem("currentObjectID", newValue);
-    }
+
     updateMarkers();
     updateObjectStatInMenu();
   });
@@ -176,14 +174,8 @@ export async function initInteractions() {
 }
 
 export async function initStore() {
-  if (window.Andorid) {
-    store.init("currentObjectID", 0);
-  } else {
-    store.init(
-      "currentObjectID",
-      Number(localStorage.getItem("currentObjectID")) || 0
-    );
-  }
+  store.init("currentObjectID", 0);
+
   store.init("objects", await fetchObjects());
   // Полная информация о выбранном элементе
   store.init("currentElement", "");
