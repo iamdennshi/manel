@@ -43,7 +43,7 @@ export function initSubscribers() {
     const objects = store.get("objects");
     console.log(`currentObjectID ${oldValue} -> ${newValue}`);
     store.get("map").getView().setCenter(objects[newValue].cords);
-    if (Andorid) {
+    if (window.isAndroid) {
       localStorage.setItem("currentObjectID", newValue);
     }
     updateMarkers();
@@ -177,7 +177,7 @@ export async function initInteractions() {
 
 export async function initStore() {
   store.init("currentObjectID", 0);
-  if (Andorid) {
+  if (window.isAndroid) {
     store.init("currentObjectID", 0);
   } else {
     store.init(
@@ -215,7 +215,7 @@ export async function initSearch() {
     clickOnSearchOverlay(e, addressObjects)
   );
 
-  if (Android) {
+  if (window.isAndroid) {
     document.querySelector(".search").classList.add("search--android");
   }
 }

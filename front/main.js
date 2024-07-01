@@ -14,6 +14,12 @@ import store from "./src/store";
 const __DEBUG__ = false;
 
 (async function main() {
+  // Определяем, запущено ли приложение через webview (Android)
+  try {
+    window.isAndroid = Android && true;
+  } catch {
+    window.isAndroid = false;
+  }
   // Инициализация хранилища текущим ид объекта и списком всех объектов
   await initStore();
   // Инициализируем поиск
