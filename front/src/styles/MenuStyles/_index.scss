@@ -118,6 +118,7 @@
     dd {
       text-align: right;
       flex-grow: 1;
+      white-space: nowrap;
     }
   }
 
@@ -440,5 +441,9 @@
   }
   &:first-of-type {
     margin: 0;
+  }
+
+  &__datetime {
+    text-align: right;
   }
 }
