@@ -115,7 +115,7 @@ export function editingElement() {
       // Валидация названия
       if (
         elementCardName.value.length < 2 ||
-        elementCardName.value.length > 16
+        elementCardName.value.length > 20
       ) {
         elementCardName.nextElementSibling.classList.remove("hide");
         startAnimation(elementCardName.nextElementSibling, "shake");

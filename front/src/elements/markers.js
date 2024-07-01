@@ -20,7 +20,7 @@ export async function updateMarkers() {
       geometry: new Point([elem.cords[0], elem.cords[1]]),
       id: elem.id,
       name: elem.name,
-      type: elem.type ? "tree" : "furniture",
+      type: elem.type ? "furniture" : "tree",
     });
   });
 

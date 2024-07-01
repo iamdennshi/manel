@@ -3,10 +3,10 @@ import { AGE, ASSESSMENT, DAMAGE, RECOMMENDATION, SANITARY } from "../utils";
 export function updateProperties(type, elementHtml, data) {
   const properties = elementHtml.querySelectorAll("span");
   if (type === "tree") {
-    properties[0].innerText = `${data.height} см`;
+    properties[0].innerText = `${data.height} м`;
     properties[1].innerText = `${data.trunkDiameter} см`;
     properties[2].innerText = `${AGE[data.age]}`;
-    properties[3].innerText = `${data.crownProjection} см`;
+    properties[3].innerText = `${data.crownProjection} м`;
     properties[4].innerText = `${data.trunkNumber} шт`;
     properties[5].innerText = `${ASSESSMENT[data.assessment]}`;
     properties[6].innerText = `${SANITARY[data.sanitaryCondition]}`;
