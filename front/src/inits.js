@@ -176,7 +176,6 @@ export async function initInteractions() {
 }
 
 export async function initStore() {
-  store.init("currentObjectID", 0);
   if (window.isAndroid) {
     store.init("currentObjectID", 0);
   } else {
