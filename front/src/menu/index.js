@@ -144,5 +144,6 @@ export function updateObjectStatInMenu() {
     elementsOfStats.walkNumber.textContent = 2;
     elementsOfStats.walkTotalArea.textContent = 678.24 + 1339.77;
     elementsOfStats.orangeTotalArea.textContent = 678.24 + 1339.77;
+    elementsOfStats.mafNumber.textContent = 1;
   }
 }
