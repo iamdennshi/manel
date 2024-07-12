@@ -8,10 +8,19 @@ export function hideNav() {
   if (store.get("selectedNavItem") !== 0) {
     store.set("selectedNavItem", 0);
   }
+
+  const elementsToDisableTab = nav.querySelectorAll("button");
+  elementsToDisableTab.forEach((elem) => {
+    elem.tabIndex = -1;
+  });
 }
 
 export function showNav() {
   nav.classList.remove("nav--hide");
+  const elementsToEnableTab = nav.querySelectorAll("button");
+  elementsToEnableTab.forEach((elem) => {
+    elem.tabIndex = 1;
+  });
 }
 
 export function clickOnNavAdd(e) {
