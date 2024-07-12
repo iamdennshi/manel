@@ -48,3 +48,17 @@ button,
 ul {
   -webkit-tap-highlight-color: transparent;
 }
+
+.overlay {
+  position: fixed;
+  inset: 0;
+
+  background-color: black;
+  opacity: 0.5;
+  transition-duration: 300ms;
+
+  &--hide {
+    opacity: 0;
+    visibility: hidden;
+  }
+}

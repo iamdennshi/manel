@@ -189,8 +189,8 @@ export async function initStore() {
 
 export async function initSearch() {
   const search = document.querySelector(".search__wrapper");
-  const overlay = document.getElementById("search-overlay");
-  const searchInputField = document.querySelector(".search__input-field");
+  const overlay = document.querySelector(".search__overlay");
+  const searchInputField = document.querySelector(".search__text");
   const searchElements = document.querySelector(".search__elements");
 
   const objects = store.get("objects");
@@ -202,6 +202,7 @@ export async function initSearch() {
     element.classList.add("search__element");
     element.textContent = obj.address;
     element.dataset.id = obj.id;
+    element.tabIndex = 1;
     searchElements.appendChild(element);
   }
 

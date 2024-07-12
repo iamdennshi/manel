@@ -12,20 +12,22 @@
   </head>
   <body>
     <div id="map" style="display: none">
-      <div id="search-overlay" class="overlay overlay--hide"></div>
       <div class="search">
+        <div class="search__overlay overlay overlay--hide"></div>
         <div class="search__wrapper">
-          <div class="search__input">
-            <img
-              src="./src/assets/serach-icon.svg"
-              alt=""
-              class="search__icon"
-            />
-            <button tabindex="1" class="search__input-field">
-              Название объекта
-            </button>
-          </div>
-          <ul class="search__elements search__elements--hide"></ul>
+          <button tabindex="1" class="search__input">
+            <div class="search__top">
+              <img
+                src="./src/assets/serach-icon.svg"
+                alt=""
+                class="search__icon"
+              />
+              <p class="search__text"></p>
+            </div>
+            <div class="search__bottom">
+              <ul class="search__elements search__elements--hide"></ul>
+            </div>
+          </button>
         </div>
       </div>
       <div class="menu">

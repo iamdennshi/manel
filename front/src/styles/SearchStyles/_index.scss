@@ -1,33 +1,14 @@
 @use "../global/variables" as *;
 @use "../global/mixins" as *;
 
-.overlay {
-  position: fixed;
-  inset: 0;
-  background-color: black;
-  opacity: 0.5;
-  z-index: 1;
-  transition-duration: 300ms;
-
-  &--hide {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-
 .search {
-  font-size: 16px;
-
+  width: 100%;
   position: absolute;
   z-index: 1;
   top: 16px;
   left: 50%;
-  transform: translate(-50%);
-  max-width: 400px;
-  width: 100%;
-  padding: 0 16px;
-  transition-duration: 500ms;
   transition-property: top;
+  transition-duration: 500ms;
 
   &--android {
     top: 50px;
@@ -38,30 +19,47 @@
   }
 
   &__wrapper {
+    position: absolute;
+    max-width: 400px;
+    width: 100%;
+    transform: translate(-50%);
+    font-size: 16px;
+
     cursor: pointer;
 
-    background-color: $white;
     padding: 0 16px;
-    border: 1px solid #e6edee;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    border-radius: 9999px;
+  }
 
-    &--showing-elements {
-      border-radius: 16px;
-    }
+  &__top {
+    display: flex;
   }
 
   &__input {
-    display: flex;
+    display: block;
+    width: 100%;
+    background-color: $white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 9999px;
+    border: 1px solid #e6edee;
 
-    padding: 14px 0;
+    padding: 14px 16px;
 
     &--showing-elements {
-      border-bottom: 1px solid #e6edee;
+      border-radius: 16px;
+      padding-bottom: 8px;
+
+      .search__elements {
+        border-top: 1px solid #e6edee;
+      }
+    }
+
+    &:focus {
+      outline: 2px solid $secondary;
+      outline-offset: -4px;
     }
   }
 
-  &__input-field {
+  &__text {
     cursor: pointer;
     font-size: inherit;
     display: block;
@@ -72,46 +70,16 @@
     background-color: transparent;
     border: none;
     text-align: left;
-
-    &::placeholder {
-      color: #c1c1c1;
-    }
-
-    &--error {
-      color: red;
-    }
-  }
-
-  &__clear {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px;
-    transition-duration: 150ms;
-    cursor: pointer;
-    width: 24px;
-    border: none;
-    outline: none;
-    border-radius: 9999px;
-    background-color: transparent;
-
-    &:hover {
-      background-color: #e6fbf3;
-    }
-    &:focus {
-      background-color: #e6fbf3;
-    }
-
-    &:active {
-      background-color: $secondary;
-    }
   }
 
   &__elements {
     display: flex;
     flex-direction: column;
+    text-align: left;
     gap: 8px;
     margin: 8px 0;
+    padding-top: 8px;
+    margin-top: 14px;
     cursor: pointer;
     max-height: 440px;
     overflow: auto;
@@ -125,7 +93,7 @@
 
   &__element {
     outline: none;
-    padding: 7px 28px;
+    padding: 8px 28px;
     transition-duration: 150ms;
     border-radius: 9999px;
 
@@ -139,7 +107,8 @@
     }
 
     &:focus {
-      background-color: #e6fbf3;
+      outline: 2px solid $secondary;
+      outline-offset: -2px;
     }
   }
 }
