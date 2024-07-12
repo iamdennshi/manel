@@ -188,7 +188,7 @@ export async function initStore() {
 }
 
 export async function initSearch() {
-  const search = document.querySelector(".search__wrapper");
+  const search = document.querySelector(".search__input");
   const overlay = document.querySelector(".search__overlay");
   const searchInputField = document.querySelector(".search__text");
   const searchElements = document.querySelector(".search__elements");

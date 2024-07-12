@@ -5,7 +5,6 @@ const searchInputField = document.querySelector(".search__text");
 const overlay = document.querySelector(".search__overlay");
 const searchElements = document.querySelector(".search__elements");
 const searchInput = document.querySelector(".search__input");
-const search = document.querySelector(".search__wrapper");
 
 export function showSearch() {
   const search = document.querySelector(".search");
@@ -38,12 +37,15 @@ export function clickOnSearchLiElement(e) {
 }
 
 export function clickOnSearch() {
-  hideNav();
-  searchElements.classList.remove("search__elements--hide");
-  searchInput.classList.add("search__input--showing-elements");
+  if (searchElements.classList.contains("search__elements--hide")) {
+    hideNav();
+    searchElements.classList.remove("search__elements--hide");
+    searchInput.classList.add("search__input--showing-elements");
 
-  overlay.classList.remove("overlay--hide");
-  searchInputField.focus();
+    overlay.classList.remove("overlay--hide");
+  } else {
+    clickOnSearchOverlay();
+  }
 }
 
 export function clickOnSearchOverlay() {
@@ -53,8 +55,5 @@ export function clickOnSearchOverlay() {
     searchInput.classList.remove("search__input--showing-elements");
 
     showNav();
-    if (searchInputField.classList.contains("search__text--error")) {
-      searchInputField.classList.remove("search__text--error");
-    }
   }
 }
