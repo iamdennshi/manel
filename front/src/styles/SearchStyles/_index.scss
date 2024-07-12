@@ -38,6 +38,8 @@
   }
 
   &__wrapper {
+    cursor: pointer;
+
     background-color: $white;
     padding: 0 16px;
     border: 1px solid #e6edee;
@@ -51,6 +53,7 @@
 
   &__input {
     display: flex;
+
     padding: 14px 0;
 
     &--showing-elements {
@@ -59,6 +62,7 @@
   }
 
   &__input-field {
+    cursor: pointer;
     font-size: inherit;
     display: block;
     font-weight: bold;
@@ -67,6 +71,7 @@
     padding: 0 10px;
     background-color: transparent;
     border: none;
+    text-align: left;
 
     &::placeholder {
       color: #c1c1c1;

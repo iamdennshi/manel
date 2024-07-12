@@ -24,9 +24,7 @@ import Select from "ol/interaction/Select";
 import Modify from "ol/interaction/Modify";
 import Style from "ol/style/Style";
 import {
-  changeSearchInputField,
   clickOnSearch,
-  clickOnSearchClear,
   clickOnSearchLiElement,
   clickOnSearchOverlay,
 } from "./search";
@@ -194,25 +192,22 @@ export async function initSearch() {
   const overlay = document.getElementById("search-overlay");
   const searchInputField = document.querySelector(".search__input-field");
   const searchElements = document.querySelector(".search__elements");
-  const searchClear = document.querySelector(".search__clear");
 
   const objects = store.get("objects");
   const currentObject = objects[store.get("currentObjectID")];
-  const addressObjects = objects.map((obj) => ({
-    id: obj.id,
-    address: obj.address,
-  }));
-  searchInputField.value = currentObject.address;
+  searchInputField.textContent = currentObject.address;
+
+  for (let obj of objects) {
+    const element = document.createElement("li");
+    element.classList.add("search__element");
+    element.textContent = obj.address;
+    element.dataset.id = obj.id;
+    searchElements.appendChild(element);
+  }
 
   searchElements.addEventListener("click", clickOnSearchLiElement);
-  searchClear.addEventListener("click", clickOnSearchClear);
-  search.addEventListener("click", (e) => clickOnSearch(e, addressObjects));
-  searchInputField.addEventListener("input", (e) =>
-    changeSearchInputField(e, addressObjects)
-  );
-  overlay.addEventListener("click", (e) =>
-    clickOnSearchOverlay(e, addressObjects)
-  );
+  search.addEventListener("click", clickOnSearch);
+  overlay.addEventListener("click", clickOnSearchOverlay);
 
   if (window.isAndroid) {
     document.querySelector(".search").classList.add("search--android");

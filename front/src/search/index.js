@@ -29,7 +29,7 @@ export function clickOnSearchLiElement(e) {
     searchInputField.value = currentObject.address;
   } else {
     const currentObjectId = store.set("currentObjectID", target.dataset.id);
-    searchInputField.value = objects[currentObjectId].address;
+    searchInputField.textContent = objects[currentObjectId].address;
   }
   overlay.classList.add("overlay--hide");
   searchElements.classList.add("search__elements--hide");
@@ -38,16 +38,7 @@ export function clickOnSearchLiElement(e) {
   e.stopPropagation(); // prevent clickOnSearch
 }
 
-export function clickOnSearchClear(e) {
-  searchInputField.value = "";
-  searchInputField.dispatchEvent(new Event("input"));
-  overlay.classList.remove("overlay--hide");
-  searchInputField.focus();
-  hideNav();
-  e.stopPropagation(); // prevent clickOnSearch
-}
-
-export function clickOnSearch(e, addressObjects) {
+export function clickOnSearch() {
   hideNav();
   searchElements.classList.remove("search__elements--hide");
   search.classList.add("search__wrapper--showing-elements");
@@ -55,66 +46,18 @@ export function clickOnSearch(e, addressObjects) {
 
   overlay.classList.remove("overlay--hide");
   searchInputField.focus();
-  updateSearchLiElements(addressObjects);
 }
 
-export function changeSearchInputField(e, addressObjects) {
-  const currentInputedAddress = searchInputField.value;
-  const correspondingAddress = addressObjects.filter((obj) =>
-    obj.address.includes(currentInputedAddress)
-  );
-
-  if (overlay.classList.contains("overlay--hide")) {
-    overlay.classList.remove("overlay--hide");
-  }
-
-  if (correspondingAddress.length !== 0) {
-    searchElements.classList.remove("search__elements--hide");
-    searchInputField.classList.remove("search__input-field--error");
-    search.classList.add("search__wrapper--showing-elements");
-    searchInput.classList.add("search__input--showing-elements");
-    updateSearchLiElements(addressObjects, correspondingAddress);
-  } else {
-    searchInputField.classList.add("search__input-field--error");
-    searchElements.classList.add("search__elements--hide");
-    search.classList.remove("search__wrapper--showing-elements");
-    searchInput.classList.remove("search__input--showing-elements");
-  }
-}
-
-export function clickOnSearchOverlay(e, addressObjects) {
+export function clickOnSearchOverlay() {
   if (!overlay.classList.contains("overlay--hide")) {
-    const objects = store.get("objects");
-    const currentObject = objects[store.get("currentObjectID")];
-
     overlay.classList.add("overlay--hide");
     searchElements.classList.add("search__elements--hide");
     searchInput.classList.remove("search__input--showing-elements");
     search.classList.remove("search__wrapper--showing-elements");
 
-    searchInputField.value = currentObject.address;
-
     showNav();
     if (searchInputField.classList.contains("search__input-field--error")) {
       searchInputField.classList.remove("search__input-field--error");
-      updateSearchLiElements(addressObjects);
     }
-  }
-}
-
-export function updateSearchLiElements(addressObjects, listOfAddress) {
-  const addresses =
-    listOfAddress ??
-    addressObjects.filter((obj) =>
-      searchInputField.value.includes(obj.address)
-    );
-  searchElements.innerHTML = "";
-
-  for (let obj of addresses) {
-    const element = document.createElement("li");
-    element.classList.add("search__element");
-    element.textContent = obj.address;
-    element.dataset.id = obj.id;
-    searchElements.appendChild(element);
   }
 }
