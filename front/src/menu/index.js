@@ -3,11 +3,23 @@ import store from "../store";
 
 const nav = document.querySelector(".nav");
 
+export function hideAddElements() {
+  const elementsToAdd = document.querySelector(".nav__add-elements");
+  if (!elementsToAdd.classList.contains("nav__add-elements--hidden")) {
+    const addButton = document.querySelector(".nav__button-add");
+    elementsToAdd.classList.add("nav__add-elements--hidden");
+    addButton.classList.remove("nav__button-add--active");
+  }
+}
+
 export function hideNav() {
   nav.classList.add("nav--hide");
   if (store.get("selectedNavItem") !== 0) {
     store.set("selectedNavItem", 0);
   }
+
+  // Если происходит выбор элемента для добавления, возвращаем по умолчанию
+  hideAddElements();
 
   const elementsToDisableTab = nav.querySelectorAll("button");
   elementsToDisableTab.forEach((elem) => {
@@ -24,7 +36,13 @@ export function showNav() {
 }
 
 export function clickOnNavAdd(e) {
-  console.log("click add");
+  if (store.get("selectedNavItem") !== 0) {
+    store.set("selectedNavItem", 0);
+  }
+  const addButton = e.currentTarget;
+  const elementsToAdd = document.querySelector(".nav__add-elements");
+  elementsToAdd.classList.toggle("nav__add-elements--hidden");
+  addButton.classList.toggle("nav__button-add--active");
 }
 
 export function clickOnNavElement(e) {
@@ -73,6 +91,8 @@ export function changeSelectedNavItem(oldValue, newValue) {
     page.classList.add("page--active");
     pageItem.classList.remove("page__item--hidden");
   }
+
+  hideAddElements();
 
   // Нажали на уведомление
   if (newValue === 2) {
