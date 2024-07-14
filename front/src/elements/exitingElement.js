@@ -1,3 +1,4 @@
+import { showControls } from "../controls";
 import { showNav } from "../menu";
 import { showSearch } from "../search";
 import store from "../store";
@@ -7,7 +8,7 @@ export function exitingElement() {
   store.get("elementOverlay").setPosition(undefined);
   store.get("elementSelect").getFeatures().clear();
   showSearch();
-  showSearch();
+  showControls();
   showNav();
   exitEditMode();
 }

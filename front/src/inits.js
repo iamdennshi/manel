@@ -1,12 +1,7 @@
 import { Map, Overlay, View } from "ol";
 import TileLayer from "ol/layer/Tile";
 import { OSM } from "ol/source";
-import {
-  ScaleLine,
-  Zoom,
-  ZoomSlider,
-  defaults as defaultControls,
-} from "ol/control.js";
+import { ScaleLine, Zoom } from "ol/control.js";
 import store from "./store";
 import { fetchObjects } from "./fetches";
 import VectorSource from "ol/source/Vector";

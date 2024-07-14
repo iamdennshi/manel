@@ -11,7 +11,7 @@ import {
 } from "./src/inits";
 import store from "./src/store";
 
-const __DEBUG__ = false;
+const __DEBUG__ = true;
 
 (async function main() {
   // Определяем, запущено ли приложение через webview (Android)
