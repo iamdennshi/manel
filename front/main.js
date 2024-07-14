@@ -11,8 +11,6 @@ import {
 } from "./src/inits";
 import store from "./src/store";
 
-const __DEBUG__ = true;
-
 (async function main() {
   // Определяем, запущено ли приложение через webview (Android)
   try {
@@ -27,7 +25,7 @@ const __DEBUG__ = true;
   // Инициализация меню
   await initMenu();
   // Дебаг для проверки сабов и данных в хранилище
-  __DEBUG__ && initControlsForDebug();
+  process.env.DEBUG && initControlsForDebug();
   // Инициализируем карту и наполняем карту элементами
   await initMap();
   // Инициализируем Select, Overlay, Modify
