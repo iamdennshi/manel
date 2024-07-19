@@ -30,6 +30,7 @@ import {
   transitionPageEnd,
   updateObjectStatInMenu,
 } from "./menu";
+import getUserLocation from "./geo-test";
 
 export function initSubscribers() {
   store.subscribe("currentObjectID", (oldValue, newValue) => {
@@ -101,6 +102,7 @@ export async function initMap() {
   // Вывод координат в консоль при клике
   map.on("click", (e) => {
     console.log(e.coordinate);
+    getUserLocation();
   });
 }
 
