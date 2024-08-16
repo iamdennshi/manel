@@ -1,0 +1,1209 @@
+openapi: 3.0.0
+info:
+  title: Проектная спецификация OpenAPI
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000/api/v1
+    description: Dev Server
+tags:
+  - name: Для пользователей
+  - name: Для роли сотрудник
+  - name: Для роли землепользователь
+paths:
+  /auth:
+    post:
+      tags:
+        - 'Для пользователей'
+      summary: Аутентификация
+      description: Авторизация пользователя в системе и запись JWT-токена в куки
+      operationId: users_login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Object
+              required:
+                - mail
+                - password
+              properties:
+                mail:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Успешная авторизация пользователя, формирование JWT-токена и его запись в куки
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+        '401':
+          description: Ошибка авторизации, неверные учетные данные
+        '500':
+          description: Внутренняя ошибка сервера
+  /objects/metrics:
+    post:
+      tags:
+        - Для роли землепользователь
+      summary: Получить объемы объектов
+      description: Получить объемы выбранных объектов
+      operationId: post_metrics
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectsId'
+      responses:
+        '200':
+          description: Результат поиска
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Metrics'
+                type: array
+
+        '404':
+          description: Объект озеленения не найден
+  /objects:
+    post:
+      tags:
+        - 'Для роли землепользователь'
+      summary: Добавить объект озеленения
+      operationId: post_objects
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectWithoutId'
+      responses:
+        '201':
+          description: Объект озеленения добавлен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectWithoutId'
+        '409':
+          description: Такой объект озеленения уже есть
+    get:
+      tags:
+        - 'Для пользователей'
+      summary: Получить список объектов озеленения
+      operationId: getObjects
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Успешный ответ со списком объектов озеленения. Координата в проекции EPSG:3857
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Objects'
+        default:
+          description: Нестандартная ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /objects/{object_id}:
+    put:
+      tags:
+        - 'Для роли сотрудник'
+      summary: Изменить объект озеленения
+      description: Изменить информацию о конкретном объекте озеленения по его ID
+      operationId: update_object
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: object_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectWithoutId'
+      responses:
+        '200':
+          description: Объект озеленения успешно изменен
+        '404':
+          description: Объект озеленения не найден
+    delete:
+      tags:
+        - 'Для роли землепользователь'
+      summary: Удалить объект озеленения
+      description: Удалить конкретный объект озеленения по его ID
+      operationId: delete_object
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: object_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 0
+      responses:
+        '200':
+          description: Объект озеленения успешно удален
+        '404':
+          description: Объект озеленения не найден
+    get:
+      tags:
+        - 'Для пользователей'
+      summary: Получить объект озеленения
+      description: Получить информацию о конкретном объекте озеленения по его ID
+      operationId: get_object_by_id_objects__object_id__get
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: object_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Object Id
+            example: 0
+      responses:
+        '200':
+          description: Результат поиска
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Object'
+        '404':
+          description: Объект озеленения не найден
+  /objects/{object_id}/elements:
+    get:
+      tags:
+        - 'Для пользователей'
+      summary: Получить список элементов
+      description: Получить список элементах на конкретном объекте озеленения по его ID
+      operationId: get_elements_objects__object_id__elements_get
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: object_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Object Id
+            example: 0
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Elements'
+        '404':
+          description: Объект озеленения не найден
+  /objects/{object_id}/elements/areas/:
+    post:
+      tags:
+        - 'Для роли сотрудник'
+      summary: Добавить элемент, занимающий площадь
+      description: Добавить элемент, занимающий площадь на конкретный объект озеленения по его ID
+      operationId: add_areas
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: object_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Object Id
+            example: 0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AreaWithoutId'
+      responses:
+        '201':
+          description: Элемент, занимающий площадь добавлен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AreaWithId'
+        '400':
+          description: Некорректный ввод
+  /objects/{object_id}/elements/trees/:
+    post:
+      tags:
+        - 'Для роли сотрудник'
+      summary: Добавить зеленое насаждение
+      description: Добавить зеленое несаждение на конкретный объект озеленения по его ID
+      operationId: add_tree_objects__object_id__elements_trees__post
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: object_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Object Id
+            example: 0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TreeWithoutId'
+      responses:
+        '201':
+          description: Зеленое насаждение добавлено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TreeWithId'
+        '400':
+          description: Некорректный ввод
+  /objects/{object_id}/elements/trees/{tree_id}:
+    get:
+      tags:
+        - 'Для пользователей'
+      summary: Получить зеленое насаждение
+      description: Получить информацию о конкретном зеленом насаждении на конкретном объекте озеленения по его ID
+      operationId: get_tree_by_id_objects__object_id__elements_trees__tree_id__get
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: object_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Object Id
+            example: 0
+        - name: tree_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Tree Id
+            example: 0
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TreeWithId'
+        '404':
+          description: Объект озеленения или зеленое насаждение не найдено
+    put:
+      tags:
+        - 'Для роли сотрудник'
+      summary: Изменить зеленое насаждение
+      description: Изменить информацию о конкретном зеленом насаждении на конкретном объекте озеленения по его ID
+      operationId: update_tree_objects__object_id__elements_trees__tree_id__put
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: object_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Object Id
+            example: 0
+        - name: tree_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Tree Id
+            example: 0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TreeWithoutId'
+      responses:
+        '200':
+          description: Зеленое насаждение изменено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TreeWithId'
+        '400':
+          description: Некорреткный ввод
+        '404':
+          description: Объект озеленения или зеленое насаждение не найдено
+  /objects/{object_id}/elements/furnitures/:
+    post:
+      tags:
+        - 'Для роли сотрудник'
+      summary: Добавить элемент благоустройства
+      description: Добавить элемент благоустройства на конкретный объект озеленения по его ID
+      operationId: add_furnitures_objects__object_id__elements_trees__post
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: object_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Object Id
+            example: 0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FurnitureWithoutId'
+      responses:
+        '201':
+          description: Зеленое насаждение добавлено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FurnitureWithoutId'
+        '400':
+          description: Некорректный ввод
+  /objects/{object_id}/elements/furnitures/{furniture_id}:
+    put:
+      tags:
+        - 'Для роли сотрудник'
+      summary: Изменить элемент благоустройства
+      description: Изменить информацию о конкретном элементе благоустройства на конкретном объекте озеленения по его ID
+      operationId: update_furniture_objects__object_id__elements_furnitures__furniture_id__put
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: object_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Object Id
+            example: 0
+        - name: furniture_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Furniture Id
+            example: 0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FurnitureWithoutId'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FurnitureWithId'
+    get:
+      tags:
+        - 'Для пользователей'
+      summary: Получить элемент благоустройства
+      description: Получить информацию о конкретном элементе благоустройства на конкретном объекте озеленения по его ID
+      operationId: get_furniture_by_id_objects__object_id__elements_furnitures__furniture_id__get
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: object_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Object Id
+            example: 0
+        - name: furniture_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Furniture Id
+            example: 0
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FurnitureWithId'
+        '400':
+          description: Некорреткный ввод
+        '404':
+          description: Объект озеленения или зеленое насаждение не найдено
+  /objects/{object_id}/elements/areas/{area_id}:
+    put:
+      tags:
+        - 'Для роли сотрудник'
+      summary: Изменить элемент, занимающий площадь
+      description: Изменить информацию о конкретном элемент, занимающий площадь на конкретном объекте озеленения по его ID
+      operationId: update_area
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: object_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 0
+        - name: area_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AreaWithoutId'
+      responses:
+        '200':
+          description: Элемент, занимающий площадь изменен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AreaWithId'
+        '400':
+          description: Некорреткный ввод
+        '404':
+          description: Объект озеленения или зеленое насаждение не найдено
+    delete:
+      tags:
+        - 'Для роли сотрудник'
+      summary: Удалить элемент, занимающий площадь
+      description: Удалить элемент, занимающий площадь с объекта озеленения по его ID
+      operationId: delete_are
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: object_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 0
+        - name: area_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 0
+      responses:
+        '200':
+          description: Элемент, занимающий площадь удален
+        '404':
+          description: Объект озеленения или элемент, занимающий площадь не найден
+    get:
+      tags:
+        - 'Для пользователей'
+      summary: Получить элемент, занимающий площадь
+      description: Получить информацию о конкретном элементе, занимающий площадь на конкретном объекте озеленения по его ID
+      operationId: get_area_by_id
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: object_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Object Id
+            example: 0
+        - name: area_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Furniture Id
+            example: 0
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AreaWithId'
+        '400':
+          description: Некорреткный ввод
+        '404':
+          description: Объект озеленения или элемент, занимающий площадь не найден
+  /object/{object_id}/elements/trees/{tree_id}:
+    delete:
+      tags:
+        - 'Для роли сотрудник'
+      summary: Удалить зеленое насаждение
+      description: Удалить зеленое насаждение с объекта озеленения по его ID
+      operationId: delete_tree_object__object_id__elements_trees__tree_id__delete
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: object_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Object Id
+            example: 0
+        - name: tree_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Tree Id
+            example: 0
+      responses:
+        '200':
+          description: Зеленое насаждение удалено
+        '404':
+          description: Объект озеленения или зеленое насаждение не найдено
+  /object/{object_id}/elements/furnitures/{furniture_id}:
+    delete:
+      tags:
+        - 'Для роли сотрудник'
+      summary: Удалить элемент благоустройства
+      description: Удалить элемент благоустройства с объекта озеленения по его ID
+      operationId: delete_furnitures_object__object_id__elements_trees__tree_id__delete
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: object_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Object Id
+            example: 0
+        - name: furniture_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Tree Id
+            example: 0
+      responses:
+        '200':
+          description: Элемент благоустройства удален
+        '404':
+          description: Объект озеленения или элемент благоустройства не найден
+  /users:
+    get:
+      tags:
+        - 'Для роли землепользователь'
+      summary: Получить список пользователей
+      operationId: get_users
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Результат поиска
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserWithId'
+                type: array
+    post:
+      tags:
+        - 'Для роли землепользователь'
+      summary: Добавить пользователя
+      operationId: users_add
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Object
+              required:
+                - firstName
+                - lastName
+                - patronymic
+                - email
+                - role
+              properties:
+                firstName:
+                  type: string
+                  example: 'Иван'
+                lastName:
+                  type: string
+                  example: 'Иванов'
+                patronymic:
+                  type: string
+                  example: 'Иванович'
+                email:
+                  type: string
+                  example: 'example@mail.ru'
+                role:
+                  type: number
+                  example: '0'
+      responses:
+        '200':
+          description: Пользователь добавлен
+        '500':
+          description: Внутренняя ошибка сервера
+  /users/{user_id}:
+    put:
+      tags:
+        - 'Для роли землепользователь'
+      summary: Изменить пользователя
+      description: Изменить информацию о пользователе по его ID
+      operationId: users_update
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Object Id
+            example: 0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserWithoutId'
+      responses:
+        '200':
+          description: Информация о пользователе успешно изменена
+        '404':
+          description: Пользователь не найден
+    delete:
+      tags:
+        - 'Для роли землепользователь'
+      summary: Удалить пользователя
+      description: Удалить пользователя по его ID
+      operationId: users_delete
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Object Id
+            example: 0
+      responses:
+        '200':
+          description: Пользователь успешно удален
+        '404':
+          description: Пользователь не найден
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: number
+          example: 500
+        error:
+          type: string
+          example: 'Internal Server Error'
+        message:
+          type: string
+          example: 'No objects available'
+    ElementWithId:
+      properties:
+        id:
+          type: integer
+          title: Id
+        cords:
+          anyOf:
+            - items:
+                type: number
+              type: array
+          title: Cords
+        name:
+          anyOf:
+            - type: string
+          title: Name
+      type: object
+      required:
+        - id
+      title: ElementWithId
+    Elements:
+      properties:
+        trees:
+          items:
+            $ref: '#/components/schemas/ElementWithId'
+          type: array
+          title: Trees
+        furnitures:
+          items:
+            $ref: '#/components/schemas/ElementWithId'
+          type: array
+          title: Furnitures
+        areas:
+          anyOf:
+            - items:
+                $ref: '#/components/schemas/ElementWithId'
+              type: array
+          title: Areas
+      type: object
+      required:
+        - trees
+        - furnitures
+      title: Elements
+    FurnitureWithId:
+      properties:
+        id:
+          type: integer
+          title: Id
+        cords:
+          anyOf:
+            - items:
+                type: number
+              type: array
+          title: Cords
+        name:
+          anyOf:
+            - type: string
+          title: Name
+        comment:
+          anyOf:
+            - type: string
+          title: Name
+        photos:
+          anyOf:
+            - items:
+                type: string
+              type: array
+        lastChange:
+          anyOf:
+            - type: string
+              format: date-time
+          title: Lastchange
+        userName:
+          anyOf:
+            - type: string
+          title: Name
+        assessment:
+          anyOf:
+            - type: integer
+          title: Aestaticassessment
+      type: object
+      required:
+        - id
+      title: FurnitureWithId
+    AreaWithId:
+      properties:
+        id:
+          type: integer
+        cords:
+          anyOf:
+            - items:
+                type: number
+              type: array
+        name:
+          anyOf:
+            - type: string
+        comment:
+          anyOf:
+            - type: string
+        photos:
+          anyOf:
+            - items:
+                type: string
+              type: array
+        lastChange:
+          anyOf:
+            - type: string
+              format: date-time
+        userName:
+          anyOf:
+            - type: string
+          title: Name
+        assessment:
+          anyOf:
+            - type: integer
+        type:
+          anyOf:
+            - type: integer
+        totalArea:
+          anyOf:
+            - type: number
+      type: object
+      required:
+        - id
+    AreaWithoutId:
+      properties:
+        cords:
+          anyOf:
+            - items:
+                type: number
+              type: array
+        name:
+          anyOf:
+            - type: string
+        comment:
+          anyOf:
+            - type: string
+        photos:
+          anyOf:
+            - items:
+                type: string
+              type: array
+        lastChange:
+          anyOf:
+            - type: string
+              format: date-time
+        userName:
+          anyOf:
+            - type: string
+          title: Name
+        assessment:
+          anyOf:
+            - type: integer
+        type:
+          anyOf:
+            - type: integer
+        totalArea:
+          anyOf:
+            - type: number
+      type: object
+      required:
+        - id
+    FurnitureWithoutId:
+      properties:
+        cords:
+          anyOf:
+            - items:
+                type: number
+              type: array
+          title: Cords
+        name:
+          anyOf:
+            - type: string
+          title: Name
+        lastChange:
+          anyOf:
+            - type: string
+              format: date-time
+          title: Lastchange
+        photos:
+          anyOf:
+            - items:
+                type: string
+              type: array
+          title: Photos
+        status:
+          anyOf:
+            - type: string
+        comment:
+          anyOf:
+            - type: string
+          title: Comment
+      type: object
+      title: FurnitureWithoutId
+    Metrics:
+      properties:
+        id:
+          type: integer
+          title: Id
+        cords:
+          items:
+            type: number
+          type: array
+          title: Cords
+        address:
+          type: string
+          title: Address
+        totalArea:
+          type: number
+        numberOfTrees:
+          type: number
+        totalAreaOfTrees:
+          type: number
+        numberOfDamagedTrees:
+          type: number
+        totalAreaOfBushes:
+          type: number
+        totalAreaOfDamagedBashes:
+          type: number
+        totalAreaOfFlowers:
+          type: number
+        totalAreaOfDamagedFlowers:
+          type: number
+        totalAreaOfGrass:
+          type: number
+        totalAreaOfDamagedGrass:
+          type: number
+        numberOfMovedElements:
+          type: number
+        numberOfMovedDamagedElements:
+          type: number
+        numberOfNotMovedElements:
+          type: number
+        numberOfNotMovedDamagedElements:
+          type: number
+      type: object
+      required:
+        - id
+        - cords
+        - address
+    UserWithId:
+      properties:
+        id:
+          type: number
+          example: '0'
+        firstName:
+          type: string
+          example: 'Иван'
+        lastName:
+          type: string
+          example: 'Иванов'
+        patronymic:
+          type: string
+          example: 'Иванович'
+        email:
+          type: string
+          example: 'example@mail.ru'
+        role:
+          type: number
+          example: '0'
+    ObjectsId:
+      properties:
+        id:
+          items:
+            type: number
+          type: array
+          title: id
+    UserWithoutId:
+      properties:
+        firstName:
+          type: string
+          example: 'Иван'
+        lastName:
+          type: string
+          example: 'Иванов'
+        patronymic:
+          type: string
+          example: 'Иванович'
+        email:
+          type: string
+          example: 'example@mail.ru'
+        role:
+          type: number
+          example: '0'
+    Object:
+      type: object
+      required:
+        - id
+        - coordinate
+        - address
+      properties:
+        id:
+          type: integer
+          example: 0
+        coordinate:
+          type: array
+          example:
+            - 6262893.885318164
+            - 7970131.0922140535
+          items:
+            type: number
+        address:
+          type: string
+          example: 'сад Декабристов'
+    Objects:
+      type: array
+      items:
+        $ref: '#/components/schemas/Object'
+    ObjectWithoutId:
+      properties:
+        cords:
+          items:
+            type: number
+          type: array
+          title: Cords
+        address:
+          type: string
+          title: Address
+        name:
+          type: string
+          title: Address
+      type: object
+      required:
+        - id
+        - cords
+        - address
+        - name
+    TreeWithId:
+      properties:
+        id:
+          type: integer
+          title: Id
+        cords:
+          anyOf:
+            - items:
+                type: number
+              type: array
+          title: Cords
+        name:
+          anyOf:
+            - type: string
+          title: Name
+        userName:
+          anyOf:
+            - type: string
+          title: Name
+        lastChange:
+          anyOf:
+            - type: string
+              format: date-time
+          title: Lastchange
+        photos:
+          anyOf:
+            - items:
+                type: string
+              type: array
+          title: Photos
+        height:
+          anyOf:
+            - type: integer
+          title: Height
+        trunkDiameter:
+          anyOf:
+            - type: integer
+          title: Trunkdiameter
+        assessment:
+          anyOf:
+            - type: integer
+          title: Aestaticassessment
+        comment:
+          anyOf:
+            - type: string
+          title: Comment
+        age:
+          anyOf:
+            - type: integer
+          title: Age
+        crownProjection:
+          anyOf:
+            - type: integer
+          title: Crownprojection
+        typeOfDamage:
+          anyOf:
+            - items:
+                type: integer
+              type: array
+          title: Typeofdamage
+        recommendation:
+          anyOf:
+            - items:
+                type: integer
+              type: array
+          title: Recommendation
+        trunkNumber:
+          anyOf:
+            - type: integer
+          title: Trunknumber
+        sanitaryCondition:
+          anyOf:
+            - type: integer
+          title: Sanitarycondition
+      type: object
+      required:
+        - id
+      title: TreeWithId
+    TreeWithoutId:
+      properties:
+        cords:
+          anyOf:
+            - items:
+                type: number
+              type: array
+          title: Cords
+        name:
+          anyOf:
+            - type: string
+          title: Name
+        lastChange:
+          anyOf:
+            - type: string
+              format: date-time
+          title: Lastchange
+        photos:
+          anyOf:
+            - items:
+                type: string
+              type: array
+          title: Photos
+        height:
+          anyOf:
+            - type: integer
+          title: Height
+        trunkDiameter:
+          anyOf:
+            - type: integer
+          title: Trunkdiameter
+        aestaticAssessment:
+          anyOf:
+            - type: integer
+          title: Aestaticassessment
+        comment:
+          anyOf:
+            - type: string
+          title: Comment
+        age:
+          anyOf:
+            - type: integer
+          title: Age
+        crownProjection:
+          anyOf:
+            - type: integer
+          title: Crownprojection
+        typeOfDamage:
+          anyOf:
+            - items:
+                type: integer
+              type: array
+          title: Typeofdamage
+        recommendation:
+          anyOf:
+            - items:
+                type: integer
+              type: array
+          title: Recommendation
+        trunkNumber:
+          anyOf:
+            - type: integer
+          title: Trunknumber
+        sanitaryCondition:
+          anyOf:
+            - type: integer
+          title: Sanitarycondition
+      type: object
+      title: TreeWithoutId
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token # название куки, в который записывается сгенерированный JWT-токен      name: token # название куки, в который записывается сгенерированный JWT-токен
