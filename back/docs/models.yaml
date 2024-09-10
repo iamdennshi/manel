@@ -1,0 +1,502 @@
+components:
+  schemas:
+
+
+    Objects:
+      type: object
+      properties:
+        objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/Object'
+        total:
+          type: integer
+          example: 1
+
+    Object:
+      type: object
+      required:
+        - id
+        - coords
+        - address
+      properties:
+        id:
+          type: integer
+          example: 0
+        coords:
+          type: array
+          example:
+            - 6262893.885318164
+            - 7970131.0922140535
+          items:
+            type: number
+        address:
+          type: string
+          example: 'сад Декабристов'
+    ElementWithId:
+      properties:
+        id:
+          type: integer
+          title: Id
+        coords:
+          anyOf:
+            - items:
+                type: number
+              type: array
+          title: coords
+        name:
+          anyOf:
+            - type: string
+          title: Name
+      type: object
+      required:
+        - id
+      title: ElementWithId
+    TreeWithId:
+      properties:
+        id:
+          type: integer
+          title: Id
+        coords:
+          anyOf:
+            - items:
+                type: number
+              type: array
+          title: coords
+        name:
+          anyOf:
+            - type: string
+          title: Name
+        userName:
+          anyOf:
+            - type: string
+          title: Name
+        lastChange:
+          anyOf:
+            - type: string
+              format: date-time
+          title: Lastchange
+        photos:
+          anyOf:
+            - items:
+                type: string
+              type: array
+          title: Photos
+        height:
+          anyOf:
+            - type: integer
+          title: Height
+        trunkDiameter:
+          anyOf:
+            - type: integer
+          title: Trunkdiameter
+        assessment:
+          anyOf:
+            - type: integer
+          title: Aestaticassessment
+        comment:
+          anyOf:
+            - type: string
+          title: Comment
+        age:
+          anyOf:
+            - type: integer
+          title: Age
+        crownProjection:
+          anyOf:
+            - type: integer
+          title: Crownprojection
+        typeOfDamage:
+          anyOf:
+            - items:
+                type: integer
+              type: array
+          title: Typeofdamage
+        recommendation:
+          anyOf:
+            - items:
+                type: integer
+              type: array
+          title: Recommendation
+        trunkNumber:
+          anyOf:
+            - type: integer
+          title: Trunknumber
+        sanitaryCondition:
+          anyOf:
+            - type: integer
+          title: Sanitarycondition
+      type: object
+      required:
+        - id
+      title: TreeWithId
+    Error:
+      type: object
+      properties:
+        status:
+          type: number
+          example: 500
+        error:
+          type: string
+          example: 'Internal Server Error'
+        message:
+          type: string
+          example: 'No objects available'
+    FurnitureWithId:
+      properties:
+        id:
+          type: integer
+          title: Id
+        coords:
+          anyOf:
+            - items:
+                type: number
+              type: array
+          title: coords
+        name:
+          anyOf:
+            - type: string
+          title: Name
+        comment:
+          anyOf:
+            - type: string
+          title: Name
+        photos:
+          anyOf:
+            - items:
+                type: string
+              type: array
+        lastChange:
+          anyOf:
+            - type: string
+              format: date-time
+          title: Lastchange
+        userName:
+          anyOf:
+            - type: string
+          title: Name
+        assessment:
+          anyOf:
+            - type: integer
+          title: Aestaticassessment
+      type: object
+      required:
+        - id
+      title: FurnitureWithId
+    AreaWithId:
+      properties:
+        id:
+          type: integer
+        coords:
+          anyOf:
+            - items:
+                type: number
+              type: array
+        name:
+          anyOf:
+            - type: string
+        comment:
+          anyOf:
+            - type: string
+        photos:
+          anyOf:
+            - items:
+                type: string
+              type: array
+        lastChange:
+          anyOf:
+            - type: string
+              format: date-time
+        userName:
+          anyOf:
+            - type: string
+          title: Name
+        assessment:
+          anyOf:
+            - type: integer
+        type:
+          anyOf:
+            - type: integer
+        totalArea:
+          anyOf:
+            - type: number
+      type: object
+      required:
+        - id
+    AreaWithoutId:
+      properties:
+        coords:
+          anyOf:
+            - items:
+                type: number
+              type: array
+        name:
+          anyOf:
+            - type: string
+        comment:
+          anyOf:
+            - type: string
+        photos:
+          anyOf:
+            - items:
+                type: string
+              type: array
+        lastChange:
+          anyOf:
+            - type: string
+              format: date-time
+        userName:
+          anyOf:
+            - type: string
+          title: Name
+        assessment:
+          anyOf:
+            - type: integer
+        type:
+          anyOf:
+            - type: integer
+        totalArea:
+          anyOf:
+            - type: number
+      type: object
+      required:
+        - id
+    FurnitureWithoutId:
+      properties:
+        coords:
+          anyOf:
+            - items:
+                type: number
+              type: array
+          title: coords
+        name:
+          anyOf:
+            - type: string
+          title: Name
+        lastChange:
+          anyOf:
+            - type: string
+              format: date-time
+          title: Lastchange
+        photos:
+          anyOf:
+            - items:
+                type: string
+              type: array
+          title: Photos
+        status:
+          anyOf:
+            - type: string
+        comment:
+          anyOf:
+            - type: string
+          title: Comment
+      type: object
+      title: FurnitureWithoutId
+    Users:
+      type: object
+      properties:
+          users:
+            items:
+              $ref: 'models.yaml#/components/schemas/UserWithId'
+            type: array
+          total:
+            type: integer
+            example: 1
+    UserWithId:
+      properties:
+        id:
+          type: number
+          example: '0'
+        firstName:
+          type: string
+          example: 'Иван'
+        lastName:
+          type: string
+          example: 'Иванов'
+        patronymic:
+          type: string
+          example: 'Иванович'
+        email:
+          type: string
+          example: 'example@mail.ru'
+        role:
+          type: number
+          example: '0'
+    UserWithoutId:
+      properties:
+        firstName:
+          type: string
+          example: 'Иван'
+        lastName:
+          type: string
+          example: 'Иванов'
+        patronymic:
+          type: string
+          example: 'Иванович'
+        email:
+          type: string
+          example: 'example@mail.ru'
+        role:
+          type: number
+          example: '0'
+    ObjectWithout:
+      properties:
+        id:
+          type: number
+        coords:
+          items:
+            type: number
+          type: array
+        address:
+          type: string
+        name:
+          type: string
+      type: object
+      required:
+        - id
+        - coords
+        - address
+        - name
+    ObjectWithoutId:
+      properties:
+        coords:
+          items:
+            type: number
+          type: array
+          title: coords
+        address:
+          type: string
+          title: Address
+        name:
+          type: string
+          title: Address
+      type: object
+      required:
+        - coords
+        - address
+        - name
+    TreeWithoutId:
+      properties:
+        coords:
+          anyOf:
+            - items:
+                type: number
+              type: array
+          title: coords
+        name:
+          anyOf:
+            - type: string
+          title: Name
+        lastChange:
+          anyOf:
+            - type: string
+              format: date-time
+          title: Lastchange
+        photos:
+          anyOf:
+            - items:
+                type: string
+              type: array
+          title: Photos
+        height:
+          anyOf:
+            - type: integer
+          title: Height
+        trunkDiameter:
+          anyOf:
+            - type: integer
+          title: Trunkdiameter
+        aestaticAssessment:
+          anyOf:
+            - type: integer
+          title: Aestaticassessment
+        comment:
+          anyOf:
+            - type: string
+          title: Comment
+        age:
+          anyOf:
+            - type: integer
+          title: Age
+        crownProjection:
+          anyOf:
+            - type: integer
+          title: Crownprojection
+        typeOfDamage:
+          anyOf:
+            - items:
+                type: integer
+              type: array
+          title: Typeofdamage
+        recommendation:
+          anyOf:
+            - items:
+                type: integer
+              type: array
+          title: Recommendation
+        trunkNumber:
+          anyOf:
+            - type: integer
+          title: Trunknumber
+        sanitaryCondition:
+          anyOf:
+            - type: integer
+          title: Sanitarycondition
+      type: object
+      title: TreeWithoutId
+    Elements:
+      properties:
+        treesTotal:
+          type: integer
+        trees:
+          items:
+            $ref: '#/components/schemas/ElementWithId'
+          type: array
+          title: Trees
+        furnituresTotal:
+          type: integer
+        furnitures:
+          items:
+            $ref: '#/components/schemas/ElementWithId'
+          type: array
+          title: Furnitures
+        areasTotal:
+          type: integer
+        areas:
+          anyOf:
+            - items:
+                $ref: '#/components/schemas/ElementWithId'
+              type: array
+          title: Areas
+      type: object
+      required:
+        - trees
+        - furnitures
+      title: Elements
+    
+    ObjectIds:
+      properties:
+        ids:
+          items:
+            type: number
+          type: array
+          example: [0,1,2]
+
+    Cookie:
+      type: string
+      example: SESSIONID=abcd123; HttpOnly; Path=/
+
+    Auth:
+      type: object
+      title: Object
+      required:
+        - mail
+        - password
+      properties:
+        mail:
+          type: string
+          example: "example@mail.com"
+        password:
+          type: string
+          example: "password"
